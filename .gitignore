@@ -1,3 +1,4 @@
 *.pyc 
 */*.pyc 
 config/tmp_* 
+.idea
