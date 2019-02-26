@@ -16,4 +16,4 @@ The goal of this project is to learn the basic concepts and techniques to build 
 ## Related publications
 
 * [VGG](docs/vgg.md)
-* [InceptionV3/ResNet/DenseNet/SqueezeNet/others](docs/tbd.md)
+* [ResNet](docs/resnet.md)
