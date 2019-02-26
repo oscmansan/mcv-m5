@@ -8,3 +8,5 @@ tensorboardx
 wget
 configparser
 ruamel.yaml
+torch
+torchvision
