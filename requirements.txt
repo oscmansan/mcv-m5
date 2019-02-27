@@ -10,3 +10,4 @@ configparser
 ruamel.yaml
 torch
 torchvision
+scikit-learn
