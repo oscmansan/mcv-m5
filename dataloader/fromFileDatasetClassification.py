@@ -33,6 +33,7 @@ class fromFileDatasetClassification(Data_loader):
             le.fit(cf.labels)
             cf.map_labels = dict(zip(cf.labels, le.transform(cf.labels)))
 
+        print(cf.labels)
         print(cf.map_labels)
         self.gt = [cf.map_labels[line] for line in lines]
 
