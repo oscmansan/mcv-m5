@@ -9,7 +9,6 @@ import numpy as np
 # matlplot imports
 import matplotlib
 
-matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
 
@@ -52,6 +51,7 @@ def comute_mAP_splitted(path='/data/104-1/Experiments/Faster_RCNN/models', datas
     mean_scores = np.mean(matrixScores, axis=3)
     return mean_scores
 
+
 def plot_mIoU(vmIoU, legends, classes, scores, name_prefix):
     scores = []
     for indx_score, value_score in enumerate(scores):
@@ -85,14 +85,14 @@ def plot_mIoU(vmIoU, legends, classes, scores, name_prefix):
                 best_epoch = [x[indx] for (x, indx) in zip(accum_dataX, best_indx)]
             best_value = [y[indx] for (y, indx) in zip(accum_dataY, best_indx)]
             # print(legends) # Model name
-            print(best_epoch) # best epoch model
+            print(best_epoch)  # best epoch model
             # print(best_value) # best mean mAP  over each class
 
             for indx_class, value_class in enumerate(classes):
                 dataY = [np.asarray(mIoU)[:, indx_class, indx_score] if len(mIoU) > 0 else [] for mIoU in vmIoU]
                 value = [y[indx] for (y, indx) in zip(dataY, best_indx)]
-                print(value_class) # car, pedestrian, cyclist
-                print(value) # best mAP per class
+                print(value_class)  # car, pedestrian, cyclist
+                print(value)  # best mAP per class
                 scores.append([value_class, value])
     return scores
 
@@ -126,8 +126,8 @@ def plot_multiple_data(data_y, data_x, filename, title, legends):
 
 
 def compute_plot(cf, subeval=None):
-    path = os.path.join(cf.exp_folder)#'/data/104-1/Experiments/Detectron/Models'
-    path_out = os.path.join(cf.exp_folder,'..','plots')#'/data/104-1/Experiments/Detectron/plots'
+    path = os.path.join(cf.exp_folder)  # '/data/104-1/Experiments/Detectron/Models'
+    path_out = os.path.join(cf.exp_folder, '..', 'plots')  # '/data/104-1/Experiments/Detectron/plots'
     # Nets
     vSourceDB = [cf.dataset]
     vNets = [cf.model_type]
@@ -160,4 +160,3 @@ def compute_plot(cf, subeval=None):
                     legends.append(os.path.join(model, net, sourceDB))
     scores = plot_mIoU(vmIoU, legends, classes, scores, os.path.join(path_out, title_prefix))
     return scores
-

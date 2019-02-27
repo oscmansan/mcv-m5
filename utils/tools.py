@@ -1,9 +1,9 @@
-import numpy as np
 import cv2 as cv
 import matplotlib
-import io
+import numpy as np
 
-matplotlib.use('Agg')
+matplotlib.use('agg')
+import io
 import matplotlib.pyplot as plt
 
 
@@ -25,37 +25,37 @@ def confm_metrics2image(conf_matrix, names=None):
             else:
                 conf_matrix[i][j] = (conf_matrix[i][j]) / float(sum_row)
 
-    img = io.StringIO()
-    plt.ioff()
-    plt.cla()
-    plt.clf()
-    plt.imshow(conf_matrix,
-               interpolation='nearest',
-               cmap=plt.cm.Blues,
-               vmin=0.0,
-               vmax=1.0)
-    plt.colorbar()
-    plt.title('Confusion Matrix')
+    with io.BytesIO() as buf:
+        plt.ioff()
+        plt.cla()
+        plt.clf()
+        plt.imshow(conf_matrix,
+                   interpolation='nearest',
+                   cmap=plt.cm.Blues,
+                   vmin=0.0,
+                   vmax=1.0)
+        plt.colorbar()
+        plt.title('Confusion Matrix')
 
-    plt.xticks(range(nLabels), plt_names, rotation=90)
-    ystick = zip(plt_names, [conf_matrix[i][i] for i in range(nLabels)])
-    ystick_str = [str(ystick[i][0]) + '(%.2f)' % ystick[i][1] for i in range(nLabels)]
+        plt.xticks(range(nLabels), plt_names, rotation=90)
+        ystick = list(zip(plt_names, [conf_matrix[i][i] for i in range(nLabels)]))
+        ystick_str = [str(ystick[i][0]) + '(%.2f)' % ystick[i][1] for i in range(nLabels)]
 
-    plt.yticks(range(nLabels), ystick_str)
+        plt.yticks(range(nLabels), ystick_str)
 
-    plt.xlabel('Prediction Label')
-    plt.ylabel('True Label')
+        plt.xlabel('Prediction Label')
+        plt.ylabel('True Label')
 
-    plt.draw()
-    plt.pause(0.1)
-    plt.savefig(img, format='png')
-    img.seek(0)
+        plt.draw()
+        plt.pause(0.1)
+        plt.savefig(buf, format='png')
+        buf.seek(0)
 
-    data = np.asarray(bytearray(img.buf), dtype=np.uint8)
-    img = cv.imdecode(data, cv.IMREAD_UNCHANGED)[:, :, 0:3]
-    img = img[..., ::-1]
+        # noinspection PyTypeChecker
+        data = np.fromstring(buf.getvalue(), dtype=np.uint8)
+        im = cv.imdecode(data, cv.IMREAD_UNCHANGED)[:, :, 0:3]
 
-    return img
+        return im[..., ::-1]
 
 
 def save_prediction(output_path, predictions, names):

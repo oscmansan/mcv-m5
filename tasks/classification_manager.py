@@ -25,18 +25,18 @@ class Classification_Manager(SimpleTrainer):
                                                                             100 * self.model.best_stats.val.f1score,
                                                                             self.model.best_stats.val.loss)
 
-        def validate_epoch(self, valid_set, valid_loader, early_Stopping, epoch, global_bar):
+        def validate_epoch(self, valid_set, valid_loader, early_Stopping, epoch):
             if valid_set is not None and valid_loader is not None:
                 # Set model in validation mode
                 self.model.net.eval()
 
-                self.validator.start(valid_set, valid_loader, 'Epoch Validation', epoch, global_bar=global_bar)
+                self.validator.start(valid_set, valid_loader, 'Epoch Validation', epoch)
 
                 # Early stopping checking
                 if self.cf.early_stopping:
                     early_Stopping.check(self.stats.train.loss, self.stats.val.loss, self.stats.val.mIoU,
                                          self.stats.val.acc)
-                    if early_Stopping.stop == True:
+                    if early_Stopping.stop:
                         self.stop = True
 
                 # Set model in training mode
@@ -55,29 +55,6 @@ class Classification_Manager(SimpleTrainer):
             if train_loss is not None:
                 self.stats.train.loss = train_loss.avg
 
-        def update_messages(self, epoch, epoch_time, new_best):
-            # Update logger
-            epoch_time = time.time() - epoch_time
-            self.logger_stats.write('\t Epoch step finished: %ds \n' % (epoch_time))
-
-            # Compute best stats
-            self.msg.msg_stats_last = '\nLast epoch: acc= %.2f, precision= %.2f, recall= %.2f, ' \
-                                      'f1score= %.2f, loss = %.5f\n' % (100 * self.stats.val.acc,
-                                                                        100 * self.stats.val.precision,
-                                                                        100 * self.stats.val.recall,
-                                                                        100 * self.stats.val.f1score,
-                                                                        self.stats.val.loss)
-            if new_best:
-                self.msg.msg_stats_best = 'Best case: epoch = %d, acc= %.2f, precision= %.2f, recall= %.2f, ' \
-                                          'f1score= %.2f, loss = %.5f\n' % (
-                                              epoch, 100 * self.stats.val.acc, 100 * self.stats.val.precision,
-                                              100 * self.stats.val.recall, 100 * self.stats.val.f1score,
-                                              self.stats.val.loss)
-                self.best_f1score = self.stats.val.f1score
-
-                # msg_confm = self.stats.val.get_confm_str()
-                # self.msg.msg_stats_best = self.msg.msg_stats_best + '\nConfusion matrix:\n' + msg_confm
-
         def save_stats_epoch(self, epoch):
             # Save logger
             if epoch is not None:
@@ -88,7 +65,7 @@ class Classification_Manager(SimpleTrainer):
                 self.writer.add_scalar('metrics/recall', 100. * self.stats.train.recall, epoch)
                 self.writer.add_scalar('metrics/f1score', 100. * self.stats.train.f1score, epoch)
                 conf_mat_img = confm_metrics2image(self.stats.train.get_confm_norm(), self.cf.labels)
-                self.writer.add_image('metrics/conf_matrix', conf_mat_img, epoch)
+                self.writer.add_image('metrics/conf_matrix', conf_mat_img, epoch, dataformats='HWC')
 
     class validation(SimpleTrainer.validation):
         def __init__(self, logger_stats, model, cf, stats, msg):
@@ -125,7 +102,7 @@ class Classification_Manager(SimpleTrainer):
                 self.writer.add_scalar('metrics/recall', 100. * self.stats.val.recall, epoch)
                 self.writer.add_scalar('metrics/f1score', 100. * self.stats.val.f1score, epoch)
                 conf_mat_img = confm_metrics2image(self.stats.val.get_confm_norm(), self.cf.labels)
-                self.writer.add_image('metrics/conf_matrix', conf_mat_img, epoch)
+                self.writer.add_image('metrics/conf_matrix', conf_mat_img, epoch, dataformats='HWC')
             else:
                 self.logger_stats.write('----------------- Scores summary --------------------\n')
                 self.logger_stats.write(
@@ -133,23 +110,6 @@ class Classification_Manager(SimpleTrainer):
                         self.stats.val.loss, 100 * self.stats.val.acc, 100 * self.stats.val.precision,
                         100 * self.stats.val.recall, 100 * self.stats.val.f1score))
                 self.logger_stats.write('---------------------------------------------------------------- \n')
-
-        def update_msg(self, bar, global_bar):
-
-            self.compute_stats(np.asarray(self.stats.val.conf_m), None)
-            bar.set_msg(', acc: %.02f, precision: %.02f, recall: %.02f f1score: %.02f' % (100. * self.stats.val.acc,
-                                                                                          100. * self.stats.val.precision,
-                                                                                          100. * self.stats.val.recall,
-                                                                                          100. * self.stats.val.f1score))
-
-            if global_bar == None:
-                # Update progress bar
-                bar.update()
-            else:
-                self.msg.eval_str = '\n' + bar.get_message(step=True)
-                global_bar.set_msg(self.msg.accum_str + self.msg.last_str + self.msg.msg_stats_last + \
-                                   self.msg.msg_stats_best + self.msg.eval_str)
-                global_bar.update()
 
     class predict(SimpleTrainer.predict):
         def __init__(self, logger_stats, model, cf):

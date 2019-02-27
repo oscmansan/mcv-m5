@@ -39,9 +39,9 @@ predict_path_output         : null # null uses the default output in the experim
 
 # Image properties
 size_image_test             : null
-resize_image_train          : !!python/tuple [64, 64]
-resize_image_valid          : !!python/tuple [64, 64]
-resize_image_test           : !!python/tuple [64, 64]
+resize_image_train          : !!python/tuple [224, 224]
+resize_image_valid          : !!python/tuple [224, 224]
+resize_image_test           : !!python/tuple [224, 224]
 crop_train                  : null
 grayscale                   : False #Use this option to convert to rgb a grascale dataset
 
