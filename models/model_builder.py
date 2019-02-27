@@ -126,7 +126,7 @@ class Model_builder():
         elif self.cf.save_condition.lower() == 'recall':
             if stats.val.recall > self.best_stats.val.recall:
                 check = True
-        elif self.cf.save_condition.lower() == 'f1score':
+        elif self.cf.save_condition.lower() == 'f1_score':
             if stats.val.f1score > self.best_stats.val.f1score:
                 check = True
         return check
