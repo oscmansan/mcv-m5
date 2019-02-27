@@ -9,4 +9,5 @@
 #SBATCH --output logs/%x_%u_%j.out
 
 source venv/bin/activate
-python m5-project/main.py --config_file config/classification_sample_vgg16_tt100k.yml
+cd m5-project
+python main.py --config_file config/classification_sample_vgg16_tt100k.yml

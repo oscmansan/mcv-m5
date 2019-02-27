@@ -11,11 +11,11 @@ from PIL import Image
 from torch.autograd import Variable
 import torch.nn.functional as F
 
-sys.path.append('../')
-from simple_trainer_manager import SimpleTrainer
+from .simple_trainer_manager import SimpleTrainer
 from metrics.metrics import compute_accuracy, compute_confusion_matrix, extract_stats_from_confm, compute_mIoU
 from utils.plot import compute_plot
 from metrics.object_detection import Compute_kitti_AP
+
 
 class Detection_Manager(SimpleTrainer):
     def __init__(self, cf, model):
@@ -96,15 +96,16 @@ class Detection_Manager(SimpleTrainer):
             self.logger_stats.write('\t Epoch step finished: %ds \n' % (epoch_time))
 
             # Compute best stats
-            self.msg.msg_stats_last = '\nLast epoch: loss = %.5f, mean_AP = %.2f' % (self.stats.val.loss, self.stats.val.AP)
+            self.msg.msg_stats_last = '\nLast epoch: loss = %.5f, mean_AP = %.2f' % (
+            self.stats.val.loss, self.stats.val.AP)
             for label in range(len(self.cf.labels)):
                 self.msg.msg_stats_last += ', AP_%s %.2f' % (self.cf.labels[label], self.stats.val.AP_perclass[label])
             if new_best:
                 self.msg.msg_stats_best = '\n Best case [%s]: epoch = %d, avg_loss = %.5f' % (
-                                          self.cf.save_condition,epoch, self.stats.val.loss)
+                    self.cf.save_condition, epoch, self.stats.val.loss)
                 for label in range(len(self.cf.labels)):
                     self.msg.msg_stats_best += ', AP_%s %.2f' % (
-                    self.cf.labels[label], self.stats.val.AP_perclass[label])
+                        self.cf.labels[label], self.stats.val.AP_perclass[label])
                 # msg_confm = self.stats.val.get_confm_str()
                 # self.logger_stats.write(msg_confm)
                 # self.msg.msg_stats_best = self.msg.msg_stats_best + '\nConfusion matrix:\n' + msg_confm
@@ -141,8 +142,8 @@ class Detection_Manager(SimpleTrainer):
             if epoch is not None:
                 # Epoch loss tensorboard
                 self.writer.add_scalar('losses/epoch', self.stats.train.loss, epoch)
-                self.writer.add_scalar('metrics/accuracy', 100.*self.stats.train.acc, epoch)
-                self.writer.add_scalar('metrics/mIoU', 100.*self.stats.train.mIoU, epoch)
+                self.writer.add_scalar('metrics/accuracy', 100. * self.stats.train.acc, epoch)
+                self.writer.add_scalar('metrics/mIoU', 100. * self.stats.train.mIoU, epoch)
                 # conf_mat_img = confm_metrics2image(self.stats.train.get_confm_norm(), self.cf.labels)
                 # self.writer.add_image('metrics/conf_matrix', conf_mat_img, epoch)
 
@@ -152,11 +153,11 @@ class Detection_Manager(SimpleTrainer):
 
         def validation_loop(self, epoch, valid_loader, valid_set, bar, global_bar, save_folder=None):
             if epoch is None:
-                if not os.path.exists(os.path.join(self.cf.predict_path_output,'data')):
-                    os.makedirs(os.path.join(self.cf.predict_path_output,'data'))
+                if not os.path.exists(os.path.join(self.cf.predict_path_output, 'data')):
+                    os.makedirs(os.path.join(self.cf.predict_path_output, 'data'))
             else:
-                if not os.path.exists(os.path.join(save_folder,'data')):
-                    os.makedirs(os.path.join(save_folder,'data'))
+                if not os.path.exists(os.path.join(save_folder, 'data')):
+                    os.makedirs(os.path.join(save_folder, 'data'))
                 val_epoch_images = open(os.path.join(save_folder, "val_epoch_images.txt"), 'w')
             for vi, data in enumerate(valid_loader):
                 # Read data
@@ -169,7 +170,7 @@ class Detection_Manager(SimpleTrainer):
                 if epoch is None:
                     f = open(os.path.join(self.cf.predict_path_output, 'data', img_name + ".txt"), 'w')
                 else:
-                    f = open(os.path.join(save_folder , 'data', img_name + ".txt"), 'w')
+                    f = open(os.path.join(save_folder, 'data', img_name + ".txt"), 'w')
                 # Predict model
                 with torch.no_grad():
                     loc_preds, cls_preds = self.model.net(inputs)
@@ -189,13 +190,14 @@ class Detection_Manager(SimpleTrainer):
                         for det in range(len(box_preds)):
                             if score_preds[det] >= 0:
                                 box_preds[det] = box_preds[det] / [size[0], size[1], size[0], size[1]]
-                                f.write(self.cf.labels[label_preds[det]] + ' ' + str(0) + ' ' + str(0) + ' ' + '-10' + ' ' \
-                                        + str(box_preds[det][0]) + ' ' + str(box_preds[det][1]) + ' ' \
-                                        + str(box_preds[det][2]) + ' ' + str(box_preds[det][3]) + ' ' \
-                                        + '-1 -1 -1 -1000 -1000 -1000 ' \
-                                        + '-1000 ' \
-                                        + str(score_preds[det]) + '\n'
-                                        )
+                                f.write(
+                                    self.cf.labels[label_preds[det]] + ' ' + str(0) + ' ' + str(0) + ' ' + '-10' + ' ' \
+                                    + str(box_preds[det][0]) + ' ' + str(box_preds[det][1]) + ' ' \
+                                    + str(box_preds[det][2]) + ' ' + str(box_preds[det][3]) + ' ' \
+                                    + '-1 -1 -1 -1000 -1000 -1000 ' \
+                                    + '-1000 ' \
+                                    + str(score_preds[det]) + '\n'
+                                    )
                     f.close()
                     if epoch is not None:
                         val_epoch_images.write(gt_path[0] + '\n')
@@ -204,7 +206,7 @@ class Detection_Manager(SimpleTrainer):
                     # confm = compute_confusion_matrix(predictions, gts.cpu().data.numpy(), self.cf.num_classes,
                     #                                  self.cf.void_class)
                     # confm_list = map(operator.add, confm_list, confm)
-		
+
                 # Save epoch stats
                 # self.stats.val.conf_m = confm_list
                 if not self.cf.normalize_loss:
@@ -226,17 +228,16 @@ class Detection_Manager(SimpleTrainer):
             if epoch is not None:
                 val_epoch_images.close()
                 evaluation_bash_comand = "./devkit_kitti_txt/cpp/evaluate_object_txt %s %s %s" % (
-                    self.cf.temp_folder, os.path.join(self.cf.temp_folder,"val_epoch_images.txt"), self.cf.temp_folder)
+                    self.cf.temp_folder, os.path.join(self.cf.temp_folder, "val_epoch_images.txt"), self.cf.temp_folder)
             else:
                 evaluation_bash_comand = "./devkit_kitti_txt/cpp/evaluate_object_txt %s %s %s" % (
                     self.cf.predict_path_output, self.cf.valid_gt_txt, self.cf.predict_path_output)
             process = subprocess.Popen(evaluation_bash_comand, shell=True)
             process.communicate()
 
-
         def compute_stats(self, confm_list, val_loss):
             for label in self.cf.labels:
-                scores = Compute_kitti_AP(os.path.join(self.cf.temp_folder,"stats_%s_detection.txt" %(label.lower())))
+                scores = Compute_kitti_AP(os.path.join(self.cf.temp_folder, "stats_%s_detection.txt" % (label.lower())))
                 # print scores
                 self.stats.val.AP_perclass.append(scores[1])
             self.stats.val.AP = np.mean(np.asarray(self.stats.val.AP_perclass, dtype=np.float32))
@@ -251,20 +252,22 @@ class Detection_Manager(SimpleTrainer):
                 self.logger_stats.write('[epoch %d], [val loss %.5f]' % (
                     epoch, self.stats.val.loss))
                 for label in range(len(self.cf.labels)):
-                    self.logger_stats.write(', [AP_%s %.2f]' % (self.cf.labels[label], self.stats.val.AP_perclass[label]))
+                    self.logger_stats.write(
+                        ', [AP_%s %.2f]' % (self.cf.labels[label], self.stats.val.AP_perclass[label]))
                     # add scores to tensorboard
-                    self.writer.add_scalar('metrics/AP_%s'%(self.cf.labels[label]),
-                                           100.*self.stats.val.AP_perclass[label], epoch)
+                    self.writer.add_scalar('metrics/AP_%s' % (self.cf.labels[label]),
+                                           100. * self.stats.val.AP_perclass[label], epoch)
                 self.logger_stats.write('\n---------------------------------------------------------------- \n')
                 # add scores to tensorboard
-                self.writer.add_scalar('losses/epoch',  self.stats.val.loss, epoch)
+                self.writer.add_scalar('losses/epoch', self.stats.val.loss, epoch)
 
             else:
                 self.logger_stats.write('----------------- Scores summary -------------------- \n')
                 self.logger_stats.write('[val loss %.5f]' % (
                     self.stats.val.loss))
                 for label in range(len(self.cf.labels)):
-                    self.logger_stats.write(', [AP_%s %.2f]' % (self.cf.labels[label], self.stats.val.AP_perclass[label]))
+                    self.logger_stats.write(
+                        ', [AP_%s %.2f]' % (self.cf.labels[label], self.stats.val.AP_perclass[label]))
                 self.logger_stats.write('\n---------------------------------------------------------------- \n')
 
         def update_msg(self, bar, global_bar):
@@ -272,18 +275,19 @@ class Detection_Manager(SimpleTrainer):
             # self.compute_stats(np.asarray(self.stats.val.conf_m), None)
             # bar.set_msg(', mIoU: %.02f' % (100.*np.nanmean(self.stats.val.mIoU)))
 
-            if global_bar==None:
+            if global_bar == None:
                 # Update progress bar
                 bar.update()
             else:
                 self.msg.eval_str = '\n' + bar.get_message(step=True)
-                global_bar.set_msg(self.msg.accum_str + self.msg.last_str + self.msg.msg_stats_last + self.msg.msg_stats_best + self.msg.eval_str)
+                global_bar.set_msg(
+                    self.msg.accum_str + self.msg.last_str + self.msg.msg_stats_last + self.msg.msg_stats_best + self.msg.eval_str)
                 global_bar.update()
 
-        def update_tensorboard(self,inputs,gts,predictions,epoch,indexes,val_len):
+        def update_tensorboard(self, inputs, gts, predictions, epoch, indexes, val_len):
             if epoch is not None and self.cf.color_map is not None:
                 save_img(self.writer, inputs, gts, predictions, epoch, indexes, self.cf.predict_to_save, val_len,
-                        self.cf.color_map, self.cf.labels, self.cf.void_class, n_legend_rows=3)
+                         self.cf.color_map, self.cf.labels, self.cf.void_class, n_legend_rows=3)
 
     class predict(SimpleTrainer.predict):
         def __init__(self, logger_stats, model, cf):

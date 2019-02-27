@@ -5,11 +5,11 @@ import os
 from PIL import Image
 import cv2 as cv
 
-sys.path.append('../')
 from utils.tools import confm_metrics2image
 from metrics.metrics import compute_mIoU, compute_accuracy_segmentation, extract_stats_from_confm
-from simple_trainer_manager import SimpleTrainer
+from .simple_trainer_manager import SimpleTrainer
 from utils.save_images import save_img
+
 
 class SemanticSegmentation_Manager(SimpleTrainer):
     def __init__(self, cf, model):
@@ -48,11 +48,11 @@ class SemanticSegmentation_Manager(SimpleTrainer):
 
             # Compute best stats
             self.msg.msg_stats_last = '\nLast epoch: mIoU = %.2f, acc= %.2f, loss = %.5f\n' % (
-            100 * self.stats.val.mIoU, 100 * self.stats.val.acc, self.stats.val.loss)
+                100 * self.stats.val.mIoU, 100 * self.stats.val.acc, self.stats.val.loss)
             if new_best:
                 self.msg.msg_stats_best = 'Best case [%s]: epoch = %d, mIoU = %.2f, acc= %.2f, loss = %.5f\n' % (
-                                          self.cf.save_condition,epoch, 100 * self.stats.val.mIoU,
-                                          100 * self.stats.val.acc, self.stats.val.loss)
+                    self.cf.save_condition, epoch, 100 * self.stats.val.mIoU,
+                    100 * self.stats.val.acc, self.stats.val.loss)
                 msg_confm = self.stats.val.get_confm_str()
                 self.logger_stats.write(msg_confm)
                 self.msg.msg_stats_best = self.msg.msg_stats_best + '\nConfusion matrix:\n' + msg_confm
@@ -72,8 +72,8 @@ class SemanticSegmentation_Manager(SimpleTrainer):
             if epoch is not None:
                 # Epoch loss tensorboard
                 self.writer.add_scalar('losses/epoch', self.stats.train.loss, epoch)
-                self.writer.add_scalar('metrics/accuracy', 100.*self.stats.train.acc, epoch)
-                self.writer.add_scalar('metrics/mIoU', 100.*self.stats.train.mIoU, epoch)
+                self.writer.add_scalar('metrics/accuracy', 100. * self.stats.train.acc, epoch)
+                self.writer.add_scalar('metrics/mIoU', 100. * self.stats.train.mIoU, epoch)
                 conf_mat_img = confm_metrics2image(self.stats.train.get_confm_norm(), self.cf.labels)
                 self.writer.add_image('metrics/conf_matrix', conf_mat_img, epoch)
 
@@ -97,13 +97,13 @@ class SemanticSegmentation_Manager(SimpleTrainer):
                 # add log
                 self.logger_stats.write('----------------- Epoch scores summary ------------------------- \n')
                 self.logger_stats.write('[epoch %d], [val loss %.5f], [acc %.2f], [mean_IoU %.2f] \n' % (
-                    epoch, self.stats.val.loss, 100*self.stats.val.acc, 100*self.stats.val.mIoU))
+                    epoch, self.stats.val.loss, 100 * self.stats.val.acc, 100 * self.stats.val.mIoU))
                 self.logger_stats.write('---------------------------------------------------------------- \n')
 
                 # add scores to tensorboard
-                self.writer.add_scalar('losses/epoch',  self.stats.val.loss, epoch)
-                self.writer.add_scalar('metrics/accuracy', 100.*self.stats.val.acc, epoch)
-                self.writer.add_scalar('metrics/mIoU', 100.*self.stats.val.mIoU, epoch)
+                self.writer.add_scalar('losses/epoch', self.stats.val.loss, epoch)
+                self.writer.add_scalar('metrics/accuracy', 100. * self.stats.val.acc, epoch)
+                self.writer.add_scalar('metrics/mIoU', 100. * self.stats.val.mIoU, epoch)
                 conf_mat_img = confm_metrics2image(self.stats.val.get_confm_norm(), self.cf.labels)
                 self.writer.add_image('metrics/conf_matrix', conf_mat_img, epoch)
             else:
@@ -115,20 +115,21 @@ class SemanticSegmentation_Manager(SimpleTrainer):
         def update_msg(self, bar, global_bar):
 
             self.compute_stats(np.asarray(self.stats.val.conf_m), None)
-            bar.set_msg(', mIoU: %.02f' % (100.*np.nanmean(self.stats.val.mIoU)))
+            bar.set_msg(', mIoU: %.02f' % (100. * np.nanmean(self.stats.val.mIoU)))
 
-            if global_bar==None:
+            if global_bar == None:
                 # Update progress bar
                 bar.update()
             else:
                 self.msg.eval_str = '\n' + bar.get_message(step=True)
-                global_bar.set_msg(self.msg.accum_str + self.msg.last_str + self.msg.msg_stats_last + self.msg.msg_stats_best + self.msg.eval_str)
+                global_bar.set_msg(
+                    self.msg.accum_str + self.msg.last_str + self.msg.msg_stats_last + self.msg.msg_stats_best + self.msg.eval_str)
                 global_bar.update()
 
-        def update_tensorboard(self,inputs,gts,predictions,epoch,indexes,val_len):
+        def update_tensorboard(self, inputs, gts, predictions, epoch, indexes, val_len):
             if epoch is not None and self.cf.color_map is not None:
                 save_img(self.writer, inputs, gts, predictions, epoch, indexes, self.cf.predict_to_save, val_len,
-                        self.cf.color_map, self.cf.labels, self.cf.void_class, n_legend_rows=3)
+                         self.cf.color_map, self.cf.labels, self.cf.void_class, n_legend_rows=3)
 
     class predict(SimpleTrainer.predict):
         def __init__(self, logger_stats, model, cf):
