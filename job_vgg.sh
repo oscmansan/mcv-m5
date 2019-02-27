@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #SBATCH --job-name w1
 #SBATCH --ntasks 4
-#SBATCH --mem 16G
+#SBATCH --mem 20G
 #SBATCH --partition mhigh
 #SBATCH --qos masterhigh
 #SBATCH --gres gpu:1
