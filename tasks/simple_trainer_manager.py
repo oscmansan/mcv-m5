@@ -7,7 +7,6 @@ import operator
 import os
 from torch.autograd import Variable
 
-sys.path.append('../')
 from utils.tools import AverageMeter, Early_Stopping
 from utils.ProgressBar import ProgressBar
 from utils.logger import Logger
@@ -15,6 +14,7 @@ from utils.statistics import Statistics
 from utils.messages import Messages
 from metrics.metrics import compute_accuracy, compute_confusion_matrix, extract_stats_from_confm, compute_mIoU
 from tensorboardX import SummaryWriter
+
 
 class SimpleTrainer(object):
     def __init__(self, cf, model):
@@ -35,7 +35,7 @@ class SimpleTrainer(object):
             self.cf = cf
             self.validator = validator
             self.logger_stats.write('\n- Starting train <--- \n')
-            self.curr_epoch = 1 if self.model.best_stats.epoch==0 else self.model.best_stats.epoch
+            self.curr_epoch = 1 if self.model.best_stats.epoch == 0 else self.model.best_stats.epoch
             self.stop = False
             self.stats = stats
             self.best_acc = 0
@@ -43,13 +43,13 @@ class SimpleTrainer(object):
             self.loss = None
             self.outputs = None
             self.labels = None
-            self.writer = SummaryWriter(os.path.join(cf.tensorboard_path,'train'))
+            self.writer = SummaryWriter(os.path.join(cf.tensorboard_path, 'train'))
 
         def start(self, train_loader, train_set, valid_set=None,
                   valid_loader=None):
             self.train_num_batches = math.ceil(train_set.num_images / float(self.cf.train_batch_size))
             self.val_num_batches = 0 if valid_set is None else math.ceil(valid_set.num_images / \
-                                                                    float(self.cf.valid_batch_size))
+                                                                         float(self.cf.valid_batch_size))
             # Define early stopping control
             if self.cf.early_stopping:
                 early_Stopping = Early_Stopping(self.cf)
@@ -57,9 +57,9 @@ class SimpleTrainer(object):
                 early_Stopping = None
 
             prev_msg = '\nTotal estimated training time...\n'
-            self.global_bar = ProgressBar((self.cf.epochs+1-self.curr_epoch) * (self.train_num_batches+self.val_num_batches), len_bar=20)
+            self.global_bar = ProgressBar(
+                (self.cf.epochs + 1 - self.curr_epoch) * (self.train_num_batches + self.val_num_batches), len_bar=20)
             self.global_bar.set_prev_msg(prev_msg)
-
 
             # Train process
             for epoch in range(self.curr_epoch, self.cf.epochs + 1):
@@ -89,7 +89,8 @@ class SimpleTrainer(object):
                 self.compute_stats(np.asarray(self.confm_list), self.train_loss)
                 self.save_stats_epoch(epoch)
                 self.logger_stats.write_stat(self.stats.train, epoch, os.path.join(self.cf.train_json_path,
-                                                                                'train_epoch_' + str(epoch) + '.json'))
+                                                                                   'train_epoch_' + str(
+                                                                                       epoch) + '.json'))
 
                 # Validate epoch
                 self.validate_epoch(valid_set, valid_loader, early_Stopping, epoch, self.global_bar)
@@ -155,7 +156,7 @@ class SimpleTrainer(object):
             if epoch is not None:
                 # Epoch loss tensorboard
                 self.writer.add_scalar('losses/epoch', self.stats.train.loss, epoch)
-                self.writer.add_scalar('metrics/accuracy', 100.*self.stats.train.acc, epoch)
+                self.writer.add_scalar('metrics/accuracy', 100. * self.stats.train.acc, epoch)
 
         def save_stats_batch(self, batch):
             # Save logger
@@ -173,7 +174,7 @@ class SimpleTrainer(object):
             self.stats.train.acc = np.nanmean(mean_accuracy)
             self.stats.train.loss = float(train_loss.avg.cpu().data)
 
-        def validate_epoch(self,valid_set, valid_loader, early_Stopping, epoch, global_bar):
+        def validate_epoch(self, valid_set, valid_loader, early_Stopping, epoch, global_bar):
 
             if valid_set is not None and valid_loader is not None:
                 # Set model in validation mode
@@ -186,10 +187,9 @@ class SimpleTrainer(object):
                     early_Stopping.check(self.stats.train.loss, self.stats.val.loss, self.stats.val.mIoU,
                                          self.stats.val.acc)
                     if early_Stopping.stop == True:
-                        self.stop=True
+                        self.stop = True
                 # Set model in training mode
                 self.model.net.train()
-
 
         def update_messages(self, epoch, epoch_time):
             # Update logger
@@ -201,7 +201,7 @@ class SimpleTrainer(object):
                                                                                    self.stats.val.loss)
             if self.best_acc < self.stats.val.acc:
                 self.msg.msg_stats_best = 'Best case: epoch = %d, acc = %.2f, loss = %.5f\n' % (
-                epoch, 100 * self.stats.val.acc, self.stats.val.loss)
+                    epoch, 100 * self.stats.val.acc, self.stats.val.loss)
 
                 msg_confm = self.stats.val.get_confm_str()
                 self.logger_stats.write(msg_confm)
@@ -236,7 +236,7 @@ class SimpleTrainer(object):
             self.writer = SummaryWriter(os.path.join(cf.tensorboard_path, 'validation'))
 
         def start(self, valid_set, valid_loader, mode='Validation', epoch=None, global_bar=None, save_folder=None):
-            confm_list = np.zeros((self.cf.num_classes,self.cf.num_classes))
+            confm_list = np.zeros((self.cf.num_classes, self.cf.num_classes))
 
             self.val_loss = AverageMeter()
 
@@ -260,7 +260,8 @@ class SimpleTrainer(object):
             self.save_stats(epoch)
             if mode == 'Epoch Validation':
                 self.logger_stats.write_stat(self.stats.train, epoch,
-                                            os.path.join(self.cf.train_json_path,'valid_epoch_' + str(epoch) + '.json'))
+                                             os.path.join(self.cf.train_json_path,
+                                                          'valid_epoch_' + str(epoch) + '.json'))
             elif mode == 'Validation':
                 self.logger_stats.write_stat(self.stats.val, epoch, self.cf.val_json_file)
             elif mode == 'Test':
@@ -302,12 +303,11 @@ class SimpleTrainer(object):
                 # Update messages
                 self.update_msg(bar, global_bar)
 
-        def update_tensorboard(self,inputs,gts,predictions,epoch,indexes,val_len):
+        def update_tensorboard(self, inputs, gts, predictions, epoch, indexes, val_len):
             pass
 
-
         def update_msg(self, bar, global_bar):
-            if global_bar==None:
+            if global_bar == None:
                 # Update progress bar
                 bar.update()
             else:
@@ -327,14 +327,13 @@ class SimpleTrainer(object):
             if epoch is not None:
                 self.logger_stats.write('----------------- Epoch scores summary ------------------------- \n')
                 self.logger_stats.write('[epoch %d], [val loss %.5f], [acc %.2f] \n' % (
-                    epoch, self.stats.val.loss, 100*self.stats.val.acc))
+                    epoch, self.stats.val.loss, 100 * self.stats.val.acc))
                 self.logger_stats.write('---------------------------------------------------------------- \n')
             else:
                 self.logger_stats.write('----------------- Scores summary -------------------- \n')
                 self.logger_stats.write('[val loss %.5f], [acc %.2f] \n' % (
                     self.stats.val.loss, 100 * self.stats.val.acc))
                 self.logger_stats.write('---------------------------------------------------------------- \n')
-
 
     class predict(object):
         def __init__(self, logger_stats, model, cf):
@@ -357,5 +356,6 @@ class SimpleTrainer(object):
 
                 # self.logger_stats.write('%d / %d \n' % (vi + 1, len(dataloader)))
                 print('%d / %d' % (vi + 1, len(dataloader)))
-        def write_results(self,predictions, img_name):
+
+        def write_results(self, predictions, img_name):
             pass

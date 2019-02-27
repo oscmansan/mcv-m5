@@ -97,7 +97,11 @@ class ProgressBar:
         list_msgs = []
         list_lens = []
 
-        rows, columns = os.popen('stty size', 'r').read().split()
+        try:
+            rows, columns = os.popen('stty size', 'r').read().split()
+        except ValueError:
+            rows, columns = 20, 80
+
         columns = int(columns) - 1
 
         for msg in msg_endl:
