@@ -2,11 +2,8 @@ from importlib.machinery import SourceFileLoader
 from ruamel import yaml
 # import yaml
 import os
-import numpy as np
 import argparse
 from easydict import EasyDict as edict
-import configparser
-from sklearn.preprocessing import LabelEncoder
 
 
 class Configuration:
@@ -90,16 +87,16 @@ class Configuration:
         parser.add_argument("--config_file",
                             type=str,
                             default=None,
-                            help="configuration YALM file path")
+                            help="configuration YAML file path")
 
         parser.add_argument("--exp_name",
                             type=str,
-                            default='Sample',
+                            default='sample',
                             help="Experiment name")
 
         parser.add_argument("--exp_folder",
                             type=str,
-                            default='../Experiments/',
+                            default='../work/Experiments/',
                             help="Experiment folder path")
 
         parser.add_argument("--problem_type",
