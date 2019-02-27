@@ -43,19 +43,19 @@ resize_image_train          : !!python/tuple [224, 224]
 resize_image_valid          : !!python/tuple [224, 224]
 resize_image_test           : !!python/tuple [224, 224]
 crop_train                  : null
-grayscale                   : False #Use this option to convert to rgb a grascale dataset
+grayscale                   : False #Use this option to convert to rgb a grayscale dataset
 
 # Dataset properties
 
-train_images_txt            : '/home/mcv/datasets/M5/classification/TT100K_trafficSigns/TT100K_trafficSigns_train_images.txt'
-train_gt_txt                : '/home/mcv/datasets/M5/classification/TT100K_trafficSigns/TT100K_trafficSigns_train_gt.txt'
-valid_images_txt            : '/home/mcv/datasets/M5/classification/TT100K_trafficSigns/TT100K_trafficSigns_valid_images.txt'
-valid_gt_txt                : '/home/mcv/datasets/M5/classification/TT100K_trafficSigns/TT100K_trafficSigns_valid_gt.txt'
-test_images_txt             : '/home/mcv/datasets/M5/classification/TT100K_trafficSigns/TT100K_trafficSigns_test_images.txt'
-test_gt_txt                 : '/home/mcv/datasets/M5/classification/TT100K_trafficSigns/TT100K_trafficSigns_test_gt.txt'
+train_images_txt            : 'datasets/TT100K_trafficSigns/TT100K_trafficSigns_train_images.txt'
+train_gt_txt                : 'datasets/TT100K_trafficSigns/TT100K_trafficSigns_train_gt.txt'
+valid_images_txt            : 'datasets/TT100K_trafficSigns/TT100K_trafficSigns_valid_images.txt'
+valid_gt_txt                : 'datasets/TT100K_trafficSigns/TT100K_trafficSigns_valid_gt.txt'
+test_images_txt             : 'datasets/TT100K_trafficSigns/TT100K_trafficSigns_test_images.txt'
+test_gt_txt                 : 'datasets/TT100K_trafficSigns/TT100K_trafficSigns_test_gt.txt'
 
-labels                      : !!python/tuple ['i2','i4','i5','il100','il60','il80','io','ip','p10','p11','p12','p19','p23','p26','p27','p3','p5','p6','pg','ph4.5','ph4','ph5','pl100','pl120','pl20','pl30','pl40','pl50','pl5','pl60','pl70','pl80','pm20','pm30','pm55','pne','pn','po','pr40','w13','w32','w55','w57','w59','wo']
-map_labels                  : !!python/dict {'i2': 0,'i4': 1,'i5': 2,'il100': 3,'il60': 4,'il80': 5,'io': 6,'ip': 7,'p10': 8,'p11': 9,'p12': 10,'p19': 11,'p23': 12,'p26': 13,'p27': 14,'p3': 15,'p5': 16,'p6': 17,'pg': 18,'ph4.5': 19,'ph4': 20,'ph5': 21,'pl100': 22,'pl120': 23,'pl20': 24,'pl30': 25,'pl40': 26,'pl50': 27,'pl5': 28,'pl60': 29,'pl70': 30,'pl80': 31,'pm20': 32,'pm30': 33,'pm55': 34,'pne': 35,'pn': 36,'po': 37,'pr40': 38,'w13': 39,'w32': 40,'w55': 41,'w57': 42,'w59': 43,'wo': 44}
+labels                      : null
+map_labels                  : null
 
 num_classes                 : 45
 shuffle                     : True

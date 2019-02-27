@@ -57,7 +57,7 @@ def plot_mIoU(vmIoU, legends, classes, scores, name_prefix):
     for indx_score, value_score in enumerate(scores):
         accum_dataY = None
         accum_dataX = None
-        print value_score  # easy, moderate, hard
+        print(value_score)  # easy, moderate, hard
         for indx_class, value_class in enumerate(classes):
             dataY = [np.asarray(mIoU)[:, indx_class, indx_score] if len(mIoU) > 0 else [] for mIoU in vmIoU]
             best_data = [max(data) if len(mIoU) > 0 else 0 for data in dataY]
@@ -84,30 +84,30 @@ def plot_mIoU(vmIoU, legends, classes, scores, name_prefix):
                 best_indx = [np.argmax(np.asarray(data)) for data in accum_dataY]
                 best_epoch = [x[indx] for (x, indx) in zip(accum_dataX, best_indx)]
             best_value = [y[indx] for (y, indx) in zip(accum_dataY, best_indx)]
-            # print legends  # Model name
-            print best_epoch  # best epoch model
-            # print best_value # best mean mAP  over each class
+            # print(legends) # Model name
+            print(best_epoch) # best epoch model
+            # print(best_value) # best mean mAP  over each class
 
             for indx_class, value_class in enumerate(classes):
                 dataY = [np.asarray(mIoU)[:, indx_class, indx_score] if len(mIoU) > 0 else [] for mIoU in vmIoU]
                 value = [y[indx] for (y, indx) in zip(dataY, best_indx)]
-                print value_class  # car, pedestrian, cyclist
-                print value  # best mAP per class
+                print(value_class) # car, pedestrian, cyclist
+                print(value) # best mAP per class
                 scores.append([value_class, value])
     return scores
 
 
-def plot_multiple_data(dataY, dataX, filename, title, legends):
+def plot_multiple_data(data_y, data_x, filename, title, legends):
     plt.ioff()
     fig = plt.figure()
     ax = fig.add_subplot(111)
-    minY = 100
-    maxY = 0
-    for idx, _ in enumerate(dataY):
-        x = np.asarray([data for data in dataX[idx] if dataY[idx][data - 1] != -1])
-        y = np.asarray([data for data in dataY[idx] if data != -1])
-        maxY = max(max(y + 0.05), maxY)
-        minY = min(min(y), minY)
+    min_y = 100
+    max_y = 0
+    for idx, _ in enumerate(data_y):
+        x = np.asarray([data for data in data_x[idx] if data_y[idx][data - 1] != -1])
+        y = np.asarray([data for data in data_y[idx] if data != -1])
+        max_y = max(max(y + 0.05), max_y)
+        min_y = min(min(y), min_y)
         lines = ax.plot(x, 100 * y)
     ax.set_title(title)
 
@@ -115,7 +115,7 @@ def plot_multiple_data(dataY, dataX, filename, title, legends):
 
     ax.set_xlabel('Iteration')
     ax.set_ylabel('IoU')
-    ax.set_ylim([minY * 100.0, maxY * 100.0])
+    ax.set_ylim([min_y * 100.0, max_y * 100.0])
     # ax.set_ylim([1,100])
 
     plt.grid()
@@ -125,7 +125,7 @@ def plot_multiple_data(dataY, dataX, filename, title, legends):
     plt.close()
 
 
-def Compute_plot(cf, subeval=None):
+def compute_plot(cf, subeval=None):
     path = os.path.join(cf.exp_folder)#'/data/104-1/Experiments/Detectron/Models'
     path_out = os.path.join(cf.exp_folder,'..','plots')#'/data/104-1/Experiments/Detectron/plots'
     # Nets
@@ -134,7 +134,7 @@ def Compute_plot(cf, subeval=None):
 
     vModels = [cf.model_name]
     if subeval is not None:
-        print subeval
+        print(subeval)
 
     title_prefix = 'baselines_nets_synthia_random_generator'
 
@@ -155,7 +155,7 @@ def Compute_plot(cf, subeval=None):
             for sourceDB in vSourceDB:
                 mean_scores = comute_mAP_splitted(path=model_path, dataset=sourceDB, net=net, classes=classes,
                                                   scores=scores, nThresholds=nThresholds, subeval=subeval)
-                if mean_scores != []:
+                if mean_scores:
                     vmIoU.append(mean_scores)
                     legends.append(os.path.join(model, net, sourceDB))
     scores = plot_mIoU(vmIoU, legends, classes, scores, os.path.join(path_out, title_prefix))

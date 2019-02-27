@@ -1,23 +1,19 @@
-import sys
 import torch
-import numpy as np
 from torch import nn
 
-from FCN16 import FCN16
-sys.path.append('../')
 from models.networks.network import Net
+from .FCN16 import FCN16
+
 
 class FCN8(Net):
-
-
-    '''@classmethod
+    """@classmethod
     def download(cls):
         return fcn.data.cached_download(
             url='http://drive.google.com/uc?id=0B9P1L--7Wd2vT0FtdThWREhjNkU',
             path=cls.pretrained_model,
             md5='dbd9bbb3829a3184913bccc74373afbb',
         )
-        '''
+        """
 
     def __init__(self, cf, num_classes=21, pretrained=False, net_name='fcn8'):
         super(FCN8, self).__init__(cf)
@@ -145,7 +141,6 @@ class FCN8(Net):
 
         return h
 
-
     def copy_params_from_fcn16s(self):
         fcn16s = FCN16(self.cf)
         fcn16s.load_state_dict(torch.load('pretrained_models/fcn16s_from_caffe.pth'))
@@ -161,8 +156,6 @@ class FCN8(Net):
             if l1.bias is not None:
                 if l1.bias.size() == l2.bias.size():
                     l2.bias.data.copy_(l1.bias.data)
-
-
 
 # # This is implemented in full accordance with the original one (https://github.com/shelhamer/fcn.berkeleyvision.org)
 # class FCN8(nn.Module):

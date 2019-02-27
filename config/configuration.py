@@ -1,4 +1,4 @@
-import imp
+from importlib.machinery import SourceFileLoader
 from ruamel import yaml
 # import yaml
 import os
@@ -6,15 +6,19 @@ import numpy as np
 import argparse
 from easydict import EasyDict as edict
 import configparser
+from sklearn.preprocessing import LabelEncoder
 
-class Configuration():
+
+class Configuration:
     def __init__(self):
-        self.Parse_args()
+        self.args = None
+
+        self.parse_args()
         self.exp_folder = os.path.join(self.args.exp_folder, self.args.exp_name)
         if not os.path.exists(self.exp_folder):
             os.makedirs(self.exp_folder)
 
-    def Load(self):
+    def load(self):
         if self.args.config_file is not None:
             # Read a user specific config File
             # cf = imp.load_source('config', self.args.config_file)
@@ -29,13 +33,13 @@ class Configuration():
                 # print(len(cf.crop_train))
                 cf = edict(cf)
         else:
-            # Read the deafault config file
-            # cf = imp.load_source('config', 'config/configFile.py')
-            with open('config/configFile.yml', 'r') as f:
-                cf = edict(yaml.load(f))
-        cf = self.Parser_to_config(cf)
+            # Read the default config file
+            cf = SourceFileLoader('config', 'config/configFile.py').load_module()
+            # with open('../config/configFile.yml', 'r') as f:
+            #     cf = edict(yaml.load(f))
+        cf = self.parser_to_config(cf)
         cf.exp_folder = os.path.join(cf.exp_folder, cf.exp_name)
-        cf.tensorboard_path = os.path.join(cf.exp_folder,'tensorboard/')
+        cf.tensorboard_path = os.path.join(cf.exp_folder, 'tensorboard/')
         cf.debug = self.args.debug
         cf.log_file = os.path.join(cf.exp_folder, "logfile.log")
         cf.log_file_stats = os.path.join(cf.exp_folder, "logfile_stats.log")
@@ -53,7 +57,7 @@ class Configuration():
         # shutil.copyfile(cf.config_file, os.path.join(cf.exp_folder, "config.py"))
 
         if cf.predict_path_output is None or cf.predict_path_output is None:
-            cf.predict_path_output = os.path.join(cf.exp_folder,'predictions/')
+            cf.predict_path_output = os.path.join(cf.exp_folder, 'predictions/')
             if not os.path.exists(cf.predict_path_output):
                 os.makedirs(cf.predict_path_output)
         # cf.original_size = cf.size_image_test
@@ -64,6 +68,7 @@ class Configuration():
         else:
             if not os.path.exists(cf.output_model_path):
                 os.makedirs(cf.output_model_path)
+
         if cf.map_labels is not None:
             cf.map_labels = {value: idx for idx, value in enumerate(cf.map_labels)}
         # if cf.pretrained_model is None:
@@ -78,7 +83,7 @@ class Configuration():
             cf.basic_models_path = './pretrained_model/'
         return cf
 
-    def Parse_args(self):
+    def parse_args(self):
         # Input arguments
         parser = argparse.ArgumentParser(description="Pytorch framework for Semantic segmentation, classification "
                                                      "and detection")
@@ -111,7 +116,7 @@ class Configuration():
                             type=str,
                             help="Model name, Options: ['DenseNetFCN', 'FCN8']")
 
-        ### load options
+        # load options
         parser.add_argument("--resume_experiment",
                             type=bool,
                             help="Restore the best model obtained in the experiment defined if exist")
@@ -129,7 +134,7 @@ class Configuration():
         parser.add_argument("--basic_models_path",
                             type=str,
                             help="Path to download and store the basic models (ImageNet weights)")
-        ### Save options
+        # Save options
         parser.add_argument("--save_weight_only",
                             type=bool,
                             help="True: stores only weights and parameters, False: store all the network structure and "
@@ -187,19 +192,19 @@ class Configuration():
 
         # Image properties
         parser.add_argument('--size_image_train', nargs='+', type=int, help='Global train dataset image size: '
-                                                                  'e.g. --size_image_train X Y')
+                                                                            'e.g. --size_image_train X Y')
         parser.add_argument('--size_image_valid', nargs='+', type=int, help='Global validation dataset image size: '
-                                                                  'e.g. --size_image_valid X Y')
+                                                                            'e.g. --size_image_valid X Y')
         parser.add_argument('--size_image_test', nargs='+', type=int, help='Global test dataset image size: '
-                                                                  'e.g. --size_image_test X Y')
+                                                                           'e.g. --size_image_test X Y')
         parser.add_argument('--resize_image_train', nargs='+', type=int, help='Resize train image to size: '
-                                                                  'e.g. --resize_image_train X Y')
+                                                                              'e.g. --resize_image_train X Y')
         parser.add_argument('--resize_image_valid', nargs='+', type=int, help='Resize validation image to size: '
-                                                                  'e.g. --resize_image_valid X Y')
+                                                                              'e.g. --resize_image_valid X Y')
         parser.add_argument('--resize_image_test', nargs='+', type=int, help='Resize test image to size: '
-                                                                  'e.g. --resize_image_test X Y')
+                                                                             'e.g. --resize_image_test X Y')
         parser.add_argument('--crop_train', nargs='+', type=int, help='Crop size for training: '
-                                                                  'e.g. --crop_train X Y')
+                                                                      'e.g. --crop_train X Y')
         parser.add_argument("--grayscale",
                             type=bool,
                             help="True: If dataset is in grayscale")
@@ -231,8 +236,8 @@ class Configuration():
                                                                   '--labels class1 class2 class3 ...'
                                                                   'e.g. --crop_train X Y')
         parser.add_argument('--map_labels', nargs='+', type=str, help='Specify list of class labels: e.g. '
-                                                                  '--labels class1 class2 class3 ...'
-                                                                  'e.g. --crop_train X Y')
+                                                                      '--labels class1 class2 class3 ...'
+                                                                      'e.g. --crop_train X Y')
         parser.add_argument("--num_classes",
                             type=int,
                             help="Number of classes")
@@ -254,11 +259,11 @@ class Configuration():
                             type=int,
                             help="Number of validation images used to validate an epoch")
 
-        ### Optimizer ###
+        # Optimizer
         parser.add_argument("--optimizer",
                             type=str,
                             help="Optimizer approach, Options available ['SGD','Adam','RMSProp']")
-        parser.add_argument("--momentum",dest='momentum1',
+        parser.add_argument("--momentum", dest='momentum1',
                             type=float,
                             help="Momentum or first momentum for the optimizer")
         parser.add_argument("--momentum2",
@@ -273,7 +278,7 @@ class Configuration():
         parser.add_argument("--weight_decay",
                             type=float,
                             help="Weight decay")
-        ### Scheduler
+        # Scheduler
         parser.add_argument("--scheduler",
                             type=str,
                             help="Training scheduler, Options available "
@@ -291,12 +296,12 @@ class Configuration():
                             type=int,
                             help="MultiStep option: define different milestones (epochs) to decrease lr: "
                                  "e.g --milestone 50 30 10")
-        ### Save criteria
+        # Save criteria
         parser.add_argument("--save_condition",
                             type=str,
                             help="Reference metric to save the model: Options "
                                  "['always','(x)_loss','(x)_mAcc','(x)_mIoU'] x = valid or train_loss")
-        ### Early Stopping
+        # Early Stopping
         parser.add_argument("--early_stopping",
                             type=bool,
                             help="Enable early stopping when no imporvement is detected")
@@ -314,21 +319,21 @@ class Configuration():
                             help="Divide images values to 255 to have values between 0 and 1 ")
         parser.add_argument("--mean", nargs='+',
                             type=float,
-                            help="List with the mean values of the traing data"
+                            help="List with the mean values of the training data"
                                  "e.g --mean 0.5 0.5 0.5")
         parser.add_argument("--std", nargs='+',
                             type=float,
-                            help="List with the std values of the traing data"
+                            help="List with the std values of the training data"
                                  "e.g --std 0.5 0.5 0.5")
 
         # Data augmentation
         parser.add_argument("--hflips",
                             type=bool,
-                            help="Horitzontal flips")
+                            help="Horizontal flips")
 
         self.args = parser.parse_args()
 
-    def Parser_to_config(self, cf):
+    def parser_to_config(self, cf):
         cf.config_path = self.args.config_file
         cf.exp_name = self.args.exp_name
         cf.exp_folder = self.args.exp_folder
@@ -337,7 +342,7 @@ class Configuration():
             # Model
         if self.args.model_type is not None:
             cf.model_type = self.args.model_type
-            ### load options
+            # load options
         if self.args.resume_experiment is not None:
             cf.resume_experiment = self.args.resume_experiment
         if self.args.pretrained_model is not None:
@@ -348,7 +353,7 @@ class Configuration():
             cf.load_weight_only = self.args.load_weight_only
         if self.args.basic_models_path is not None:
             cf.basic_models_path = self.args.basic_models_path
-            ### Save options
+            # Save options
         if self.args.save_weight_only is not None:
             cf.save_weight_only = self.args.save_weight_only
         if self.args.model_name is not None:
@@ -414,10 +419,10 @@ class Configuration():
         if self.args.test_gt_txt is not None:
             cf.test_gt_txt = self.args.test_gt_txt
         if self.args.labels is not None:
-            self.args.labels=self.args.labels[0].split(',')
+            self.args.labels = self.args.labels[0].split(',')
             cf.labels = self.args.labels
         if self.args.map_labels is not None:
-            self.args.map_labels=self.args.map_labels[0].split(',')
+            self.args.map_labels = self.args.map_labels[0].split(',')
             cf.map_labels = self.args.map_labels
         if self.args.num_classes is not None:
             cf.num_classes = self.args.num_classes
@@ -425,14 +430,14 @@ class Configuration():
             cf.shuffle = self.args.shuffle
         if self.args.void_class is not None:
             cf.void_class = self.args.void_class
-           # Training
+        # Training
         if self.args.epochs is not None:
             cf.epochs = self.args.epochs
         if self.args.initial_epoch is not None:
             cf.initial_epoch = self.args.initial_epoch
         if self.args.valid_samples_epoch is not None:
             cf.valid_samples_epoch = self.args.valid_samples_epoch
-            ### Optimizer ###
+            # Optimizer
         if self.args.optimizer is not None:
             cf.optimizer = self.args.optimizer
         if self.args.momentum1 is not None:
@@ -445,7 +450,7 @@ class Configuration():
             cf.learning_rate_bias = self.args.learning_rate_bias
         if self.args.weight_decay is not None:
             cf.weight_decay = self.args.weight_decay
-            ### Scheduler
+            # Scheduler
         if self.args.scheduler is not None:
             cf.scheduler = self.args.scheduler
         if self.args.decay is not None:
@@ -456,10 +461,10 @@ class Configuration():
             cf.step_size = self.args.step_size
         if self.args.model_name is not None:
             cf.milestone = self.args.milestone
-            ### Save criteria
+            # Save criteria
         if self.args.save_condition is not None:
             cf.save_condition = self.args.save_condition
-            ### Early Stopping
+            # Early Stopping
         if self.args.early_stopping is not None:
             cf.early_stopping = self.args.early_stopping
         if self.args.stop_condition is not None:

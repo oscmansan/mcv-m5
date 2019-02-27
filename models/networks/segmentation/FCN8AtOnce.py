@@ -1,4 +1,5 @@
-from FCN8 import FCN8
+from .FCN8 import FCN8
+
 
 class FCN8AtOnce(FCN8):
     def __init__(self, cf, num_classes=21, pretrained=False, net_name='FCN8AtOnce'):
@@ -52,8 +53,8 @@ class FCN8AtOnce(FCN8):
 
         h = self.score_pool3(pool3 * 0.0001)  # XXX: scaling to train at once
         h = h[:, :,
-              9:9 + upscore_pool4.size()[2],
-              9:9 + upscore_pool4.size()[3]]
+            9:9 + upscore_pool4.size()[2],
+            9:9 + upscore_pool4.size()[3]]
         score_pool3c = h  # 1/8
 
         h = upscore_pool4 + score_pool3c  # 1/8

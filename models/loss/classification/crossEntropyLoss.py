@@ -1,6 +1,6 @@
 import torch.nn.functional as F
 import torch.nn as nn
-from classification_loss import Classification_Loss
+from .classification_loss import Classification_Loss
 
 
 class CrossEntropyLoss(Classification_Loss):

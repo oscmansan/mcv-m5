@@ -14,7 +14,7 @@ import torch.nn.functional as F
 sys.path.append('../')
 from simple_trainer_manager import SimpleTrainer
 from metrics.metrics import compute_accuracy, compute_confusion_matrix, extract_stats_from_confm, compute_mIoU
-from utils.plot import Compute_plot
+from utils.plot import compute_plot
 from metrics.object_detection import Compute_kitti_AP
 
 class Detection_Manager(SimpleTrainer):

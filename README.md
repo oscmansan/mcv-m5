@@ -4,14 +4,14 @@ The goal of this project is to learn the basic concepts and techniques to build 
 
 ## Team members
 
-* Alba Herrera ([albaherrerapalacio@gmail.com](mailto:albaherrerapalacio@gmail.com))
-* Jorge López ([jorgelopezfueyo@gmail.com](mailto:jorgelopezfueyo@gmail.com))
-* Oscar Mañas ([oscmansan@gmail.com](mailto:oscmansan@gmail.com))
-* Pablo Rodriguez ([pablorodriper@gmail.com](mailto:pablorodriper@gmail.com))
+* Alba Herrera (albaherrerapalacio at gmail dot com)
+* Jorge López (jorgelopezfueyo at gmail dot com)
+* Oscar Mañas (oscmansan at gmail dot com)
+* Pablo Rodríguez (pablorodriper at gmail dot com)
 
 ## Report
 
-[Overleaf link]
+[Overleaf link](https://www.overleaf.com/read/mkqjyjnntnrg)
 
 ## Related publications
 

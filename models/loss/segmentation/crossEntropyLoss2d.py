@@ -1,7 +1,7 @@
 import torch.nn.functional as F
 import torch.nn as nn
 import torch
-from semantic_loss import Semantic_Loss
+from .semantic_loss import Semantic_Loss
 from torch.autograd import Variable
 
 
@@ -35,25 +35,23 @@ class CrossEntropyLoss2d(Semantic_Loss):
                                       ignore_index=self.ignore_index)
 
         loss = loss_fn_(F.log_softmax(inputs), targets)
-        return loss#.mean()
+        return loss  # .mean()
 
     def my_softmax(self, inputs):
+        d, n, c, w, h = inputs.size()
 
-        d,n,c,w,h = inputs.size()
-
-        inputs = inputs.transpose(2,4).contiguous().view(-1,c)
+        inputs = inputs.transpose(2, 4).contiguous().view(-1, c)
         max_indexes = torch.max(inputs, 1)[1]
 
         data_size = max_indexes.size(0)
-        mask_indexes = Variable(torch.FloatTensor(data_size,c),requires_grad=True).cuda()
-        mask_indexes =  mask_indexes.scatter_(1,max_indexes.view(-1,1),1)
-        inputs = mask_indexes.view(d,n,h,w,c).transpose(4,2)
+        mask_indexes = Variable(torch.FloatTensor(data_size, c), requires_grad=True).cuda()
+        mask_indexes = mask_indexes.scatter_(1, max_indexes.view(-1, 1), 1)
+        inputs = mask_indexes.view(d, n, h, w, c).transpose(4, 2)
 
         inputs = inputs.sum(dim=0)
         inputs = inputs.float()
-        probs = inputs/d
+        probs = inputs / d
 
-        probs = torch.clamp(probs,min=1e-20,max=1)
-
+        probs = torch.clamp(probs, min=1e-20, max=1)
 
         return probs

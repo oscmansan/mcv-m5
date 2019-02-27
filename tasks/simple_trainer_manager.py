@@ -57,7 +57,7 @@ class SimpleTrainer(object):
                 early_Stopping = None
 
             prev_msg = '\nTotal estimated training time...\n'
-            self.global_bar = ProgressBar((self.cf.epochs+1-self.curr_epoch)*(self.train_num_batches+self.val_num_batches), lenBar=20)
+            self.global_bar = ProgressBar((self.cf.epochs+1-self.curr_epoch) * (self.train_num_batches+self.val_num_batches), len_bar=20)
             self.global_bar.set_prev_msg(prev_msg)
 
 
@@ -73,7 +73,7 @@ class SimpleTrainer(object):
                 # Initialize epoch progress bar
                 self.msg.accum_str = '\n\nEpoch %d/%d estimated time...\n' % \
                                      (epoch, self.cf.epochs)
-                epoch_bar = ProgressBar(self.train_num_batches, lenBar=20)
+                epoch_bar = ProgressBar(self.train_num_batches, len_bar=20)
                 epoch_bar.update(show=False)
 
                 # Initialize stats
@@ -243,7 +243,7 @@ class SimpleTrainer(object):
             # Initialize epoch progress bar
             val_num_batches = math.ceil(valid_set.num_images / float(self.cf.valid_batch_size))
             prev_msg = '\n' + mode + ' estimated time...\n'
-            bar = ProgressBar(val_num_batches, lenBar=20)
+            bar = ProgressBar(val_num_batches, len_bar=20)
             bar.set_prev_msg(prev_msg)
             bar.update(show=False)
 

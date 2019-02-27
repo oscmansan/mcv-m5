@@ -2,12 +2,13 @@ import torch
 import numpy as np
 import os
 
-from dataloader import Data_loader
+from .dataloader import Data_loader
+
 
 class fromFileDatasetDetection(Data_loader):
 
     def __init__(self, cf, image_txt, gt_txt, num_images, resize=None,
-                        preprocess=None, transform=None, valid=False, box_coder=None, resize_process=None):
+                 preprocess=None, transform=None, valid=False, box_coder=None, resize_process=None):
         super(fromFileDatasetDetection, self).__init__()
         self.cf = cf
         self.box_coder = box_coder
@@ -20,12 +21,12 @@ class fromFileDatasetDetection(Data_loader):
         self.labels = []
         self.fnames = []
         self.valid = valid
-        print ("\t Images from: " + image_txt)
+        print("\t Images from: " + image_txt)
         with open(image_txt) as f:
             image_names = f.readlines()
         # remove whitespace characters like `\n` at the end of each line
         self.image_names = [x.strip() for x in image_names]
-        print ("\t Gt from: " + gt_txt)
+        print("\t Gt from: " + gt_txt)
         with open(gt_txt) as f:
             gt_names = f.readlines()
         self.gt_names = [x.strip() for x in gt_names]
@@ -37,7 +38,7 @@ class fromFileDatasetDetection(Data_loader):
             raise ValueError('No bounding boxes found for the classes specified in the Dataset')
         if len(self.gt_names) != len(self.image_names):
             raise ValueError('number of images != number GT images')
-        print ("\t Images found: " + str(len(self.image_names)))
+        print("\t Images found: " + str(len(self.image_names)))
         if len(self.fnames) < self.num_images or self.num_images == -1:
             self.num_images = len(self.fnames)
         self.img_indexes = np.arange(len(self.image_names))
@@ -89,7 +90,7 @@ class fromFileDatasetDetection(Data_loader):
                         ymin = float(line_splited[5])
                         xmax = float(line_splited[6])
                         ymax = float(line_splited[7])
-                        box.append([xmin,ymin,xmax,ymax])
+                        box.append([xmin, ymin, xmax, ymax])
                 if len(box) > 0:
                     self.boxes.append(torch.Tensor(box))
                     self.labels.append(torch.LongTensor(label))
@@ -118,9 +119,9 @@ class fromFileDatasetDetection(Data_loader):
                         ymax = float(line_splited[1]) if float(line_splited[1]) < 481 else 480.
                         if ymax < 0:
                             ymax = 0.
-                        if (xmax-xmin)*(ymax-ymin) > 0:
+                        if (xmax - xmin) * (ymax - ymin) > 0:
                             label.append(self.class_to_ind[self.mapping[int(line_splited[4])]])
-                            box.append([xmin,ymin,xmax,ymax])
+                            box.append([xmin, ymin, xmax, ymax])
                 if len(box) > 0:
                     self.boxes.append(torch.Tensor(box))
                     self.labels.append(torch.LongTensor(label))

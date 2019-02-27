@@ -61,12 +61,12 @@ grayscale                   : False
 
 # Dataset properties
 
-train_images_txt: '/datatmp/Datasets/segmentation/cityscapes/train_images.txt'
-train_gt_txt: '/datatmp/Datasets/segmentation/cityscapes/train_labels.txt'
-valid_images_txt: '/datatmp/Datasets/segmentation/cityscapes/val_images.txt'
-valid_gt_txt: '/datatmp/Datasets/segmentation/cityscapes/val_labels.txt'
-test_images_txt: '/datatmp/Datasets/segmentation/cityscapes/val_images.txt'
-test_gt_txt: '/datatmp/Datasets/segmentation/cityscapes/val_labels.txt'
+train_images_txt: '/home/mcv/datasets/M5/segmentation/cityscapes/train_images.txt'
+train_gt_txt: '/home/mcv/datasets/M5/segmentation/cityscapes/train_labels.txt'
+valid_images_txt: '/home/mcv/datasets/M5/segmentation/cityscapes/val_images.txt'
+valid_gt_txt: '/home/mcv/datasets/M5/segmentation/cityscapes/val_labels.txt'
+test_images_txt: '/home/mcv/datasets/M5/segmentation/cityscapes/val_images.txt'
+test_gt_txt: '/home/mcv/datasets/M5/segmentation/cityscapes/val_labels.txt'
 
 labels                      : !!python/tuple ['road','sidewalk','building','wall','fence','pole','traffic light','traffic, sign',
                                 'vegetation','terrain','sky','person','rider','car','truck','bus','train',

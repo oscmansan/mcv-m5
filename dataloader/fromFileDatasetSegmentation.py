@@ -1,30 +1,31 @@
 import torch
 import numpy as np
 
-from dataloader import Data_loader
+from .dataloader import Data_loader
+
 
 class fromFileDatasetSegmentation(Data_loader):
 
     def __init__(self, cf, image_txt, gt_txt, num_images, resize=None,
-                        preprocess=None, transform=None, valid=False):
+                 preprocess=None, transform=None, valid=False):
         super(fromFileDatasetSegmentation, self).__init__()
         self.cf = cf
         self.resize = resize
         self.transform = transform
         self.preprocess = preprocess
         self.num_images = num_images
-        print ("\t Images from: " + image_txt)
+        print("\t Images from: " + image_txt)
         with open(image_txt) as f:
             image_names = f.readlines()
         # remove whitespace characters like `\n` at the end of each line
         self.image_names = [x.strip() for x in image_names]
-        print ("\t Gt from: " + gt_txt)
+        print("\t Gt from: " + gt_txt)
         with open(gt_txt) as f:
             gt_names = f.readlines()
         self.gt_names = [x.strip() for x in gt_names]
         if len(self.gt_names) != len(self.image_names):
             raise ValueError('number of images != number GT images')
-        print ("\t Images found: " + str(len(self.image_names)))
+        print("\t Images found: " + str(len(self.image_names)))
         if len(self.image_names) < self.num_images or self.num_images == -1:
             self.num_images = len(self.image_names)
         self.img_indexes = np.arange(len(self.image_names))
@@ -43,7 +44,7 @@ class fromFileDatasetSegmentation(Data_loader):
             gt, _ = self.load_img(gt_path, self.resize, grayscale=True, order=0)
         if self.transform is not None:
             img, gt = self.transform(img, gt)
-        #img = Image.fromarray(img.astype(np.uint8))
+        # img = Image.fromarray(img.astype(np.uint8))
         if self.preprocess is not None:
             img = self.preprocess(img)
         gt = torch.from_numpy(np.array(gt, dtype=np.int32)).long()

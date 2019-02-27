@@ -6,23 +6,23 @@ from math import floor
 
 
 class ProgressBar:
-    '''
+    """
     Class to display the progress of the algorithm. It needs to be initialized at first and it has to be updated at each
     step. It displays the iterations per second, percentage of steps done until finish, and estimated time (ETA) to
     finish the progress on the format h:mm:s.ms.
     It can be added a custom message at the end of the display. It is usful to display losses, iteration number, etc.
-    '''
+    """
 
     # TODO: If the message added is too large, the bar is not replaced correctly
 
-    def __init__(self, nSteps, lenBar=50):
-        '''
+    def __init__(self, n_steps, len_bar=50):
+        """
         Progress Bar initialization function
-        :param nSteps: Number of updates/epochs that is going to be done
-        :param lenBar: Number of characters for the progress bar
-        '''
-        self.__nSteps = nSteps + 1
-        self.__lenBar = lenBar
+        :param n_steps: Number of updates/epochs that is going to be done
+        :param len_bar: Number of characters for the progress bar
+        """
+        self.__nSteps = n_steps + 1
+        self.__lenBar = len_bar
         self.__step = 1
         self.__msg = None
         self.__prev_msg = None
@@ -31,20 +31,21 @@ class ProgressBar:
         self.__vTimes = []
         self.__index = 0
         self.__loss = 0.0
-        self.__funcMsg = self.__createProgressMsg if self.__lenBar > 0 else self.__createProgressMsgNoBar
+        self.__funcMsg = self.__create_progress_msg if self.__lenBar > 0 else self.__create_progress_msg_no_bar
         self.__lastMessg = ''
         self.__lastLens = []
 
     def update(self, loss=None, is_updated=True, show=True):
-        '''
+        """
         Update the step and display the progress if needed.
+        :param loss:
         :param is_updated: Bool. True if the step has to increase. True by default
         :param show: Bool. True if the progress bar has to be displayed after the update. True by default.
-        '''
+        """
         if self.__step <= self.__nSteps:
             if loss is not None:
                 self.__loss = loss
-            its = self.__updateTimes()
+            its = self.__update_times()
             progress_msg = self.__funcMsg(its)
             if show:
 
@@ -62,36 +63,37 @@ class ProgressBar:
                 self.__lastLens = msg_lens
 
                 if self.__step == self.__nSteps:
-                    print ''
+                    print('')
 
             if is_updated:
                 self.__step = self.__step + 1
         else:
-            print self.__step
-            print self.__nSteps
-            print 'WARNING: Progress Bar step is major than the limit established'
+            print(self.__step)
+            print(self.__nSteps)
+            print('WARNING: Progress Bar step is major than the limit established')
 
     def finish_progress(self):
-        '''
+        """
         Function to finish the bar. It is needed to print something to put the pointer to the right point.
-        '''
-        print ''
+        """
+        print('')
 
     def set_msg(self, msg):
-        '''
+        """
         Function to add a message. This message will be added at the end when displaying the bar.
         :param msg: String. Message
-        '''
+        """
         self.__msg = msg
 
     def set_prev_msg(self, msg):
-        '''
+        """
         Function to add a message. This message will be added at the end when displaying the bar.
         :param msg: String. Message
-        '''
+        """
         self.__prev_msg = msg
 
-    def __split_msg(self, msg_endl):
+    @staticmethod
+    def __split_msg(msg_endl):
         list_msgs = []
         list_lens = []
 
@@ -107,7 +109,7 @@ class ProgressBar:
                 list_lens.append(len(msg_wrote))
                 list_msgs.append(msg_wrote)
             else:
-                while (init_msg < len(msg)):
+                while init_msg < len(msg):
                     end_msg = len_msg + min(len(msg) - init_msg, columns)
                     len_msg = end_msg - init_msg
                     if len_msg < 0:
@@ -122,78 +124,78 @@ class ProgressBar:
 
     def __remove_last_msg(self):
 
-        if self.__lastLens != []:
+        if self.__lastLens:
             for indx, len_msg in enumerate(reversed(self.__lastLens)):
 
                 sys.stdout.write('\x1b[1A')
-                if len_msg>0:
+                if len_msg > 0:
                     sys.stdout.write(' ' * len_msg)
                     sys.stdout.write('\b' * len_msg)
 
-    def __createProgressMsgNoBar(self, its):
-        '''
+    def __create_progress_msg_no_bar(self, its):
+        """
         Private. Function to create the message Bar
         :param its: iteration per seconds
         :return: String. Return the progress message
-        '''
-        nRepetitions = int(float(self.__lenBar) * float(self.__step) / float(self.__nSteps))
+        """
+        n_repetitions = int(float(self.__lenBar) * float(self.__step) / float(self.__nSteps))
 
         percentage = 100. * float(self.__step) / float(self.__nSteps)
 
-        [hours, mints, sec] = self.__ETA(self.__nSteps, self.__step, its)
+        [hours, mints, sec] = self.__eta(self.__nSteps, self.__step, its)
 
         loss = self.__loss
 
-        if self.__prev_msg==None:
-            progressMsg = ''
+        if self.__prev_msg is None:
+            progress_msg = ''
         else:
-            progressMsg = self.__prev_msg
+            progress_msg = self.__prev_msg
 
-        progressMsg = progressMsg + '[' + '%.02f%%' % percentage + '], ' + '%.03f it/s, ' % its + \
-                      ', ETA: %d:' % hours + '%02d:' % mints + "%02.01f" % sec
-        if self.__msg != None:
-            progressMsg = progressMsg + ', ' + self.__msg
+        progress_msg = progress_msg + '[' + '%.02f%%' % percentage + '], ' + '%.03f it/s, ' % its + \
+                       ', ETA: %d:' % hours + '%02d:' % mints + "%02.01f" % sec
+        if self.__msg is not None:
+            progress_msg = progress_msg + ', ' + self.__msg
 
-        return progressMsg
+        return progress_msg
 
-    def __createProgressMsg(self, its):
-        '''
+    def __create_progress_msg(self, its):
+        """
         Private. Function to create the message Bar
         :param its: iteration per seconds
         :return: String. Return the progress message
-        '''
-        nRepetitions = int(float(self.__lenBar) * float(self.__step) / float(self.__nSteps))
+        """
+        n_repetitions = int(float(self.__lenBar) * float(self.__step) / float(self.__nSteps))
 
         percentage = 100. * float(self.__step) / float(self.__nSteps)
 
-        [hours, mints, sec] = self.__ETA(self.__nSteps, self.__step, its)
+        [hours, mints, sec] = self.__eta(self.__nSteps, self.__step, its)
 
         loss = self.__loss
 
-        if self.__prev_msg==None:
-            progressMsg = ''
+        if self.__prev_msg is None:
+            progress_msg = ''
         else:
-            progressMsg = self.__prev_msg
+            progress_msg = self.__prev_msg
 
-        progressMsg = progressMsg + '[' + ('=' * nRepetitions) + (' ' * (self.__lenBar - nRepetitions)) + \
-                      '], ' + '%.03f it/s, ' % its + '%.02f%%' % percentage + \
-                      ', ETA: %d:' % hours + '%02d:' % mints + "%02.01f" % sec
-        if self.__msg != None:
-            progressMsg = progressMsg + ', ' + self.__msg
+        progress_msg = progress_msg + '[' + ('=' * n_repetitions) + (' ' * (self.__lenBar - n_repetitions)) + \
+                       '], ' + '%.03f it/s, ' % its + '%.02f%%' % percentage + \
+                       ', ETA: %d:' % hours + '%02d:' % mints + "%02.01f" % sec
+        if self.__msg is not None:
+            progress_msg = progress_msg + ', ' + self.__msg
 
-        return progressMsg
+        return progress_msg
 
     @staticmethod
-    def __ETA(nSteps, step, its):
-        '''
+    def __eta(n_steps, step, its):
+        """
         Private. Compute the estimated time to finish the progress
-        :param nSteps: Number of steps for the whole algorithm.
+        :param n_steps: Number of steps for the whole algorithm.
         :param step: Current step.
         :param its: Iterations per second.
         :return: List of floats. It contains the time on the format [hours, minutes, seconds]
-        '''
+        """
 
-        secs = (nSteps - step) / its
+        secs = (n_steps - step) / its
         mins = secs / 60.0
         hours = floor(mins / 60.0)
         mins = floor(mins - (hours * 60))
@@ -201,11 +203,11 @@ class ProgressBar:
 
         return [hours, mins, secs]
 
-    def __updateTimes(self):
-        '''
+    def __update_times(self):
+        """
         Private. Updates the time queue and compute the iterations per second.
         :return: Iterations per second.
-        '''
+        """
 
         # Update time
         current_time = time.time()
@@ -216,7 +218,11 @@ class ProgressBar:
         self.__start_time = current_time
 
         # Compute its
-        its = 1.0 / np.mean(self.__vTimes)
+        m = np.mean(self.__vTimes)
+        if m == 0:
+            its = 1
+        else:
+            its = 1.0 / m
 
         # Update step
         if self.__index >= 9:
@@ -226,9 +232,9 @@ class ProgressBar:
 
         return its
 
-    def get_message(self,step=False):
+    def get_message(self, step=False):
 
-        its = self.__updateTimes()
+        its = self.__update_times()
         progress_msg = self.__funcMsg(its) + '\n'
 
         if step:
@@ -236,22 +242,22 @@ class ProgressBar:
 
         return progress_msg
 
+
 '''
 Testing class
 '''
 
 if __name__ == '__main__':
 
-
-    print 'Testing small progress bar 5 seconds...'
-    bar = ProgressBar(5, lenBar=0)
+    print('Testing small progress bar 5 seconds...')
+    bar = ProgressBar(5, len_bar=0)
     bar.update(show=False)
     for i in range(5):
         time.sleep(1)
         bar.update()
 
-    print 'Total testing estimated time...'
-    global_bar = ProgressBar(5 + 30 + 5 + 5, lenBar=20)
+    print('Total testing estimated time...')
+    global_bar = ProgressBar(5 + 30 + 5 + 5, len_bar=20)
 
     accum_str = '\n\nTesting large message during 5 seconds...\n'
     bar = ProgressBar(5)
@@ -259,14 +265,15 @@ if __name__ == '__main__':
     for i in range(5):
         time.sleep(1)
         bar.set_msg('Testing msg after ' + str(
-            i) + ' seconds with a veeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeery looooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooong message')
+            i) + 'seconds with a veeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeery '
+                 'looooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooong message')
         last_str = bar.get_message(step=True)
         global_bar.set_msg(accum_str + last_str)
         global_bar.update()
 
     accum_str = accum_str + last_str
 
-    accum_str =  accum_str + '\nTesting default progress bar 20 seconds...\n'
+    accum_str = accum_str + '\nTesting default progress bar 20 seconds...\n'
     n = 30
     bar = ProgressBar(n)
     bar.update(show=False)
@@ -279,7 +286,7 @@ if __name__ == '__main__':
     accum_str = accum_str + last_str
 
     accum_str = accum_str + '\nTesting double large progress bar 5 seconds...\n'
-    bar = ProgressBar(5, lenBar=100)
+    bar = ProgressBar(5, len_bar=100)
     bar.update(show=False)
     for i in range(5):
         time.sleep(1)

@@ -1,11 +1,11 @@
-
 import numpy as np
-from dataloader import Data_loader
+from .dataloader import Data_loader
+
 
 class fromFileDatasetToPredict(Data_loader):
 
     def __init__(self, cf, image_txt, num_images, resize,
-                        preprocess=None):
+                 preprocess=None):
         super(fromFileDatasetToPredict, self).__init__()
         self.cf = cf
         self.resize = resize

@@ -1,6 +1,7 @@
-from segmentation.crossEntropyLoss2d import CrossEntropyLoss2d
-from classification.crossEntropyLoss import CrossEntropyLoss
-from detection.ssd_loss import SSDLoss
+from .segmentation.crossEntropyLoss2d import CrossEntropyLoss2d
+from .classification.crossEntropyLoss import CrossEntropyLoss
+from .detection.ssd_loss import SSDLoss
+
 
 class Loss_Builder():
     def __init__(self, cf):

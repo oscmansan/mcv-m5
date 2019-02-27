@@ -1,6 +1,8 @@
-import torch
 import numpy as np
-from dataloader import Data_loader
+import torch
+
+from .dataloader import Data_loader
+from sklearn.preprocessing import LabelEncoder
 
 class fromFileDatasetClassification(Data_loader):
 
@@ -12,27 +14,31 @@ class fromFileDatasetClassification(Data_loader):
         self.transform = transform
         self.preprocess = preprocess
         self.num_images = num_images
-        print ("\t Images from: " + image_txt)
+        print("\t Images from: " + image_txt)
         with open(image_txt) as f:
             image_names = f.readlines()
         # remove whitespace characters like `\n` at the end of each line
         lines = [x.strip() for x in image_names]
         self.image_names = lines
 
-        print ("\t gt from: " + gt_txt)
+        print("\t gt from: " + gt_txt)
         with open(gt_txt) as f:
             gt = f.readlines()
         # remove whitespace characters like `\n` at the end of each line
         lines = [x.strip() for x in gt]
+        if cf.labels is None:
+            cf.labels = tuple(set(lines))
         if cf.map_labels is None:
-            self.gt = [int(line) for line in lines]
-        else:
-            print(cf.map_labels)
-            self.gt = [int(cf.map_labels[line]) for line in lines]
+            le = LabelEncoder()
+            le.fit(cf.labels)
+            cf.map_labels = dict(zip(cf.labels, le.transform(cf.labels)))
+
+        print(cf.map_labels)
+        self.gt = [cf.map_labels[line] for line in lines]
 
         if len(self.gt) != len(self.image_names):
             raise ValueError('number of images != number GT images')
-        print ("\t Images found: " + str(len(self.image_names)))
+        print("\t Images found: " + str(len(self.image_names)))
         if len(self.image_names) < self.num_images or self.num_images == -1:
             self.num_images = len(self.image_names)
         self.img_indexes = np.arange(len(self.image_names))
