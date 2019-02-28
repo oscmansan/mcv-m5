@@ -15,5 +15,10 @@ The goal of this project is to learn the basic concepts and techniques to build 
 
 ## Related publications
 
-* [VGG](docs/vgg.md)
-* [ResNet](docs/resnet.md)
+### VGG: 
+* [Original paper](https://arxiv.org/pdf/1409.1556.pdf)
+* [Summary](docs/vgg.md)
+
+### ResNet
+* [Original paper](https://arxiv.org/pdf/1512.03385.pdf)
+* [Summary](docs/resnet.md)
