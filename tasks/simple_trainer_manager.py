@@ -163,7 +163,6 @@ class SimpleTrainer(object):
             self.stats.train.loss = float(train_loss.avg.cpu().data)
 
         def validate_epoch(self, valid_set, valid_loader, early_Stopping, epoch):
-
             if valid_set is not None and valid_loader is not None:
                 # Set model in validation mode
                 self.model.net.eval()
@@ -215,7 +214,7 @@ class SimpleTrainer(object):
                 self.logger_stats.write_stat(self.stats.test, epoch, self.cf.test_json_file)
 
         def validation_loop(self, epoch, valid_loader, valid_set, confm_list):
-            for vi, data in tqdm(enumerate(valid_loader), desc="Validation loop", total=len(valid_loader),
+            for vi, data in tqdm(enumerate(valid_loader), desc="Validating...", total=len(valid_loader),
                                  file=sys.stdout):
                 # Read data
                 inputs, gts = data
@@ -279,7 +278,7 @@ class SimpleTrainer(object):
         def start(self, dataloader):
             self.model.net.eval()
 
-            for vi, data in enumerate(dataloader):
+            for vi, data in tqdm(enumerate(dataloader), desc='Predicting...', total=len(dataloader), file=sys.stdout):
                 inputs, img_name, img_shape = data
 
                 inputs = Variable(inputs).cuda()
@@ -288,9 +287,6 @@ class SimpleTrainer(object):
                     predictions = outputs.data.max(1)[1].cpu().numpy()
 
                     self.write_results(predictions, img_name, img_shape)
-
-                # self.logger_stats.write('%d / %d \n' % (vi + 1, len(dataloader)))
-                print('%d / %d' % (vi + 1, len(dataloader)))
 
         def write_results(self, predictions, img_name, img_shape):
             pass
