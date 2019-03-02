@@ -1,7 +1,8 @@
 import sys
 from torch import optim
 
-class Optimizer_builder():
+
+class OptimizerBuilder:
     def __init__(self):
         pass
         
@@ -29,4 +30,3 @@ class Optimizer_builder():
                 momentum=cf.momentum1, dampening=0, nesterov=False)
         else:
             sys.exit('Optmizer model not defined properly: ' + cf.optimizer)
-    

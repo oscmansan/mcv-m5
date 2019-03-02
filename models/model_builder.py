@@ -16,8 +16,8 @@ from models.networks.segmentation.deeplabv3plus_xception import DeepLabv3_xcepti
 # from models.networks.detection.rpn import RPN
 
 from models.loss.loss_builder import LossBuilder
-from models.optimizer.optimizer_builder import Optimizer_builder
-from models.scheduler.scheduler_builder import scheduler_builder
+from models.optimizer.optimizer_builder import OptimizerBuilder
+from models.scheduler.scheduler_builder import SchedulerBuilder
 
 from utils.ssd_box_coder import SSDBoxCoder
 from utils.statistics import Statistics
@@ -92,10 +92,10 @@ class ModelBuilder:
             self.loss = LossBuilder(self.cf).build().cuda()
 
         # Optimizer definition
-        self.optimizer = Optimizer_builder().build(self.cf, self.net)
+        self.optimizer = OptimizerBuilder().build(self.cf, self.net)
 
         # Learning rate scheduler
-        self.scheduler = scheduler_builder().build(self.cf, self.optimizer)
+        self.scheduler = SchedulerBuilder().build(self.cf, self.optimizer)
 
     def save_model(self):
         if self.cf.save_weight_only:

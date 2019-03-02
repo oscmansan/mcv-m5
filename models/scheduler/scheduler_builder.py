@@ -1,7 +1,7 @@
 import torch.optim.lr_scheduler as lr_scheduler
 
 
-class scheduler_builder:
+class SchedulerBuilder:
     def __init__(self):
         pass
 
