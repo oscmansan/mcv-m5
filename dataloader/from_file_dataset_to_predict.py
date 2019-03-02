@@ -1,12 +1,13 @@
 import numpy as np
+
 from .dataloader import DataLoader
 
 
-class fromFileDatasetToPredict(DataLoader):
+class FromFileDatasetToPredict(DataLoader):
 
     def __init__(self, cf, image_txt, num_images, resize,
                  preprocess=None):
-        super(fromFileDatasetToPredict, self).__init__()
+        super(FromFileDatasetToPredict, self).__init__()
         self.cf = cf
         self.resize = resize
         self.preprocess = preprocess

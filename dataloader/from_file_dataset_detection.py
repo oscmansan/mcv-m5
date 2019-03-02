@@ -49,7 +49,7 @@ class FromFileDatasetDetection(DataLoader):
     def __getitem__(self, idx):
         img_path = self.image_names[self.indexes[idx]]
         gt_path = self.gt_names[self.indexes[idx]]
-        img = self.Load_image(img_path, resize=None, grayscale=self.cf.grayscale)
+        img = self.load_image(img_path, resize=None, grayscale=self.cf.grayscale)
         boxes = self.boxes[idx].clone()  # used clone to avoid any potential change.
         labels = self.labels[idx].clone()
         if self.transform is not None:
@@ -76,7 +76,7 @@ class FromFileDatasetDetection(DataLoader):
 
     def KittiGT(self, filenames):
         # self.classes_list = ['Car', 'Pedestrian', 'Cyclist']
-        self.class_to_ind = dict(zip(self.cf.labels, xrange(len(self.cf.labels))))
+        self.class_to_ind = dict(zip(self.cf.labels, range(len(self.cf.labels))))
         for filename in filenames:
             with open(filename) as f:
                 box = []
@@ -97,7 +97,7 @@ class FromFileDatasetDetection(DataLoader):
 
     def SynthiaVZGT(self, filenames):
         # self.classes_list = ['Car', 'Pedestrian', 'Truck']
-        self.class_to_ind = dict(zip(self.cf.labels, xrange(len(self.cf.labels))))
+        self.class_to_ind = dict(zip(self.cf.labels, range(len(self.cf.labels))))
         self.mapping = {14: 'Car', 12: 'Pedestrian', 15: 'Truck'}
         for filename in filenames:
             with open(filename) as f:

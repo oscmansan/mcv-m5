@@ -1,12 +1,14 @@
-from torch.utils.data import Dataset, DataLoader
 import os
-import skimage.io as io
-from skimage.color import rgb2gray, gray2rgb
-import skimage.transform
-import cv2 as cv
-from PIL import Image
 
-class Data_loader(Dataset):
+from PIL import Image
+import cv2 as cv
+import skimage.io as io
+import skimage.transform
+from skimage.color import rgb2gray, gray2rgb
+from torch.utils.data import Dataset
+
+
+class DataLoader(Dataset):
     def __init__(self):
         pass
 
@@ -25,7 +27,7 @@ class Data_loader(Dataset):
         return subdirs
 
     # Get file names
-    def Get_filenames(self, directory):
+    def get_filenames(self, directory):
         subdirs = self.list_subdirs(directory)
         subdirs.append(directory)
         file_names = []
@@ -39,7 +41,7 @@ class Data_loader(Dataset):
         return file_paths, file_names
 
     # Load image using PIL
-    def Load_image(self, image_path, resize=None, grayscale=False):
+    def load_image(self, image_path, resize=None, grayscale=False):
         img = Image.open(image_path)
         # Resize
         if resize is not None:
@@ -84,8 +86,7 @@ class Data_loader(Dataset):
         return img, shape
 
     # Checks if a file is an image
-    def has_valid_extension(self, fname, white_list_formats={'png', 'jpg', 'jpeg',
-                            'bmp', 'tif'}):
+    def has_valid_extension(self, fname, white_list_formats={'png', 'jpg', 'jpeg', 'bmp', 'tif'}):
         for extension in white_list_formats:
             if fname.lower().endswith('.' + extension):
                 return True

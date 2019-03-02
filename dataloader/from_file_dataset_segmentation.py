@@ -1,14 +1,14 @@
-import torch
 import numpy as np
+import torch
 
 from .dataloader import DataLoader
 
 
-class fromFileDatasetSegmentation(DataLoader):
+class FromFileDatasetSegmentation(DataLoader):
 
     def __init__(self, cf, image_txt, gt_txt, num_images, resize=None,
                  preprocess=None, transform=None, valid=False):
-        super(fromFileDatasetSegmentation, self).__init__()
+        super(FromFileDatasetSegmentation, self).__init__()
         self.cf = cf
         self.resize = resize
         self.transform = transform

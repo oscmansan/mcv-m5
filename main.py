@@ -5,7 +5,7 @@ from tasks.detection_manager import Detection_Manager
 from config.configuration import Configuration
 from models.model_builder import Model_builder
 from utils.logger import Logger
-from dataloader.dataloader_builder import Dataloader_Builder
+from dataloader.dataloader_builder import DataLoaderBuilder
 
 
 def main():
@@ -34,7 +34,7 @@ def main():
         raise ValueError('Unknown problem type')
 
     # Create dataloader builder
-    dataloader = Dataloader_Builder(cf, model)
+    dataloader = DataLoaderBuilder(cf, model)
 
     if cf.train:
         model.net.train()  # enable dropout modules and others

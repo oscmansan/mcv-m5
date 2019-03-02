@@ -1,14 +1,14 @@
 import numpy as np
 import torch
-
-from .dataloader import DataLoader
 from sklearn.preprocessing import LabelEncoder
 
-class fromFileDatasetClassification(DataLoader):
+from .dataloader import DataLoader
 
-    def __init__(self, cf, image_txt, gt_txt, num_images, resize=None,
-                 preprocess=None, transform=None, valid=False):
-        super(fromFileDatasetClassification, self).__init__()
+
+class FromFileDatasetClassification(DataLoader):
+
+    def __init__(self, cf, image_txt, gt_txt, num_images, resize=None, preprocess=None, transform=None, valid=False):
+        super(FromFileDatasetClassification, self).__init__()
         self.cf = cf
         self.resize = resize
         self.transform = transform
@@ -50,7 +50,7 @@ class fromFileDatasetClassification(DataLoader):
 
     def __getitem__(self, idx):
         img_path = self.image_names[self.indexes[idx]]
-        img = np.asarray(self.Load_image(img_path, self.resize, self.cf.grayscale))
+        img = np.asarray(self.load_image(img_path, self.resize, self.cf.grayscale))
         gt = [self.gt[self.indexes[idx]]]
         if self.transform is not None:
             img, _ = self.transform(img, None)
