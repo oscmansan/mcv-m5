@@ -109,7 +109,7 @@ class SimpleTrainer(object):
                 # Read Data
                 inputs, labels = data
 
-                N, w, h, c = inputs.size()
+                n, w, h, c = inputs.size()
                 inputs = Variable(inputs).cuda()
                 self.inputs = inputs
                 self.labels = Variable(labels).cuda()
@@ -123,7 +123,7 @@ class SimpleTrainer(object):
                 self.compute_gradients()
 
                 # Compute batch stats
-                self.train_loss.update(float(self.loss.cpu().item()), N)
+                self.train_loss.update(float(self.loss.cpu().item()), n)
                 confm = compute_confusion_matrix(predictions, self.labels.cpu().data.numpy(), self.cf.num_classes,
                                                  self.cf.void_class)
                 self.confm_list = self.confm_list + confm

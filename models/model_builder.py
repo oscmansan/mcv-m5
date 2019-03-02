@@ -33,12 +33,28 @@ class ModelBuilder:
         self.best_stats = Statistics()
 
     def build(self):
-        # custom model
+        # Custom model
         if self.cf.pretrained_model.lower() == 'custom' and not self.cf.load_weight_only:
             self.net = self.restore_model()
             return self.net
-        # segmentation networks
-        if self.cf.model_type.lower() == 'densenetfcn':
+
+        # Classification networks
+        if self.cf.model_type.lower() == 'vgg16':
+            self.net = VGG16(self.cf, num_classes=self.cf.num_classes,
+                             pretrained=self.cf.basic_pretrained_model).cuda()
+        # Object detection networks
+        elif self.cf.model_type.lower() == 'ssd320':
+            self.net = SSD300(self.cf, num_classes=self.cf.num_classes,
+                              pretrained=self.cf.basic_pretrained_model).cuda()
+            self.box_coder = SSDBoxCoder(self.net)
+        elif self.cf.model_type.lower() == 'ssd512':
+            self.net = SSD512(self.cf, num_classes=self.cf.num_classes,
+                              pretrained=self.cf.basic_pretrained_model).cuda()
+            self.box_coder = SSDBoxCoder(self.net)
+        # elif self.cf.model_type.lower() == 'rpn':
+        #     self.net = RPN(self.cf, 512)
+        # Segmentation networks
+        elif self.cf.model_type.lower() == 'densenetfcn':
             self.net = FCDenseNet(self.cf, nb_layers_per_block=self.cf.model_layers,
                                   growth_rate=self.cf.model_growth,
                                   nb_dense_block=self.cf.model_blocks,
@@ -46,7 +62,8 @@ class ModelBuilder:
                                   n_classes=self.cf.num_classes,
                                   drop_rate=0, bottle_neck=False).cuda()
         elif self.cf.model_type.lower() == 'fcn8':
-            self.net = FCN8(self.cf, num_classes=self.cf.num_classes, pretrained=self.cf.basic_pretrained_model).cuda()
+            self.net = FCN8(self.cf, num_classes=self.cf.num_classes,
+                            pretrained=self.cf.basic_pretrained_model).cuda()
         elif self.cf.model_type.lower() == 'fcn8atonce':
             self.net = FCN8AtOnce(self.cf, num_classes=self.cf.num_classes,
                                   pretrained=self.cf.basic_pretrained_model).cuda()
@@ -59,25 +76,9 @@ class ModelBuilder:
         elif self.cf.model_type.lower() == 'deeplabv2':
             self.net = MS_Deeplab(self.cf, n_classes=self.cf.num_classes,
                                   pretrained=self.cf.basic_pretrained_model).cuda()
-        # object detection networks
-        # elif self.cf.model_type.lower() == 'rpn':
-        #     self.net = RPN(self.cf, 512)
-        elif self.cf.model_type.lower() == 'ssd320':
-            self.net = SSD300(self.cf, num_classes=self.cf.num_classes,
-                              pretrained=self.cf.basic_pretrained_model).cuda()
-            self.box_coder = SSDBoxCoder(self.net)
-        elif self.cf.model_type.lower() == 'ssd512':
-            self.net = SSD512(self.cf, num_classes=self.cf.num_classes,
-                              pretrained=self.cf.basic_pretrained_model).cuda()
-            self.box_coder = SSDBoxCoder(self.net)
-        # classification networks
-        elif self.cf.model_type.lower() == 'vgg16':
-            self.net = VGG16(self.cf, num_classes=self.cf.num_classes, pretrained=self.cf.basic_pretrained_model).cuda()
         else:
             raise ValueError('Unknown model')
 
-        # print(self.cf.resume_experiment)
-        # print((self.cf.pretrained_model.lower() == 'custom' and self.cf.load_weight_only))
         if self.cf.resume_experiment or (self.cf.pretrained_model.lower() == 'custom' and self.cf.load_weight_only):
             self.net.restore_weights(os.path.join(self.cf.input_model_path))
             if self.cf.resume_experiment:

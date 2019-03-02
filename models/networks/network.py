@@ -2,6 +2,7 @@ import os
 
 import numpy as np
 import wget
+
 import torch
 from torch import nn
 
@@ -48,25 +49,18 @@ class Net(nn.Module):
         return torch.from_numpy(weight).float()
 
     def load_basic_weights(self):
-        print("load basic weights")
-        if not os.path.exists(self.cf.basic_models_path):
-            os.makedirs(self.cf.basic_models_path)
-        filename = os.path.join(self.cf.basic_models_path, 'basic_' + self.net_name.lower() + '.pth')
+        os.makedirs(self.cf.basic_models_path, exist_ok=True)
+        filename = os.path.join(self.cf.basic_models_path, 'basic_{}.pth'.format(self.net_name.lower()))
         self.download_if_not_exist(filename)
         self.restore_weights(filename)
 
     def download_if_not_exist(self, filename):
         # Download the file if it does not exist
-        # print(self.url)
-        # print(not os.path.isfile(filename))
         if not os.path.isfile(filename) and self.url is not None:
-            print("downloading file")
             wget.download(self.url, filename)
-        else:
-            print("NOT downloading file")
 
     def restore_weights(self, filename):
-        print('\t Restoring weight from ' + filename)
+        print('Loading weights from ' + filename)
         if self.cf.model_type.lower() == 'ssd512':
             self.load_state_dict(torch.load(filename), strict=False)
         else:
@@ -77,13 +71,8 @@ class Net(nn.Module):
 
         for k, v in pretrained_dict.items():
             if v.size() != model_dict[k].size():
-                print('\t WARNING: Could not load layer ' + str(k) + ' with shape: ' + str(v.size()) + ' and ' + str(
-                    model_dict[k].size()))
+                print('WARNING: Could not load layer {} with shape: {} and {}'.format(k, v.size(), model_dict[k].size()))
             else:
                 model_dict[k] = v
 
         super(Net, self).load_state_dict(model_dict)
-
-    def restore_weights2(self, filename):
-        print('\t Restoring weight from ' + filename)
-        self.load_state_dict2(torch.load(os.path.join(filename))['model_state_dict'])

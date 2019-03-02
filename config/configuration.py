@@ -17,6 +17,7 @@ class Configuration:
             os.makedirs(self.exp_folder)
 
     def load(self):
+        print('Loading configuration...')
         if self.args.config_file is not None:
             # Read a user specific config File
             # cf = imp.load_source('config', self.args.config_file)

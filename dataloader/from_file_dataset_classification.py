@@ -14,14 +14,15 @@ class FromFileDatasetClassification(DataLoader):
         self.transform = transform
         self.preprocess = preprocess
         self.num_images = num_images
-        print("\t Images from: " + image_txt)
+
+        print("Loading images from: " + image_txt)
         with open(image_txt) as f:
             image_names = f.readlines()
         # remove whitespace characters like `\n` at the end of each line
         lines = [x.strip() for x in image_names]
         self.image_names = lines
 
-        print("\t gt from: " + gt_txt)
+        print("Loading labels from: " + gt_txt)
         with open(gt_txt) as f:
             gt = f.readlines()
         # remove whitespace characters like `\n` at the end of each line
@@ -32,14 +33,13 @@ class FromFileDatasetClassification(DataLoader):
             le = LabelEncoder()
             le.fit(cf.labels)
             cf.map_labels = dict(zip(cf.labels, le.transform(cf.labels)))
-
-        print(cf.labels)
-        print(cf.map_labels)
         self.gt = [cf.map_labels[line] for line in lines]
 
         if len(self.gt) != len(self.image_names):
-            raise ValueError('number of images != number GT images')
-        print("\t Images found: " + str(len(self.image_names)))
+            raise ValueError('number of images != number of labels')
+
+        print('Found {} images belonging to {} classes'.format(len(self.image_names), len(cf.labels)))
+
         if len(self.image_names) < self.num_images or self.num_images == -1:
             self.num_images = len(self.image_names)
         self.img_indexes = np.arange(len(self.image_names))

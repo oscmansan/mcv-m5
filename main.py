@@ -12,7 +12,6 @@ from utils.logger import Logger
 def main():
     start_time = time.time()
     # Prepare configuration
-    print('Loading configuration ...')
     config = Configuration()
     cf = config.load()
     # Enable log file
@@ -40,7 +39,6 @@ def main():
     if cf.train:
         model.net.train()  # enable dropout modules and others
         train_time = time.time()
-        # Dataloaders
         logger_debug.write('\n- Reading Train dataset: ')
         dataloader.build_train()
         if cf.valid_images_txt is not None and cf.valid_gt_txt is not None and cf.valid_samples_epoch != 0:
@@ -56,8 +54,8 @@ def main():
         logger_debug.write('\t Train step finished: %ds ' % train_time)
 
     if cf.validation:
-        valid_time = time.time()
         model.net.eval()
+        valid_time = time.time()
         if not cf.train:
             logger_debug.write('- Reading Validation dataset: ')
             dataloader.build_valid(cf.valid_samples, cf.valid_images_txt, cf.valid_gt_txt,
