@@ -1,10 +1,10 @@
 import os
-import sys
+
 import numpy as np
 import wget
 import torch
 from torch import nn
-sys.path.append('../')
+
 
 class Net(nn.Module):
     def __init__(self, cf):
@@ -51,7 +51,7 @@ class Net(nn.Module):
         print("load basic weights")
         if not os.path.exists(self.cf.basic_models_path):
             os.makedirs(self.cf.basic_models_path)
-        filename = os.path.join(self.cf.basic_models_path, 'basic_'+ self.net_name.lower() +'.pth')
+        filename = os.path.join(self.cf.basic_models_path, 'basic_' + self.net_name.lower() + '.pth')
         self.download_if_not_exist(filename)
         self.restore_weights(filename)
 

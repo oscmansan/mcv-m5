@@ -1,11 +1,12 @@
 import time
+
 from tasks.semanticSegmentator_manager import SemanticSegmentation_Manager
 from tasks.classification_manager import Classification_Manager
 from tasks.detection_manager import Detection_Manager
 from config.configuration import Configuration
-from models.model_builder import Model_builder
-from utils.logger import Logger
+from models.model_builder import ModelBuilder
 from dataloader.dataloader_builder import DataLoaderBuilder
+from utils.logger import Logger
 
 
 def main():
@@ -20,7 +21,7 @@ def main():
     logger_debug.write('\n ---------- Init experiment: ' + cf.exp_name + ' ---------- \n')
     # Model building
     logger_debug.write('- Building model: ' + cf.model_name + ' <--- ')
-    model = Model_builder(cf)
+    model = ModelBuilder(cf)
     model.build()
 
     # Problem type

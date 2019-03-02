@@ -1,11 +1,9 @@
+import os
 import copy
 import json
-import os
 
 import torch
 
-# from models.networks.detection.rpn import RPN
-from models.loss.loss_builder import LossBuilder
 from models.networks.classification.VGG16 import VGG16
 from models.networks.detection.ssd import SSD300
 from models.networks.detection.ssd import SSD512
@@ -15,13 +13,17 @@ from models.networks.segmentation.FCN8AtOnce import FCN8AtOnce
 from models.networks.segmentation.FCdenseNetTorch import FCDenseNet
 from models.networks.segmentation.deeplabv2_resnet import MS_Deeplab
 from models.networks.segmentation.deeplabv3plus_xception import DeepLabv3_xception
+# from models.networks.detection.rpn import RPN
+
+from models.loss.loss_builder import LossBuilder
 from models.optimizer.optimizer_builder import Optimizer_builder
 from models.scheduler.scheduler_builder import scheduler_builder
+
 from utils.ssd_box_coder import SSDBoxCoder
 from utils.statistics import Statistics
 
 
-class Model_builder():
+class ModelBuilder:
     def __init__(self, cf):
         self.cf = cf
         self.net = None
