@@ -1,9 +1,10 @@
-import cv2 as cv
-import matplotlib
-import numpy as np
-
-matplotlib.use('agg')
 import io
+
+import numpy as np
+import cv2 as cv
+
+import matplotlib
+matplotlib.use('agg')
 import matplotlib.pyplot as plt
 
 
@@ -64,7 +65,7 @@ def save_prediction(output_path, predictions, names):
         cv.imwrite(output_file, np.squeeze(predictions[img], axis=2))
 
 
-class Early_Stopping():
+class EarlyStopping:
     def __init__(self, cf):
         self.cf = cf
         self.best_loss_metric = float('inf')
@@ -73,8 +74,7 @@ class Early_Stopping():
         self.patience = self.cf.patience
         self.stop = False
 
-    def check(self, save_condition, train_mLoss, valid_mLoss=None,
-              mIoU_valid=None, mAcc_valid=None):
+    def check(self, save_condition, train_mLoss, valid_mLoss=None, mIoU_valid=None, mAcc_valid=None):
         if self.cf.stop_condition == 'train_loss':
             if train_mLoss < self.best_loss_metric:
                 self.best_loss_metric = train_mLoss

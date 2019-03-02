@@ -1,21 +1,19 @@
-import sys
-import time
-import numpy as np
 import os
 
-from metrics.metrics import compute_precision, compute_recall, compute_f1score, compute_accuracy, \
-    compute_confusion_matrix, extract_stats_from_confm
+import numpy as np
+
 from .simple_trainer_manager import SimpleTrainer
+from metrics.metrics import compute_precision, compute_recall, compute_f1score, compute_accuracy, extract_stats_from_confm
 from utils.tools import confm_metrics2image
 
 
-class Classification_Manager(SimpleTrainer):
+class ClassificationManager(SimpleTrainer):
     def __init__(self, cf, model):
-        super(Classification_Manager, self).__init__(cf, model)
+        super(ClassificationManager, self).__init__(cf, model)
 
     class train(SimpleTrainer.train):
         def __init__(self, logger_stats, model, cf, validator, stats, msg):
-            super(Classification_Manager.train, self).__init__(logger_stats, model, cf, validator, stats, msg)
+            super(ClassificationManager.train, self).__init__(logger_stats, model, cf, validator, stats, msg)
             if self.cf.resume_experiment:
                 self.msg.msg_stats_best = 'Best case: epoch = %d, acc= %.2f, precision= %.2f, recall= %.2f, ' \
                                           'f1score= %.2f, loss = %.5f\n' % (self.model.best_stats.epoch,
@@ -25,7 +23,7 @@ class Classification_Manager(SimpleTrainer):
                                                                             100 * self.model.best_stats.val.f1score,
                                                                             self.model.best_stats.val.loss)
 
-        def validate_epoch(self, valid_set, valid_loader, early_Stopping, epoch):
+        def validate_epoch(self, valid_set, valid_loader, early_stopping, epoch):
             if valid_set is not None and valid_loader is not None:
                 # Set model in validation mode
                 self.model.net.eval()
@@ -34,9 +32,8 @@ class Classification_Manager(SimpleTrainer):
 
                 # Early stopping checking
                 if self.cf.early_stopping:
-                    early_Stopping.check(self.stats.train.loss, self.stats.val.loss, self.stats.val.mIoU,
-                                         self.stats.val.acc)
-                    if early_Stopping.stop:
+                    early_stopping.check(self.stats.train.loss, self.stats.val.loss, self.stats.val.mIoU, self.stats.val.acc)
+                    if early_stopping.stop:
                         self.stop = True
 
                 # Set model in training mode
@@ -69,7 +66,7 @@ class Classification_Manager(SimpleTrainer):
 
     class validation(SimpleTrainer.validation):
         def __init__(self, logger_stats, model, cf, stats, msg):
-            super(Classification_Manager.validation, self).__init__(logger_stats, model, cf, stats, msg)
+            super(ClassificationManager.validation, self).__init__(logger_stats, model, cf, stats, msg)
 
         def compute_stats(self, confm_list, val_loss):
             TP_list, TN_list, FP_list, FN_list = extract_stats_from_confm(confm_list)
@@ -113,7 +110,7 @@ class Classification_Manager(SimpleTrainer):
 
     class predict(SimpleTrainer.predict):
         def __init__(self, logger_stats, model, cf):
-            super(Classification_Manager.predict, self).__init__(logger_stats, model, cf)
+            super(ClassificationManager.predict, self).__init__(logger_stats, model, cf)
             self.filename = os.path.join(self.cf.predict_path_output, 'predictions.txt')
             self.f = open(self.filename, 'w')
 

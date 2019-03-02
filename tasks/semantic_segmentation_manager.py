@@ -1,23 +1,23 @@
-import sys
-import time
-import numpy as np
 import os
-from PIL import Image
-import cv2 as cv
+import time
 
-from utils.tools import confm_metrics2image
-from metrics.metrics import compute_mIoU, compute_accuracy_segmentation, extract_stats_from_confm
+import numpy as np
+import cv2 as cv
+from PIL import Image
+
 from .simple_trainer_manager import SimpleTrainer
+from metrics.metrics import compute_mIoU, compute_accuracy_segmentation, extract_stats_from_confm
+from utils.tools import confm_metrics2image
 from utils.save_images import save_img
 
 
-class SemanticSegmentation_Manager(SimpleTrainer):
+class SemanticSegmentationManager(SimpleTrainer):
     def __init__(self, cf, model):
-        super(SemanticSegmentation_Manager, self).__init__(cf, model)
+        super(SemanticSegmentationManager, self).__init__(cf, model)
 
     class train(SimpleTrainer.train):
         def __init__(self, logger_stats, model, cf, validator, stats, msg):
-            super(SemanticSegmentation_Manager.train, self).__init__(logger_stats, model, cf, validator, stats, msg)
+            super(SemanticSegmentationManager.train, self).__init__(logger_stats, model, cf, validator, stats, msg)
             if self.cf.resume_experiment:
                 self.msg.msg_stats_best = 'Best case [%s]: epoch = %d, mIoU = %.2f, acc= %.2f, loss = %.5f\n' % (
                     self.cf.save_condition, self.model.best_stats.epoch, 100 * self.model.best_stats.val.mIoU,
@@ -79,7 +79,7 @@ class SemanticSegmentation_Manager(SimpleTrainer):
 
     class validation(SimpleTrainer.validation):
         def __init__(self, logger_stats, model, cf, stats, msg):
-            super(SemanticSegmentation_Manager.validation, self).__init__(logger_stats, model, cf, stats, msg)
+            super(SemanticSegmentationManager.validation, self).__init__(logger_stats, model, cf, stats, msg)
 
         def compute_stats(self, confm_list, val_loss):
             TP_list, TN_list, FP_list, FN_list = extract_stats_from_confm(confm_list)
@@ -133,7 +133,7 @@ class SemanticSegmentation_Manager(SimpleTrainer):
 
     class predict(SimpleTrainer.predict):
         def __init__(self, logger_stats, model, cf):
-            super(SemanticSegmentation_Manager.predict, self).__init__(logger_stats, model, cf)
+            super(SemanticSegmentationManager.predict, self).__init__(logger_stats, model, cf)
 
         def write_results(self, predictions, img_name, img_shape):
             path = os.path.join(self.cf.predict_path_output, img_name[0])

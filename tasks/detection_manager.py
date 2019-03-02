@@ -1,29 +1,30 @@
-import sys
-import subprocess
-import time
-import numpy as np
 import os
-import cv2 as cv
-import operator
 import math
-import torch
+import time
+import subprocess
+
+import numpy as np
+import cv2 as cv
 from PIL import Image
+
+import torch
 from torch.autograd import Variable
 import torch.nn.functional as F
 
 from .simple_trainer_manager import SimpleTrainer
 from metrics.metrics import compute_accuracy, compute_confusion_matrix, extract_stats_from_confm, compute_mIoU
-from utils.plot import compute_plot
 from metrics.object_detection import Compute_kitti_AP
+from utils.plot import compute_plot
+from utils.save_images import save_img
 
 
-class Detection_Manager(SimpleTrainer):
+class DetectionManager(SimpleTrainer):
     def __init__(self, cf, model):
-        super(Detection_Manager, self).__init__(cf, model)
+        super(DetectionManager, self).__init__(cf, model)
 
     class train(SimpleTrainer.train):
         def __init__(self, logger_stats, model, cf, validator, stats, msg):
-            super(Detection_Manager.train, self).__init__(logger_stats, model, cf, validator, stats, msg)
+            super(DetectionManager.train, self).__init__(logger_stats, model, cf, validator, stats, msg)
             if self.cf.resume_experiment:
                 self.msg.msg_stats_best = 'Best case [%s]: epoch = %d, mIoU = %.2f, acc= %.2f, loss = %.5f\n' % (
                     self.cf.save_condition, self.model.net.best_stats.epoch, 100 * self.model.net.best_stats.val.mIoU,
@@ -149,7 +150,7 @@ class Detection_Manager(SimpleTrainer):
 
     class validation(SimpleTrainer.validation):
         def __init__(self, logger_stats, model, cf, stats, msg):
-            super(Detection_Manager.validation, self).__init__(logger_stats, model, cf, stats, msg)
+            super(DetectionManager.validation, self).__init__(logger_stats, model, cf, stats, msg)
 
         def validation_loop(self, epoch, valid_loader, valid_set, bar, global_bar, save_folder=None):
             if epoch is None:
@@ -291,7 +292,7 @@ class Detection_Manager(SimpleTrainer):
 
     class predict(SimpleTrainer.predict):
         def __init__(self, logger_stats, model, cf):
-            super(Detection_Manager.predict, self).__init__(logger_stats, model, cf)
+            super(DetectionManager.predict, self).__init__(logger_stats, model, cf)
 
         def write_results(self, predictions, img_name, img_shape):
             path = os.path.join(self.cf.predict_path_output, img_name[0])

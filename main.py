@@ -1,8 +1,8 @@
 import time
 
-from tasks.semanticSegmentator_manager import SemanticSegmentation_Manager
-from tasks.classification_manager import Classification_Manager
-from tasks.detection_manager import Detection_Manager
+from tasks.classification_manager import ClassificationManager
+from tasks.detection_manager import DetectionManager
+from tasks.semantic_segmentation_manager import SemanticSegmentationManager
 from config.configuration import Configuration
 from models.model_builder import ModelBuilder
 from dataloader.dataloader_builder import DataLoaderBuilder
@@ -26,11 +26,11 @@ def main():
 
     # Problem type
     if cf.problem_type == 'segmentation':
-        problem_manager = SemanticSegmentation_Manager(cf, model)
+        problem_manager = SemanticSegmentationManager(cf, model)
     elif cf.problem_type == 'classification':
-        problem_manager = Classification_Manager(cf, model)
+        problem_manager = ClassificationManager(cf, model)
     elif cf.problem_type == 'detection':
-        problem_manager = Detection_Manager(cf, model)
+        problem_manager = DetectionManager(cf, model)
     else:
         raise ValueError('Unknown problem type')
 

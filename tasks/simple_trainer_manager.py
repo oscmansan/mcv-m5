@@ -1,15 +1,14 @@
-import math
+import os
 import sys
 import time
+import math
+
 import numpy as np
 import torch
-import operator
-import os
 from torch.autograd import Variable
 from tqdm import tqdm
 
-from utils.tools import AverageMeter, Early_Stopping
-from utils.ProgressBar import ProgressBar
+from utils.tools import AverageMeter, EarlyStopping
 from utils.logger import Logger
 from utils.statistics import Statistics
 from utils.messages import Messages
@@ -46,16 +45,15 @@ class SimpleTrainer(object):
             self.labels = None
             self.writer = SummaryWriter(os.path.join(cf.tensorboard_path, 'train'))
 
-        def start(self, train_loader, train_set, valid_set=None,
-                  valid_loader=None):
+        def start(self, train_loader, train_set, valid_set=None, valid_loader=None):
             self.train_num_batches = math.ceil(train_set.num_images / float(self.cf.train_batch_size))
-            self.val_num_batches = 0 if valid_set is None else math.ceil(valid_set.num_images / \
-                                                                         float(self.cf.valid_batch_size))
+            self.val_num_batches = 0 if valid_set is None else math.ceil(valid_set.num_images / float(self.cf.valid_batch_size))
+
             # Define early stopping control
             if self.cf.early_stopping:
-                early_Stopping = Early_Stopping(self.cf)
+                early_stopping = EarlyStopping(self.cf)
             else:
-                early_Stopping = None
+                early_stopping = None
 
             # Train process
             for epoch in tqdm(range(self.curr_epoch, self.cf.epochs + 1), desc='Epochs...', file=sys.stdout):
@@ -87,7 +85,7 @@ class SimpleTrainer(object):
                                                           'train_epoch_' + str(epoch) + '.json'))
 
                 # Validate epoch
-                self.validate_epoch(valid_set, valid_loader, early_Stopping, epoch)
+                self.validate_epoch(valid_set, valid_loader, early_stopping, epoch)
 
                 # Update scheduler
                 if self.model.scheduler is not None:
