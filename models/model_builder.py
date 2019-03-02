@@ -5,7 +5,7 @@ import os
 import torch
 
 # from models.networks.detection.rpn import RPN
-from models.loss.loss_builder import Loss_Builder
+from models.loss.loss_builder import LossBuilder
 from models.networks.classification.VGG16 import VGG16
 from models.networks.detection.ssd import SSD300
 from models.networks.detection.ssd import SSD512
@@ -87,7 +87,7 @@ class Model_builder():
 
         # Loss definition
         if self.loss is None:
-            self.loss = Loss_Builder(self.cf).build().cuda()
+            self.loss = LossBuilder(self.cf).build().cuda()
 
         # Optimizer definition
         self.optimizer = Optimizer_builder().build(self.cf, self.net)

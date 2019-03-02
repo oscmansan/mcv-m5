@@ -1,7 +1,9 @@
 import torch
-from detection_loss import Detection_Loss
 
-class SmoothL1Loss(Detection_Loss):
+from .detection_loss import DetectionLoss
+
+
+class SmoothL1Loss(DetectionLoss):
     def __init__(self, cf, weight=None, ignore_index=255):
         super(SmoothL1Loss, self).__init__(cf, weight, ignore_index)
 

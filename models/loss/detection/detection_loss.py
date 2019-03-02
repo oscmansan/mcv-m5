@@ -1,8 +1,9 @@
 import torch.nn as nn
 
-class Detection_Loss(nn.Module):
+
+class DetectionLoss(nn.Module):
     def __init__(self, cf, weight=None, ignore_index=255):
-        super(Detection_Loss, self).__init__()
+        super(DetectionLoss, self).__init__()
         self.cf = cf
         self.ignore_index = ignore_index
         self.loss_manager = None

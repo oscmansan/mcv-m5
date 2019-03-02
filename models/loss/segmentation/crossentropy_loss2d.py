@@ -1,11 +1,12 @@
-import torch.nn.functional as F
-import torch.nn as nn
 import torch
-from .semantic_loss import Semantic_Loss
+import torch.nn as nn
+import torch.nn.functional as F
 from torch.autograd import Variable
 
+from .semantic_loss import SemanticLoss
 
-class CrossEntropyLoss2d(Semantic_Loss):
+
+class CrossEntropyLoss2d(SemanticLoss):
     def __init__(self, cf, weight=None, ignore_index=255):
         super(CrossEntropyLoss2d, self).__init__(cf, weight, ignore_index)
         self.dropout_layer = nn.Dropout2d(p=0.3)
@@ -35,7 +36,7 @@ class CrossEntropyLoss2d(Semantic_Loss):
                                       ignore_index=self.ignore_index)
 
         loss = loss_fn_(F.log_softmax(inputs), targets)
-        return loss  # .mean()
+        return loss#.mean()
 
     def my_softmax(self, inputs):
         d, n, c, w, h = inputs.size()

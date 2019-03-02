@@ -1,8 +1,9 @@
 import torch.nn as nn
 
-class Classification_Loss(nn.Module):
+
+class ClassificationLoss(nn.Module):
     def __init__(self, cf, weight=None, ignore_index=255):
-        super(Classification_Loss, self).__init__()
+        super(ClassificationLoss, self).__init__()
         self.cf = cf
         self.ignore_index = ignore_index
         self.loss_manager = None
