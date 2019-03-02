@@ -1,25 +1,21 @@
-# System imports
 import os
-import sys
 from glob import glob
 
-# glob imports
 import numpy as np
 
-# matlplot imports
 import matplotlib
-
+matplotlib.use('agg')
 import matplotlib.pyplot as plt
 
 
 def comute_mAP_splitted(path='/data/104-1/Experiments/Faster_RCNN/models', dataset='kitti', net='res101',
-                        classes=['car', 'pedestrian'], scores=['easy', 'moderate', 'hard'], nThresholds=41,
+                        classes=['car', 'pedestrian'], scores=['easy', 'moderate', 'hard'], n_thresholds=41,
                         subeval=None):
-    nClasses = len(classes)
-    nScores = len(scores)
+    n_classes = len(classes)
+    n_scores = len(scores)
 
     if subeval is not None:
-        print('evaluation file: %s' % (subeval))
+        print('evaluation file: %s' % subeval)
         path_prefix = os.path.join(path, 'test', dataset, subeval, net)
     else:
         path_prefix = os.path.join(path, 'test', dataset, net)
@@ -30,9 +26,9 @@ def comute_mAP_splitted(path='/data/104-1/Experiments/Faster_RCNN/models', datas
     if len(epochs) == 0:
         return []
 
-    nEpochs = max(epochs)
+    n_epochs = max(epochs)
 
-    matrixScores = -1 * np.ones((nEpochs, nClasses, nScores, nThresholds))
+    matrix_scores = -1 * np.ones((n_epochs, n_classes, n_scores, n_thresholds))
 
     for epoch in epochs:
         for indx_class, eval_class in enumerate(classes):
@@ -41,56 +37,56 @@ def comute_mAP_splitted(path='/data/104-1/Experiments/Faster_RCNN/models', datas
                 filename = os.path.join(path_prefix, 'model_iter' + str(epoch), 'plot',
                                         eval_class + '_detection.txt')
                 with open(filename, 'r') as f:
-                    vLines = f.readlines()
-                    vLines = np.asarray([[float(number) for number in line.rstrip().split(' ')] for line in vLines])
-                    vLines = np.transpose(vLines)
-                matrixScores[epoch - 1, indx_class, 0, :] = np.transpose(vLines[2, :])
-                matrixScores[epoch - 1, indx_class, 1, :] = np.transpose(vLines[1, :])
-                matrixScores[epoch - 1, indx_class, 2, :] = np.transpose(vLines[3, :])
+                    v_lines = f.readlines()
+                    v_lines = np.asarray([[float(number) for number in line.rstrip().split(' ')] for line in v_lines])
+                    v_lines = np.transpose(v_lines)
+                matrix_scores[epoch - 1, indx_class, 0, :] = np.transpose(v_lines[2, :])
+                matrix_scores[epoch - 1, indx_class, 1, :] = np.transpose(v_lines[1, :])
+                matrix_scores[epoch - 1, indx_class, 2, :] = np.transpose(v_lines[3, :])
 
-    mean_scores = np.mean(matrixScores, axis=3)
+    mean_scores = np.mean(matrix_scores, axis=3)
     return mean_scores
 
 
 def plot_mIoU(vmIoU, legends, classes, scores, name_prefix):
     scores = []
     for indx_score, value_score in enumerate(scores):
-        accum_dataY = None
-        accum_dataX = None
+        accum_data_y = None
+        accum_data_x = None
         print(value_score)  # easy, moderate, hard
         for indx_class, value_class in enumerate(classes):
-            dataY = [np.asarray(mIoU)[:, indx_class, indx_score] if len(mIoU) > 0 else [] for mIoU in vmIoU]
-            best_data = [max(data) if len(mIoU) > 0 else 0 for data in dataY]
-            lens_data = [len(data) for data in dataY]
-            dataX = [range(1, len(data) + 1) for data in dataY]
+            data_y = [np.asarray(mIoU)[:, indx_class, indx_score] if len(mIoU) > 0 else [] for mIoU in vmIoU]
+            best_data = [max(data) if len(mIoU) > 0 else 0 for data in data_y]
+            lens_data = [len(data) for data in data_y]
+            data_x = [range(1, len(data) + 1) for data in data_y]
             filename = name_prefix + '_plot_' + value_class + '_' + value_score + '.png'
             title = name_prefix.split('/')[-1] + '_' + value_class + '_' + value_score
-            # plot_multiple_data(dataY, dataX, filename, title, legends)
-            if accum_dataY is None and accum_dataX is None:
-                accum_dataY = dataY
-                accum_dataX = dataX
+            # plot_multiple_data(data_y, data_x, filename, title, legends)
+            if accum_data_y is None and accum_data_x is None:
+                accum_data_y = data_y
+                accum_data_x = data_x
             else:
-                accum_dataY = [[el1 + el2 for (el1, el2) in zip(vX, ac_vX)] for (vX, ac_vX) in zip(dataY, accum_dataY)]
-                accum_dataX = [[el1 + el2 for (el1, el2) in zip(vX, ac_vX)] for (vX, ac_vX) in zip(dataX, accum_dataX)]
+                accum_data_y = [[el1 + el2 for (el1, el2) in zip(vX, ac_vX)] for (vX, ac_vX) in zip(data_y, accum_data_y)]
+                accum_data_x = [[el1 + el2 for (el1, el2) in zip(vX, ac_vX)] for (vX, ac_vX) in zip(data_x, accum_data_x)]
 
-        if accum_dataX is not None and accum_dataY is not None:
+        if accum_data_x is not None and accum_data_y is not None:
             filename = name_prefix + '_plot_mean_' + value_score + '.png'
             title = name_prefix.split('/')[-1] + '_mean_' + value_score
-            accum_dataX = [[el / len(classes) for el in v_x] for v_x in accum_dataX]
-            accum_dataY = [[el / len(classes) for el in v_x] for v_x in accum_dataY]
-            # plot_multiple_data(accum_dataY, accum_dataX, filename, title, legends)
+            accum_data_x = [[el / len(classes) for el in v_x] for v_x in accum_data_x]
+            accum_data_y = [[el / len(classes) for el in v_x] for v_x in accum_data_y]
+            # plot_multiple_data(accum_data_y, accum_data_x, filename, title, legends)
 
             if indx_score == 0:
-                best_indx = [np.argmax(np.asarray(data)) for data in accum_dataY]
-                best_epoch = [x[indx] for (x, indx) in zip(accum_dataX, best_indx)]
-            best_value = [y[indx] for (y, indx) in zip(accum_dataY, best_indx)]
+                best_indx = [np.argmax(np.asarray(data)) for data in accum_data_y]
+                best_epoch = [x[indx] for (x, indx) in zip(accum_data_x, best_indx)]
+            best_value = [y[indx] for (y, indx) in zip(accum_data_y, best_indx)]
             # print(legends) # Model name
             print(best_epoch)  # best epoch model
             # print(best_value) # best mean mAP  over each class
 
             for indx_class, value_class in enumerate(classes):
-                dataY = [np.asarray(mIoU)[:, indx_class, indx_score] if len(mIoU) > 0 else [] for mIoU in vmIoU]
-                value = [y[indx] for (y, indx) in zip(dataY, best_indx)]
+                data_y = [np.asarray(mIoU)[:, indx_class, indx_score] if len(mIoU) > 0 else [] for mIoU in vmIoU]
+                value = [y[indx] for (y, indx) in zip(data_y, best_indx)]
                 print(value_class)  # car, pedestrian, cyclist
                 print(value)  # best mAP per class
                 scores.append([value_class, value])
@@ -129,10 +125,10 @@ def compute_plot(cf, subeval=None):
     path = os.path.join(cf.exp_folder)  # '/data/104-1/Experiments/Detectron/Models'
     path_out = os.path.join(cf.exp_folder, '..', 'plots')  # '/data/104-1/Experiments/Detectron/plots'
     # Nets
-    vSourceDB = [cf.dataset]
-    vNets = [cf.model_type]
+    v_source_db = [cf.dataset]
+    v_nets = [cf.model_type]
 
-    vModels = [cf.model_name]
+    v_models = [cf.model_name]
     if subeval is not None:
         print(subeval)
 
@@ -141,7 +137,7 @@ def compute_plot(cf, subeval=None):
     classes = cf.labels
     scores = ['moderate', 'easy', 'hard']
 
-    nThresholds = 41
+    n_thresholds = 41
 
     path_out = os.path.join(path_out, title_prefix)
     # if not os.path.exists(path_out):
@@ -149,12 +145,12 @@ def compute_plot(cf, subeval=None):
 
     vmIoU = []
     legends = []
-    for model in vModels:
+    for model in v_models:
         model_path = os.path.join(path, model + '_' + cf.dataset)
-        for net in vNets:
-            for sourceDB in vSourceDB:
+        for net in v_nets:
+            for sourceDB in v_source_db:
                 mean_scores = comute_mAP_splitted(path=model_path, dataset=sourceDB, net=net, classes=classes,
-                                                  scores=scores, nThresholds=nThresholds, subeval=subeval)
+                                                  scores=scores, n_thresholds=n_thresholds, subeval=subeval)
                 if mean_scores:
                     vmIoU.append(mean_scores)
                     legends.append(os.path.join(model, net, sourceDB))
