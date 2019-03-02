@@ -1,15 +1,14 @@
-import torch
 import numpy as np
-import os
+import torch
 
-from .dataloader import Data_loader
+from .dataloader import DataLoader
 
 
-class fromFileDatasetDetection(Data_loader):
+class FromFileDatasetDetection(DataLoader):
 
     def __init__(self, cf, image_txt, gt_txt, num_images, resize=None,
                  preprocess=None, transform=None, valid=False, box_coder=None, resize_process=None):
-        super(fromFileDatasetDetection, self).__init__()
+        super(FromFileDatasetDetection, self).__init__()
         self.cf = cf
         self.box_coder = box_coder
         self.resize = resize

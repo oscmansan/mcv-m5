@@ -5,9 +5,8 @@
 #SBATCH --partition mhigh
 #SBATCH --qos masterhigh
 #SBATCH --gres gpu:1
-#SBATCH --chdir /home/grupo06/
-#SBATCH --output logs/%x_%u_%j.out
+#SBATCH --chdir /home/grupo06/m5-project
+#SBATCH --output ../logs/%x_%u_%j.out
 
 source venv/bin/activate
-cd m5-project
-python main.py --config_file config/classification_sample_vgg16_tt100k.yml
+python main.py --config_file config/classification_sample_vgg16_tt100k.yml --exp_name vgg16_tt100k

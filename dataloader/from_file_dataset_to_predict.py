@@ -1,8 +1,8 @@
 import numpy as np
-from .dataloader import Data_loader
+from .dataloader import DataLoader
 
 
-class fromFileDatasetToPredict(Data_loader):
+class fromFileDatasetToPredict(DataLoader):
 
     def __init__(self, cf, image_txt, num_images, resize,
                  preprocess=None):

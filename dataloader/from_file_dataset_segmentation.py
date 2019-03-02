@@ -1,14 +1,14 @@
-import numpy as np
 import torch
+import numpy as np
 
-from .dataloader import Data_loader
-from sklearn.preprocessing import LabelEncoder
+from .dataloader import DataLoader
 
-class fromFileDatasetClassification(Data_loader):
+
+class fromFileDatasetSegmentation(DataLoader):
 
     def __init__(self, cf, image_txt, gt_txt, num_images, resize=None,
                  preprocess=None, transform=None, valid=False):
-        super(fromFileDatasetClassification, self).__init__()
+        super(fromFileDatasetSegmentation, self).__init__()
         self.cf = cf
         self.resize = resize
         self.transform = transform
@@ -18,26 +18,12 @@ class fromFileDatasetClassification(Data_loader):
         with open(image_txt) as f:
             image_names = f.readlines()
         # remove whitespace characters like `\n` at the end of each line
-        lines = [x.strip() for x in image_names]
-        self.image_names = lines
-
-        print("\t gt from: " + gt_txt)
+        self.image_names = [x.strip() for x in image_names]
+        print("\t Gt from: " + gt_txt)
         with open(gt_txt) as f:
-            gt = f.readlines()
-        # remove whitespace characters like `\n` at the end of each line
-        lines = [x.strip() for x in gt]
-        if cf.labels is None:
-            cf.labels = tuple(set(lines))
-        if cf.map_labels is None:
-            le = LabelEncoder()
-            le.fit(cf.labels)
-            cf.map_labels = dict(zip(cf.labels, le.transform(cf.labels)))
-
-        print(cf.labels)
-        print(cf.map_labels)
-        self.gt = [cf.map_labels[line] for line in lines]
-
-        if len(self.gt) != len(self.image_names):
+            gt_names = f.readlines()
+        self.gt_names = [x.strip() for x in gt_names]
+        if len(self.gt_names) != len(self.image_names):
             raise ValueError('number of images != number GT images')
         print("\t Images found: " + str(len(self.image_names)))
         if len(self.image_names) < self.num_images or self.num_images == -1:
@@ -50,10 +36,15 @@ class fromFileDatasetClassification(Data_loader):
 
     def __getitem__(self, idx):
         img_path = self.image_names[self.indexes[idx]]
-        img = np.asarray(self.Load_image(img_path, self.resize, self.cf.grayscale))
-        gt = [self.gt[self.indexes[idx]]]
+        gt_path = self.gt_names[self.indexes[idx]]
+        img, _ = self.load_img(img_path, self.resize, self.cf.grayscale, order=1)
+        if self.cf.map_labels is not None:
+            gt, _ = self.cf.map_labels[self.load_img(gt_path, self.resize, grayscale=True, order=0)]
+        else:
+            gt, _ = self.load_img(gt_path, self.resize, grayscale=True, order=0)
         if self.transform is not None:
-            img, _ = self.transform(img, None)
+            img, gt = self.transform(img, gt)
+        # img = Image.fromarray(img.astype(np.uint8))
         if self.preprocess is not None:
             img = self.preprocess(img)
         gt = torch.from_numpy(np.array(gt, dtype=np.int32)).long()
