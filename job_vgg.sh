@@ -8,5 +8,5 @@
 #SBATCH --chdir /home/grupo06/m5-project
 #SBATCH --output ../logs/%x_%u_%j.out
 
-source venv/bin/activate
-python main.py --config_file config/classification_sample_vgg16_tt100k.yml --exp_name vgg16_tt100k
+source /home/grupo06/venv/bin/activate
+python main.py --exp_name vgg16_tt100k --config_file config/classification_sample_vgg16_tt100k.yml
