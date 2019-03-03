@@ -1,6 +1,6 @@
 # M5 Project: Scene Understanding for Autonomous Vehicles
 
-The goal of this project is to learn the basic concepts and techniques to build deep neural networks to detect, segment and recognize specific objects. These techniques will be applied to environment perception for autonomous vehicles, whereby the classes of interest with regard the three tasks will be pedestrians, vehiches, road, roadside, etc.
+The goal of this project is to learn the basic concepts and techniques to build deep neural networks to detect, segment and recognize specific objects. These techniques will be applied to environment perception for autonomous vehicles, whereby the classes of interest with regard the three tasks will be pedestrians, vehicles, road, roadside, etc.
 
 ## Team members
 
