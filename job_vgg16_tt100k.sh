@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-#SBATCH --job-name w1
+#SBATCH --job-name w2
 #SBATCH --ntasks 4
 #SBATCH --mem 16G
 #SBATCH --partition mhigh
