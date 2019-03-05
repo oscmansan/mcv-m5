@@ -1,12 +1,13 @@
-import numpy as np
-import random
-import torch
-import sys
 import math
-sys.path.append('../')
+import random
+
+import numpy as np
+import torch
+
 from utils.box import box_iou, box_clamp
 
-class CropSegSem(object):
+
+class CropSegSem:
     def __init__(self, cf):
         self.cf = cf
 
@@ -16,7 +17,7 @@ class CropSegSem(object):
             th, tw = self.cf.crop_train
             if w == tw and h == th:
                 return img, mask
-            elif tw>w and th>h:
+            elif tw > w and th > h:
                 diff_w = tw - w
                 marg_w_init = int(diff_w / 2)
                 marg_w_fin = diff_w - marg_w_init
@@ -34,16 +35,16 @@ class CropSegSem(object):
                 img = tmp_img
                 mask = tmp_mask
 
-            elif tw>w:
+            elif tw > w:
                 diff_w = tw-w
                 marg_w_init = int(diff_w/2)
                 marg_w_fin = diff_w - marg_w_init
-                tmp_img = np.zeros((th, tw ,3))
+                tmp_img = np.zeros((th, tw, 3))
                 tmp_mask = self.cf.void_class*np.ones((th, tw))
 
                 y1 = random.randint(0, h - th)
-                tmp_img[:,marg_w_init:tw - marg_w_fin] = img[y1:y1 + th,0:w]
-                tmp_mask[:,marg_w_init:tw - marg_w_fin] = mask[y1:y1 + th, 0:w]
+                tmp_img[:, marg_w_init:tw - marg_w_fin] = img[y1:y1 + th, 0:w]
+                tmp_mask[:, marg_w_init:tw - marg_w_fin] = mask[y1:y1 + th, 0:w]
 
                 img = tmp_img
                 mask = tmp_mask
@@ -69,12 +70,14 @@ class CropSegSem(object):
 
         return img, mask
 
-class CropObjDet(object):
+
+class CropObjDet:
+
     def __init__(self, cf):
         self.cf = cf
 
     def __call__(self, img, boxes, labels, min_scale=0.3, max_aspect_ratio=2.):
-        '''Randomly crop a PIL image.
+        """Randomly crop a PIL image.
 
         Args:
           img: (PIL.Image) image.
@@ -87,7 +90,7 @@ class CropObjDet(object):
           img: (PIL.Image) cropped image.
           boxes: (tensor) object boxes.
           labels: (tensor) object labels.
-        '''
+        """
         imw, imh = img.size
         params = [(0, 0, imw, imh)]  # crop roi (x,y,w,h) out
         for min_iou in (0, 0.1, 0.3, 0.5, 0.7, 0.9):

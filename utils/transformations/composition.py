@@ -1,5 +1,4 @@
-
-class ComposeSemSeg(object):
+class ComposeSemSeg:
     def __init__(self, transforms):
         self.transforms = transforms
 
@@ -8,7 +7,8 @@ class ComposeSemSeg(object):
             img, mask = t(img, mask)
         return img, mask
 
-class ComposeObjDet(object):
+
+class ComposeObjDet:
     def __init__(self, transforms):
         self.transforms = transforms
 
@@ -17,7 +17,8 @@ class ComposeObjDet(object):
             img, boxes, labels = t(img, boxes, labels)
         return img, boxes, labels
 
-class ComposeResize(object):
+
+class ComposeResize:
     def __init__(self, transforms):
         self.transforms = transforms
 

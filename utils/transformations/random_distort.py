@@ -1,12 +1,14 @@
 import random
+
 import torchvision.transforms as transforms
 
-class Random_distort(object):
+
+class RandomDistort:
     def __init__(self, cf):
         self.cf = cf
 
     def __call__(self, img, brightness_delta=32/255., contrast_delta=0.5, saturation_delta=0.5, hue_delta=0.1):
-        '''A color related data augmentation used in SSD.
+        """A color related data augmentation used in SSD.
 
         Args:
           img: (PIL.Image) image to be color augmented.
@@ -17,7 +19,7 @@ class Random_distort(object):
 
         Returns:
           img: (PIL.Image) color augmented image.
-        '''
+        """
         def brightness(img, delta):
             if random.random() < 0.5:
                 img = transforms.ColorJitter(brightness=delta)(img)

@@ -1,7 +1,8 @@
 import numpy as np
-import PIL
+from PIL import Image
 
-class rescale(object):
+
+class Rescale:
     def __init__(self, rescale):
         self.rescale = rescale
 
@@ -9,7 +10,7 @@ class rescale(object):
         return image * self.rescale
 
 
-class mean_norm(object):
+class MeanNorm:
     def __init__(self, mean):
         self.mean = np.asarray(mean, dtype=np.float32)
 
@@ -17,7 +18,7 @@ class mean_norm(object):
         return image - self.mean
 
 
-class std_norm(object):
+class StdNorm:
     def __init__(self, std):
         self.std = np.asarray(std, dtype=np.float32)
 
@@ -25,15 +26,15 @@ class std_norm(object):
         return image / (self.std + 1e-7)
 
 
-class preproces_input(object):
+class PreprocessInput:
     def __init__(self, cf):
         self.cf = cf
         if self.cf.rescale is not None:
-            self.rescale = rescale(self.cf.rescale)
+            self.rescale = Rescale(self.cf.rescale)
         if self.cf.mean is not None:
-            self.mean = mean_norm(self.cf.mean)
+            self.mean = MeanNorm(self.cf.mean)
         if self.cf.std is not None:
-            self.std = std_norm(self.cf.std)
+            self.std = StdNorm(self.cf.std)
 
     def __call__(self, image):
         if type(image).__name__ == 'Image':
@@ -48,5 +49,5 @@ class preproces_input(object):
         if self.cf.std is not None:
             image = self.std(image)
         if pil:
-            image = PIL.Image.fromarray(np.uint8(image))
+            image = Image.fromarray(np.uint8(image))
         return image
