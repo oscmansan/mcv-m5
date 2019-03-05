@@ -18,15 +18,13 @@ class FromFileDatasetClassification(DataLoader):
         print("Loading images from: " + image_txt)
         with open(image_txt) as f:
             image_names = f.readlines()
-        # remove whitespace characters like `\n` at the end of each line
-        lines = [x.strip() for x in image_names]
+        lines = [x.strip() for x in image_names]  # remove whitespace characters like `\n` at the end of each line
         self.image_names = lines
 
         print("Loading labels from: " + gt_txt)
         with open(gt_txt) as f:
             gt = f.readlines()
-        # remove whitespace characters like `\n` at the end of each line
-        lines = [x.strip() for x in gt]
+        lines = [x.strip() for x in gt]  # remove whitespace characters like `\n` at the end of each line
         if cf.labels is None:
             cf.labels = tuple(set(lines))
         if cf.map_labels is None:

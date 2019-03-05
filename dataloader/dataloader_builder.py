@@ -60,7 +60,7 @@ class DataLoaderBuilder:
                                                       transform=self.train_transformation,
                                                       box_coder=self.model.box_coder,
                                                       resize_process=self.resize)
-        self.train_loader = DataLoader(self.train_set, batch_size=self.cf.train_batch_size, num_workers=8)
+        self.train_loader = DataLoader(self.train_set, batch_size=self.cf.train_batch_size, num_workers=4)
 
     def build_valid(self, valid_samples, images_txt, gt_txt, resize_image, batch_size):
         if self.cf.problem_type == 'segmentation':
@@ -81,10 +81,10 @@ class DataLoaderBuilder:
                                                       transform=None,
                                                       valid=True,
                                                       resize_process=self.resize)
-        self.valid_loader = DataLoader(self.valid_set, batch_size=batch_size, num_workers=8)
+        self.valid_loader = DataLoader(self.valid_set, batch_size=batch_size, num_workers=4)
 
     def build_predict(self):
         self.predict_set = FromFileDatasetToPredict(self.cf, self.cf.test_images_txt,
                                                     self.cf.test_samples, self.cf.resize_image_test,
                                                     preprocess=self.img_preprocessing)
-        self.predict_loader = DataLoader(self.predict_set, batch_size=1, num_workers=8)
+        self.predict_loader = DataLoader(self.predict_set, batch_size=1, num_workers=4)

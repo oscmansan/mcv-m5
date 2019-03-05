@@ -11,7 +11,7 @@ input_model_path            : null  # Path and pretrained file to load [None use
 load_weight_only            : True  # Recomended true, loads only weights and parameters
 
 # Save options
-save_weight_only            : True  # Recomended true, stores only weights and parameters
+save_weight_only            : True  # Recommended true, stores only weights and parameters
 model_name                  : 'VGG16'  # Name of the model to store
 output_model_path           : null  # Path to store the model using model_name [None uses the default experiment path]
 basic_models_path           : null
@@ -39,7 +39,7 @@ resize_image_train          : !!python/tuple [224, 224]
 resize_image_valid          : !!python/tuple [224, 224]
 resize_image_test           : !!python/tuple [224, 224]
 crop_train                  : null
-grayscale                   : False  # Use this option to convert to rgb a grascale dataset
+grayscale                   : False  # Use this option to convert to rgb a grayscale dataset
 
 # Dataset properties
 train_images_txt            : '/home/mcv/datasets/M5/classification/TT100K_trafficSigns/TT100K_trafficSigns_train_images.txt'
@@ -72,7 +72,7 @@ weight_decay                : 5.0e-4
 
 # Scheduler
 scheduler                   : 'MultiStep' # ['ReduceLROnPlateau','Step','MultiStep','Exponential', None]
-decay                       : 0.1  # Learnng rate decay to apply (lr*decay)
+decay                       : 0.1  # Learning rate decay to apply (lr*decay)
 sched_patience              : 5  # ReduceLROnPlateau option: epoch patience without loss change until a lr decrement
 step_size                   : 20  # Step option: epoch counter to decrease lr
 milestone                   : !!python/tuple [10]  # MultiStep option: define different milestones (epochs) to decrease lr
