@@ -47,15 +47,15 @@ grayscale                   : False #Use this option to convert to rgb a grascal
 
 # Dataset properties
 
-train_images_txt            : '/home/mcv/datasets/M5/classification/TT100K_trafficSigns/TT100K_trafficSigns_train_images.txt'
-train_gt_txt                : '/home/mcv/datasets/M5/classification/TT100K_trafficSigns/TT100K_trafficSigns_train_gt.txt'
-valid_images_txt            : '/home/mcv/datasets/M5/classification/TT100K_trafficSigns/TT100K_trafficSigns_valid_images.txt'
-valid_gt_txt                : '/home/mcv/datasets/M5/classification/TT100K_trafficSigns/TT100K_trafficSigns_valid_gt.txt'
-test_images_txt             : '/home/mcv/datasets/M5/classification/TT100K_trafficSigns/TT100K_trafficSigns_test_images.txt'
-test_gt_txt                 : '/home/mcv/datasets/M5/classification/TT100K_trafficSigns/TT100K_trafficSigns_test_gt.txt'
+train_images_txt            : '/datatmp/Datasets/classification/tsinghua_cropped/cropped_data/ge100_train_rgb.txt'
+train_gt_txt                : '/datatmp/Datasets/classification/tsinghua_cropped/cropped_data/ge100_train_gt.txt'
+valid_images_txt            : '/datatmp/Datasets/classification/tsinghua_cropped/cropped_data/ge100_val_rgb.txt'
+valid_gt_txt                : '/datatmp/Datasets/classification/tsinghua_cropped/cropped_data/ge100_val_gt.txt'
+test_images_txt             : '/datatmp/Datasets/classification/tsinghua_cropped/cropped_data/ge100_val_rgb.txt'
+test_gt_txt                 : '/datatmp/Datasets/classification/tsinghua_cropped/cropped_data/ge100_val_gt.txt'
 
-labels                      : !!python/list ['pm30', 'w32', 'pl60', 'p6', 'pl30', 'ip', 'pne', 'p11', 'p12', 'pm55', 'w57', 'p10', 'pm20', 'pn', 'pl100', 'p3', 'i1', 'p5', 'ph4', 'w59', 'p23', 'pl40', 'il80', 'po', 'p19', 'ph4.5', 'p27', 'pl120', 'pl20', 'wo', 'io', 'pg', 'pl5', 'pl50', 'p26', 'il60', 'pr40', 'i4', 'il100', 'i5', 'ph5', 'pl80', 'pl70', 'w55', 'w13']
-map_labels                  : null
+labels                      : !!python/tuple ['i2','i4','i5','il100','il60','il80','io','ip','p10','p11','p12','p19','p23','p26','p27','p3','p5','p6','pg','ph4.5','ph4','ph5','pl100','pl120','pl20','pl30','pl40','pl50','pl5','pl60','pl70','pl80','pm20','pm30','pm55','pne','pn','po','pr40','w13','w32','w55','w57','w59','wo']
+map_labels                  : !!python/dict {'i2': 0,'i4': 1,'i5': 2,'il100': 3,'il60': 4,'il80': 5,'io': 6,'ip': 7,'p10': 8,'p11': 9,'p12': 10,'p19': 11,'p23': 12,'p26': 13,'p27': 14,'p3': 15,'p5': 16,'p6': 17,'pg': 18,'ph4.5': 19,'ph4': 20,'ph5': 21,'pl100': 22,'pl120': 23,'pl20': 24,'pl30': 25,'pl40': 26,'pl50': 27,'pl5': 28,'pl60': 29,'pl70': 30,'pl80': 31,'pm20': 32,'pm30': 33,'pm55': 34,'pne': 35,'pn': 36,'po': 37,'pr40': 38,'w13': 39,'w32': 40,'w55': 41,'w57': 42,'w59': 43,'wo': 44}
 
 num_classes                 : 45
 shuffle                     : True
