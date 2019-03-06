@@ -8,10 +8,10 @@ import torch
 from torch.autograd import Variable
 from tqdm import tqdm
 
-from src.utils.tools import AverageMeter, EarlyStopping
+from utils.tools import AverageMeter, EarlyStopping
 from utils.logger import Logger
 from utils.statistics import Statistics
-from src.utils.messages import Messages
+from utils.messages import Messages
 from metrics.metrics import compute_accuracy, compute_confusion_matrix, extract_stats_from_confm
 from tensorboardX import SummaryWriter
 
@@ -109,7 +109,7 @@ class SimpleTrainer(object):
                 # Read Data
                 inputs, labels = data
 
-                n, w, h, c = inputs.size()
+                n, c, w, h = inputs.size()
                 inputs = Variable(inputs).cuda()
                 self.inputs = inputs
                 self.labels = Variable(labels).cuda()

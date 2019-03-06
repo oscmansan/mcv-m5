@@ -6,8 +6,8 @@ import numpy as np
 
 sys.path.append('../')
 from utils.generate_anchors import generate_anchors
-from src.utils.bbox_transform import bbox_transform_inv, clip_boxes
-from src.utils.nms.nms_wrapper import nms
+from utils.bbox_transform import bbox_transform_inv, clip_boxes
+from utils.nms.nms_wrapper import nms
 
 class ProposalLayer(nn.Module):
     """
