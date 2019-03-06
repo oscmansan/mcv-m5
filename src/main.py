@@ -1,15 +1,18 @@
 import time
 
+import torch
+
+from config.configuration import Configuration
+from dataloader.dataloader_builder import DataLoaderBuilder
+from models.model_builder import ModelBuilder
 from tasks.classification_manager import ClassificationManager
 from tasks.detection_manager import DetectionManager
 from tasks.semantic_segmentation_manager import SemanticSegmentationManager
-from config.configuration import Configuration
-from models.model_builder import ModelBuilder
-from dataloader.dataloader_builder import DataLoaderBuilder
 from utils.logger import Logger
 
 
 def main():
+    print('Using GPU: ', torch.cuda.get_device_name(0))
     start_time = time.time()
     # Prepare configuration
     config = Configuration()
