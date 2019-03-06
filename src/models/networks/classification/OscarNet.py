@@ -8,8 +8,8 @@ class OscarNet(Net):
     def __init__(self, cf, num_classes=21, pretrained=False, net_name='oscarnet'):
         super(OscarNet, self).__init__(cf)
 
-        self.url = ''
-        self.pretrained = pretrained
+        self.url = None
+        self.pretrained = False
         self.net_name = net_name
 
         self.features = nn.Sequential(

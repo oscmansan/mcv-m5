@@ -10,8 +10,8 @@ class VGG16Torch(Net):
     def __init__(self, cf: EasyDict, num_classes: int = 21, pretrained: bool = False, net_name: str = 'vgg16torch'):
         super().__init__(cf)
 
-        self.url = 'http://datasets.cvc.uab.es/models/pytorch/basic_vgg16.pth'
-        self.pretrained = pretrained
+        self.url = None
+        self.pretrained = False
         self.net_name = net_name
 
         self.model = models.vgg16(pretrained=False, num_classes=num_classes)

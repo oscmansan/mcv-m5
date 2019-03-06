@@ -8,8 +8,8 @@ class Inception(Net):
     def __init__(self, cf, num_classes=21, pretrained=False, net_name='inception'):
         super(Inception, self).__init__(cf)
 
-        self.url = ''
-        self.pretrained = pretrained
+        self.url = None
+        self.pretrained = False
         self.net_name = net_name
 
         if pretrained:
