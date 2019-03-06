@@ -104,7 +104,7 @@ class DataLoaderBuilder:
 
     def build_predict(self):
         if self.cf.problem_type == 'classification' and self.cf.test_dataset_path is not None:
-            self.valid_set = FromDatasetStructure(self.cf, self.cf.test_dataset_path, self.cf.resize_image_test,
+            self.predict_set = FromDatasetStructure(self.cf, self.cf.test_dataset_path, self.cf.resize_image_test,
                                                   preprocess=self.img_preprocessing,)
         else:
             self.predict_set = FromFileDatasetToPredict(self.cf, self.cf.test_images_txt,
