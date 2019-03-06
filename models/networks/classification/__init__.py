@@ -1,3 +1,3 @@
-from .VGG16Pytorch import  VGG16Pytorch
+from .VGG16Torch import  VGG16Torch
 from .VGG16 import VGG16
-from .ResNet import ResNet152
+from .Inception import ResNet152
