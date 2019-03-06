@@ -13,7 +13,7 @@ class ResNet152(Net):
 
         if pretrained:
             self.model = models.resnet152(pretrained=True)
-            self.model.fc = nn.Linear(512, num_classes)
+            self.model.fc = nn.Linear(2048, num_classes)
         else:
             self.model = models.resnet152(pretrained=False, num_classes=num_classes)
 
