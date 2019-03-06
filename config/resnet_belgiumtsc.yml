@@ -6,7 +6,7 @@ model_type                  : 'resnet'   # Options: ['DenseNetFCN', 'FCN8']
 
 ### load/store options
 resume_experiment           : False
-pretrained_model            : 'basic'  # 'None': from scratch, 'basic': pretraned from imagenet, 'custom': personal model
+pretrained_model            : 'None'  # 'None': from scratch, 'basic': pretraned from imagenet, 'custom': personal model
 input_model_path            : null  # Path and pretrained file to load [None uses experiment path and model name by default]
 load_weight_only            : True  # Recomended true, loads only weights and parameters
 
