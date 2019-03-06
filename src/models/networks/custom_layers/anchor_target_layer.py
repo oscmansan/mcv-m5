@@ -6,7 +6,7 @@ import numpy as np
 
 sys.path.append('../')
 from utils.generate_anchors import generate_anchors
-from utils.bbox_transform import clip_boxes, bbox_overlaps_batch, bbox_transform_batch
+from src.utils.bbox_transform import bbox_overlaps_batch, bbox_transform_batch
 
 class AnchorTargetLayer(nn.Module):
     """

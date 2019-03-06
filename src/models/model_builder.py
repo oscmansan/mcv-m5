@@ -49,6 +49,13 @@ class ModelBuilder:
         elif self.cf.model_type.lower() == 'resnet':
             self.net = ResNet152(self.cf, num_classes=self.cf.num_classes,
                                  pretrained=self.cf.basic_pretrained_model).cuda()
+        elif self.cf.model_type.lower() == 'densenet161':
+            self.net = DenseNet161(self.cf, num_classes=self.cf.num_classes,
+                                   pretrained=self.cf.basic_pretrained_model).cuda()
+        elif self.cf.model_type.lower() == 'inception':
+            self.net = Inception(self.cf, num_classes=self.cf.num_classes,
+                                 pretrained=self.cf.basic_pretrained_model).cuda()
+
         # Object detection networks
         elif self.cf.model_type.lower() == 'ssd320':
             self.net = SSD300(self.cf, num_classes=self.cf.num_classes,
