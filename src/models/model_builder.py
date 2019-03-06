@@ -43,7 +43,7 @@ class ModelBuilder:
         if self.cf.model_type.lower() == 'vgg16':
             self.net = VGG16(self.cf, num_classes=self.cf.num_classes,
                              pretrained=self.cf.basic_pretrained_model).cuda()
-        elif self.cf.model_type.lower() == 'vgg16pytorch':
+        elif self.cf.model_type.lower() == 'vgg16torch':
             self.net = VGG16Torch(self.cf, num_classes=self.cf.num_classes,
                                   pretrained=self.cf.basic_pretrained_model).cuda()
         elif self.cf.model_type.lower() == 'resnet':

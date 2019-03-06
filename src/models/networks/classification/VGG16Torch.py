@@ -10,11 +10,8 @@ class VGG16Torch(Net):
     def __init__(self, cf: EasyDict, num_classes: int = 21, pretrained: bool = False, net_name: str = 'vgg16torch'):
         super().__init__(cf)
 
-        self.url = None
-        self.pretrained = False
+        self.pretrained = pretrained
         self.net_name = net_name
-
-        self.model = models.vgg16(pretrained=False, num_classes=num_classes)
 
         if pretrained:
             self.model = models.vgg16(pretrained=True)
@@ -24,3 +21,6 @@ class VGG16Torch(Net):
 
     def forward(self, x):
         return self.model.forward(x)
+
+    def load_basic_weights(self):
+        pass
