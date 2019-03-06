@@ -109,7 +109,7 @@ class SimpleTrainer(object):
                 # Read Data
                 inputs, labels = data
 
-                n, w, h, c = inputs.size()
+                n, c, w, h = inputs.size()
                 inputs = Variable(inputs).cuda()
                 self.inputs = inputs
                 self.labels = Variable(labels).cuda()

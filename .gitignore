@@ -6,3 +6,4 @@ config/tmp_*
 datasets
 venv
 pretrained_model
+*_local.yml

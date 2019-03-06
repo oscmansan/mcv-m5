@@ -18,7 +18,7 @@ from models.networks.segmentation.deeplabv3plus_xception import DeepLabv3_xcepti
 from models.loss.loss_builder import LossBuilder
 from models.optimizer.optimizer_builder import OptimizerBuilder
 from models.scheduler.scheduler_builder import SchedulerBuilder
-from models.networks.classification import VGG16Pytorch, ResNet152
+from models.networks.classification import VGG16Torch, ResNet152
 
 from utils.ssd_box_coder import SSDBoxCoder
 from utils.statistics import Statistics
@@ -44,8 +44,8 @@ class ModelBuilder:
             self.net = VGG16(self.cf, num_classes=self.cf.num_classes,
                              pretrained=self.cf.basic_pretrained_model).cuda()
         elif self.cf.model_type.lower() == 'vgg16pytorch':
-            self.net = VGG16Pytorch(self.cf, num_classes=self.cf.num_classes,
-                                    pretrained=self.cf.basic_pretrained_model).cuda()
+            self.net = VGG16Torch(self.cf, num_classes=self.cf.num_classes,
+                                  pretrained=self.cf.basic_pretrained_model).cuda()
         elif self.cf.model_type.lower() == 'resnet':
             self.net = ResNet152(self.cf, num_classes=self.cf.num_classes,
                                  pretrained=self.cf.basic_pretrained_model).cuda()
