@@ -42,6 +42,9 @@ crop_train                  : null
 grayscale                   : False  # Use this option to convert to rgb a grayscale dataset
 
 # Dataset properties
+train_dataset_path          : null
+valid_dataset_path          : null
+test_dataset_path           : null
 train_images_txt            : '/home/mcv/datasets/M5/classification/TT100K_trafficSigns/TT100K_trafficSigns_train_images.txt'
 train_gt_txt                : '/home/mcv/datasets/M5/classification/TT100K_trafficSigns/TT100K_trafficSigns_train_gt.txt'
 valid_images_txt            : '/home/mcv/datasets/M5/classification/TT100K_trafficSigns/TT100K_trafficSigns_valid_images.txt'
