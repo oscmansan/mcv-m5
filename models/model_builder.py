@@ -18,7 +18,7 @@ from models.networks.segmentation.deeplabv3plus_xception import DeepLabv3_xcepti
 from models.loss.loss_builder import LossBuilder
 from models.optimizer.optimizer_builder import OptimizerBuilder
 from models.scheduler.scheduler_builder import SchedulerBuilder
-from networks.classification import VGG16Pytorch, ResNet152
+from models.networks.classification import VGG16Pytorch, ResNet152
 
 from utils.ssd_box_coder import SSDBoxCoder
 from utils.statistics import Statistics
