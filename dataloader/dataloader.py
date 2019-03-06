@@ -15,7 +15,7 @@ class DataLoader(Dataset):
     def __len__(self):
         pass
 
-    def __getitem__(self):
+    def __getitem__(self, idx):
         pass
 
     # List the subdirectories in a directory

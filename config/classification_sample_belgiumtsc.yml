@@ -28,9 +28,9 @@ valid_samples               : -1
 #-1 uses all the data available inside the dataset files
 test_samples                : -1
 #-1 uses all the data available inside the dataset files
-train_batch_size            : 3
-valid_batch_size            : 3
-test_batch_size             : 3
+train_batch_size            : 40
+valid_batch_size            : 40
+test_batch_size             : 40
 train                       : True
 validation                  : True
 test                        : True # Calculate metrics on test giving the gt
@@ -43,18 +43,21 @@ resize_image_train          : !!python/tuple [224, 224]
 resize_image_valid          : !!python/tuple [224, 224]
 resize_image_test           : !!python/tuple [224, 224]
 crop_train                  : null
-grayscale                   : False #Use this option to convert to rgb a grayscale dataset
+grayscale                   : False #Use this option to convert to rgb a grascale dataset
 
 # Dataset properties
 
-train_images_txt            : 'datasets/TT100K_trafficSigns/min_TT100K_trafficSigns_train_images.txt'
-train_gt_txt                : 'datasets/TT100K_trafficSigns/min_TT100K_trafficSigns_train_gt.txt'
-valid_images_txt            : 'datasets/TT100K_trafficSigns/min_TT100K_trafficSigns_valid_images.txt'
-valid_gt_txt                : 'datasets/TT100K_trafficSigns/min_TT100K_trafficSigns_valid_gt.txt'
-test_images_txt             : 'datasets/TT100K_trafficSigns/min_TT100K_trafficSigns_test_images.txt'
-test_gt_txt                 : 'datasets/TT100K_trafficSigns/min_TT100K_trafficSigns_test_gt.txt'
+train_dataset_path          : '/home/mcv/datasets/M5/classification/BelgiumTSC/train'
+valid_dataset_path          : '/home/mcv/datasets/M5/classification/BelgiumTSC/valid'
+test_dataset_path           : '/home/mcv/datasets/M5/classification/BelgiumTSC/test'
+train_images_txt            : null
+train_gt_txt                : null
+valid_images_txt            : null
+valid_gt_txt                : null
+test_images_txt             : null
+test_gt_txt                 : null
 
-labels                      : !!python/list ['pm30', 'w32', 'pl60', 'p6', 'pl30', 'ip', 'pne', 'p11', 'p12', 'pm55', 'w57', 'p10', 'pm20', 'pn', 'pl100', 'p3', 'i1', 'p5', 'ph4', 'w59', 'p23', 'pl40', 'il80', 'po', 'p19', 'ph4.5', 'p27', 'pl120', 'pl20', 'wo', 'io', 'pg', 'pl5', 'pl50', 'p26', 'il60', 'pr40', 'i4', 'il100', 'i5', 'ph5', 'pl80', 'pl70', 'w55', 'w13']
+labels                      : null
 map_labels                  : null
 
 num_classes                 : 45
