@@ -18,7 +18,7 @@ from models.networks.segmentation.deeplabv3plus_xception import DeepLabv3_xcepti
 from models.loss.loss_builder import LossBuilder
 from models.optimizer.optimizer_builder import OptimizerBuilder
 from models.scheduler.scheduler_builder import SchedulerBuilder
-from models.networks.classification import VGG16Torch, ResNet152, DenseNet161, Inception
+from models.networks.classification import VGG16Torch, ResNet152, DenseNet161, Inception, OscarNet
 
 from utils.ssd_box_coder import SSDBoxCoder
 from utils.statistics import Statistics
@@ -55,6 +55,9 @@ class ModelBuilder:
         elif self.cf.model_type.lower() == 'inception':
             self.net = Inception(self.cf, num_classes=self.cf.num_classes,
                                  pretrained=self.cf.basic_pretrained_model).cuda()
+        elif self.cf.model_type.lower() == 'oscarnet':
+            self.net = OscarNet(self.cf, num_classes=self.cf.num_classes,
+                                pretrained=self.cf.basic_pretrained_model).cuda()
 
         # Object detection networks
         elif self.cf.model_type.lower() == 'ssd320':

@@ -8,4 +8,4 @@
 #SBATCH --output ../logs/%x_%u_%j.out
 
 source /home/grupo06/venv/bin/activate
-python src/main.py --exp_name vgg16_tt100k_${SLURM_JOB_ID} --config_file config/vgg16_kitti.yml
+python src/main.py --exp_name vgg16_kitti_${SLURM_JOB_ID} --config_file config/vgg16_kitti.yml

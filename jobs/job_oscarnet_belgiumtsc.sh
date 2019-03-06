@@ -8,4 +8,4 @@
 #SBATCH --output ../logs/%x_%u_%j.out
 
 source /home/grupo06/venv/bin/activate
-python src/main.py --exp_name vgg16torch_belgiumtsc_${SLURM_JOB_ID} --config_file config/vgg16torch_belgiumtsc.yml
+python src/main.py --exp_name oscarnet_belgiumtsc_${SLURM_JOB_ID} --config_file config/oscarnet_belgiumtsc.yml
