@@ -64,10 +64,6 @@ class SimpleTrainer(object):
                 epoch_time = time.time()
                 self.logger_stats.write('\t ------ Epoch: ' + str(epoch) + ' ------ \n')
 
-                # Initialize epoch progress bar
-                self.msg.accum_str = '\n\nEpoch %d/%d estimated time...\n' % \
-                                     (epoch, self.cf.epochs)
-
                 # Initialize stats
                 self.stats.epoch = epoch
                 self.train_loss = AverageMeter()
