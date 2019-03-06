@@ -8,11 +8,11 @@ import torch
 from torch.autograd import Variable
 from tqdm import tqdm
 
-from utils.tools import AverageMeter, EarlyStopping
+from src.utils.tools import AverageMeter, EarlyStopping
 from utils.logger import Logger
 from utils.statistics import Statistics
-from utils.messages import Messages
-from metrics.metrics import compute_accuracy, compute_confusion_matrix, extract_stats_from_confm, compute_mIoU
+from src.utils.messages import Messages
+from metrics.metrics import compute_accuracy, compute_confusion_matrix, extract_stats_from_confm
 from tensorboardX import SummaryWriter
 
 

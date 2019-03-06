@@ -1,13 +1,13 @@
 from torch.utils.data import DataLoader
 import torchvision.transforms as standard_transforms
 
-from utils.transformations.composition import ComposeSemSeg, ComposeObjDet, ComposeResize
-from utils.transformations.crop import CropSegSem, CropObjDet
-from utils.transformations.flip import RandomHorizontalFlipSegSem, RandomHorizontalFlipObjDet
-from utils.transformations.input_preprocess import PreprocessInput
-from utils.transformations.random_distort import RandomDistort
-from utils.transformations.resize import Resize
-from utils.transformations.tensor import ToTensor
+from src.utils.transformations import ComposeSemSeg, ComposeObjDet, ComposeResize
+from src.utils.transformations.crop import CropSegSem, CropObjDet
+from src.utils.transformations import RandomHorizontalFlipSegSem, RandomHorizontalFlipObjDet
+from src.utils.transformations import PreprocessInput
+from src.utils.transformations import RandomDistort
+from src.utils.transformations import Resize
+from src.utils.transformations import ToTensor
 
 from .from_file_dataset_classification import FromFileDatasetClassification
 from .from_file_dataset_detection import FromFileDatasetDetection

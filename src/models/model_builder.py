@@ -4,21 +4,21 @@ import json
 
 import torch
 
-from models.networks.classification.VGG16 import VGG16
+from src.models.networks.classification import VGG16
 from models.networks.detection.ssd import SSD300
 from models.networks.detection.ssd import SSD512
 from models.networks.segmentation.DeepLabv3plus import DeepLabv3_plus
-from models.networks.segmentation.FCN8 import FCN8
+from src.models.networks.segmentation.FCN8 import FCN8
 from models.networks.segmentation.FCN8AtOnce import FCN8AtOnce
 from models.networks.segmentation.FCdenseNetTorch import FCDenseNet
 from models.networks.segmentation.deeplabv2_resnet import MS_Deeplab
 from models.networks.segmentation.deeplabv3plus_xception import DeepLabv3_xception
 # from models.networks.detection.rpn import RPN
 
-from models.loss.loss_builder import LossBuilder
+from src.models.loss.loss_builder import LossBuilder
 from models.optimizer.optimizer_builder import OptimizerBuilder
 from models.scheduler.scheduler_builder import SchedulerBuilder
-from models.networks.classification import VGG16Pytorch, ResNet152
+from src.models.networks.classification import VGG16Torch, ResNet152, Inception, DenseNet161
 
 from utils.ssd_box_coder import SSDBoxCoder
 from utils.statistics import Statistics
@@ -43,12 +43,19 @@ class ModelBuilder:
         if self.cf.model_type.lower() == 'vgg16':
             self.net = VGG16(self.cf, num_classes=self.cf.num_classes,
                              pretrained=self.cf.basic_pretrained_model).cuda()
-        elif self.cf.model_type.lower() == 'vgg16pytorch':
-            self.net = VGG16Pytorch(self.cf, num_classes=self.cf.num_classes,
-                                    pretrained=self.cf.basic_pretrained_model).cuda()
-        elif self.cf.model_type.lower() == 'resnet':
+        elif self.cf.model_type.lower() == 'vgg16torch':
+            self.net = VGG16Torch(self.cf, num_classes=self.cf.num_classes,
+                                  pretrained=self.cf.basic_pretrained_model).cuda()
+        elif self.cf.model_type.lower() == 'resnet152':
             self.net = ResNet152(self.cf, num_classes=self.cf.num_classes,
                                  pretrained=self.cf.basic_pretrained_model).cuda()
+        elif self.cf.model_type.lower() == 'densenet161':
+            self.net = DenseNet161(self.cf, num_classes=self.cf.num_classes,
+                                   pretrained=self.cf.basic_pretrained_model).cuda()
+        elif self.cf.model_type.lower() == 'inception':
+            self.net = Inception(self.cf, num_classes=self.cf.num_classes,
+                                 pretrained=self.cf.basic_pretrained_model).cuda()
+
         # Object detection networks
         elif self.cf.model_type.lower() == 'ssd320':
             self.net = SSD300(self.cf, num_classes=self.cf.num_classes,

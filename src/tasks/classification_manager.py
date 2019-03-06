@@ -4,7 +4,7 @@ import numpy as np
 
 from .simple_trainer_manager import SimpleTrainer
 from metrics.metrics import compute_precision, compute_recall, compute_f1score, compute_accuracy, extract_stats_from_confm
-from utils.tools import confm_metrics2image
+from src.utils.tools import confm_metrics2image
 
 
 class ClassificationManager(SimpleTrainer):
