@@ -12,6 +12,7 @@ from utils.logger import Logger
 
 
 def main():
+    print(torch.cuda.current_device(), torch.cuda.device_count())
     print('Using GPU: ', torch.cuda.get_device_name(0))
     start_time = time.time()
     # Prepare configuration
