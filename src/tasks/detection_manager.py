@@ -12,7 +12,7 @@ from torch.autograd import Variable
 import torch.nn.functional as F
 
 from .simple_trainer_manager import SimpleTrainer
-from src.metrics.object_detection import Compute_kitti_AP
+from metrics.object_detection import Compute_kitti_AP
 from utils.save_images import save_img
 
 

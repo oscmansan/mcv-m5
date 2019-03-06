@@ -7,7 +7,7 @@ from PIL import Image
 
 from .simple_trainer_manager import SimpleTrainer
 from metrics.metrics import compute_mIoU, compute_accuracy_segmentation, extract_stats_from_confm
-from src.utils.tools import confm_metrics2image
+from utils.tools import confm_metrics2image
 from utils.save_images import save_img
 
 

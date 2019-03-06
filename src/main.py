@@ -1,11 +1,11 @@
 import time
 
 from tasks.classification_manager import ClassificationManager
-from src.tasks.detection_manager import DetectionManager
+from tasks.detection_manager import DetectionManager
 from tasks.semantic_segmentation_manager import SemanticSegmentationManager
-from src.config.configuration import Configuration
+from config.configuration import Configuration
 from models.model_builder import ModelBuilder
-from src.dataloader.dataloader_builder import DataLoaderBuilder
+from dataloader.dataloader_builder import DataLoaderBuilder
 from utils.logger import Logger
 
 
