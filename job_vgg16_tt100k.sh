@@ -2,8 +2,7 @@
 #SBATCH --job-name w2
 #SBATCH --ntasks 4
 #SBATCH --mem 16G
-#SBATCH --partition mhigh
-#SBATCH --qos masterhigh
+#SBATCH --partition mhigh,mlow
 #SBATCH --gres gpu:1
 #SBATCH --chdir /home/grupo06/m5-project
 #SBATCH --output ../logs/%x_%u_%j.out
