@@ -64,10 +64,10 @@ class ClassificationManager(SimpleTrainer):
             if epoch is not None:
                 # Epoch loss tensorboard
                 self.writer.add_scalar('losses/epoch', self.stats.train.loss, epoch)
-                self.writer.add_scalar('metrics/accuracy', 100. * self.stats.train.acc, epoch)
+                # self.writer.add_scalar('metrics/accuracy', 100. * self.stats.train.acc, epoch)
                 self.writer.add_scalar('metrics/precision', 100. * self.stats.train.precision, epoch)
-                self.writer.add_scalar('metrics/recall', 100. * self.stats.train.recall, epoch)
-                self.writer.add_scalar('metrics/f1score', 100. * self.stats.train.f1score, epoch)
+                # self.writer.add_scalar('metrics/recall', 100. * self.stats.train.recall, epoch)
+                # self.writer.add_scalar('metrics/f1score', 100. * self.stats.train.f1score, epoch)
                 conf_mat_img = confm_metrics2image(self.stats.train.get_confm_norm(), self.cf.labels)
                 self.writer.add_image('metrics/conf_matrix', conf_mat_img, epoch, dataformats='HWC')
 
@@ -104,10 +104,10 @@ class ClassificationManager(SimpleTrainer):
 
                 # add scores to tensorboard
                 self.writer.add_scalar('losses/epoch', self.stats.val.loss, epoch)
-                self.writer.add_scalar('metrics/accuracy', 100. * self.stats.val.acc, epoch)
+                # self.writer.add_scalar('metrics/accuracy', 100. * self.stats.val.acc, epoch)
                 self.writer.add_scalar('metrics/precision', 100. * self.stats.val.precision, epoch)
-                self.writer.add_scalar('metrics/recall', 100. * self.stats.val.recall, epoch)
-                self.writer.add_scalar('metrics/f1score', 100. * self.stats.val.f1score, epoch)
+                # self.writer.add_scalar('metrics/recall', 100. * self.stats.val.recall, epoch)
+                # self.writer.add_scalar('metrics/f1score', 100. * self.stats.val.f1score, epoch)
                 conf_mat_img = confm_metrics2image(self.stats.val.get_confm_norm(), self.cf.labels)
                 self.writer.add_image('metrics/conf_matrix', conf_mat_img, epoch, dataformats='HWC')
             else:

@@ -52,7 +52,7 @@ valid_gt_txt                : null
 test_images_txt             : null
 test_gt_txt                 : null
 
-labels                      : !!python/tuple ['pm30', 'w32', 'pl60', 'p6', 'pl30', 'ip', 'pne', 'p11', 'p12', 'pm55', 'w57', 'p10', 'pm20', 'pn', 'pl100', 'p3', 'i1', 'p5', 'ph4', 'w59', 'p23', 'pl40', 'il80', 'po', 'p19', 'ph4.5', 'p27', 'pl120', 'pl20', 'wo', 'io', 'pg', 'pl5', 'pl50', 'p26', 'il60', 'pr40', 'i4', 'il100', 'i5', 'ph5', 'pl80', 'pl70', 'w55', 'w13']
+labels                      : null
 map_labels                  : null
 
 num_classes                 : 45

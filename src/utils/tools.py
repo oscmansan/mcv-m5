@@ -37,6 +37,7 @@ def confm_metrics2image(conf_matrix, names=None):
                    vmax=1.0)
         plt.colorbar()
         plt.title('Confusion Matrix')
+        plt.axis('off')
 
         plt.xticks(range(nLabels), plt_names, rotation=90)
         ystick = list(zip(plt_names, [conf_matrix[i][i] for i in range(nLabels)]))
