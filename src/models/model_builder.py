@@ -117,8 +117,7 @@ class ModelBuilder:
 
     def save_model(self):
         if self.cf.save_weight_only:
-            torch.save(self.net.state_dict(), os.path.join(self.cf.output_model_path,
-                                                           self.cf.model_name + '.pth'))
+            torch.save(self.net.state_dict(), os.path.join(self.cf.output_model_path, self.cf.model_name + '.pth'))
         else:
             torch.save(self, os.path.join(self.cf.exp_folder, self.cf.model_name + '.pth'))
 

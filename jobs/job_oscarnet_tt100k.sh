@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-#SBATCH --job-name w2
+#SBATCH --job-name oscarnet_tt100k
 #SBATCH --ntasks 4
 #SBATCH --mem 16G
 #SBATCH --partition mhigh,mlow
@@ -8,4 +8,4 @@
 #SBATCH --output ../logs/%x_%u_%j.out
 
 source /home/grupo06/venv/bin/activate
-python src/main.py --exp_name oscarnet_belgiumtsc_${SLURM_JOB_ID} --config_file config/oscarnet_belgiumtsc.yml
+python src/main.py --exp_name oscarnet_tt100k_${SLURM_JOB_ID} --config_file config/oscarnet_tt100k.yml

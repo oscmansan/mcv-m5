@@ -25,6 +25,7 @@ def main():
     logger_debug.write('- Building model: ' + cf.model_name + ' <--- ')
     model = ModelBuilder(cf)
     model.build()
+    print(model.net)
 
     # Problem type
     if cf.problem_type == 'segmentation':
