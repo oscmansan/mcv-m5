@@ -12,7 +12,7 @@ load_weight_only            : True  # Recomended true, loads only weights and pa
 
 ### Save options
 save_weight_only            : True  # Recomended true, stores only weights and parameters
-model_name                  : 'VGG16'  # Name of the model to store
+model_name                  : 'resnet'  # Name of the model to store
 output_model_path           : null  # Path to store the model using model_name [None uses the default experiment path]
 basic_models_path           : null
 

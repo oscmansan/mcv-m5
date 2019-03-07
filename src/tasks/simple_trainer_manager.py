@@ -61,8 +61,7 @@ class SimpleTrainer(object):
                 train_set.update_indexes()
 
                 # Initialize logger
-                epoch_time = time.time()
-                self.logger_stats.write('\t ------ Epoch: ' + str(epoch) + ' ------ \n')
+                self.logger_stats.write('\n\t ------ Epoch: ' + str(epoch) + ' ------ \n')
 
                 # Initialize stats
                 self.stats.epoch = epoch

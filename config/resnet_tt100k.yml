@@ -67,10 +67,10 @@ is_training                 : True
 
 # Optimizer #
 optimizer                   : 'SGD'
-momentum1                   : 0.99
-momentum2                   : 0.99
-learning_rate               : 1.0e-5
-learning_rate_bias          : 1.0e-5
+momentum1                   : 0.9
+momentum2                   : 0.9
+learning_rate               : 1.0e-3
+learning_rate_bias          : 1.0e-3
 weight_decay                : 5.0e-4
 
 # Scheduler

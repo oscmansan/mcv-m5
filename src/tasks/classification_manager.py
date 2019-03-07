@@ -3,7 +3,8 @@ import os
 import numpy as np
 
 from .simple_trainer_manager import SimpleTrainer
-from metrics.metrics import compute_precision, compute_recall, compute_f1score, compute_accuracy, extract_stats_from_confm
+from metrics.metrics import compute_precision, compute_recall, compute_f1score, compute_accuracy, \
+    extract_stats_from_confm
 from utils.tools import confm_metrics2image
 
 
@@ -32,7 +33,8 @@ class ClassificationManager(SimpleTrainer):
 
                 # Early stopping checking
                 if self.cf.early_stopping:
-                    early_stopping.check(self.stats.train.loss, self.stats.val.loss, self.stats.val.mIoU, self.stats.val.acc)
+                    early_stopping.check(self.stats.train.loss, self.stats.val.loss, self.stats.val.mIoU,
+                                         self.stats.val.acc)
                     if early_stopping.stop:
                         self.stop = True
 
@@ -41,14 +43,19 @@ class ClassificationManager(SimpleTrainer):
 
         def compute_stats(self, confm_list, train_loss):
             TP_list, TN_list, FP_list, FN_list = extract_stats_from_confm(confm_list)
-            mean_accuracy = compute_accuracy(TP_list, TN_list, FP_list, FN_list)
-            mean_precision = compute_precision(TP_list, FP_list)
-            mean_recall = compute_recall(TP_list, FN_list)
-            mean_f1score = compute_f1score(TP_list, FP_list, FN_list)
-            self.stats.train.acc = np.nanmean(mean_accuracy)
-            self.stats.train.recall = np.nanmean(mean_recall)
-            self.stats.train.precision = np.nanmean(mean_precision)
-            self.stats.train.f1score = np.nanmean(mean_f1score)
+
+            tp = np.sum(TP_list)
+            tn = np.sum(TN_list)
+            fp = np.sum(FP_list)
+            fn = np.sum(FN_list)
+
+            r = tp / (tp + fn)
+            p = tp / (tp + fp)
+
+            self.stats.train.acc = (tp + tn) / (tp + tn + fp + fn)
+            self.stats.train.recall = r
+            self.stats.train.precision = p
+            self.stats.train.f1score = 2 * (r * p) / (r + p)
             if train_loss is not None:
                 self.stats.train.loss = train_loss.avg
 
@@ -70,14 +77,18 @@ class ClassificationManager(SimpleTrainer):
 
         def compute_stats(self, confm_list, val_loss):
             TP_list, TN_list, FP_list, FN_list = extract_stats_from_confm(confm_list)
-            mean_accuracy = compute_accuracy(TP_list, TN_list, FP_list, FN_list)
-            mean_precision = compute_precision(TP_list, FP_list)
-            mean_recall = compute_recall(TP_list, FN_list)
-            mean_f1score = compute_f1score(TP_list, FP_list, FN_list)
-            self.stats.val.acc = np.nanmean(mean_accuracy)
-            self.stats.val.recall = np.nanmean(mean_recall)
-            self.stats.val.precision = np.nanmean(mean_precision)
-            self.stats.val.f1score = np.nanmean(mean_f1score)
+            tp = np.sum(TP_list)
+            tn = np.sum(TN_list)
+            fp = np.sum(FP_list)
+            fn = np.sum(FN_list)
+
+            r = tp / (tp + fn)
+            p = tp / (tp + fp)
+
+            self.stats.val.acc = (tp + tn) / (tp + tn + fp + fn)
+            self.stats.val.recall = r
+            self.stats.val.precision = p
+            self.stats.val.f1score = 2 * (r * p) / (r + p)
             if val_loss is not None:
                 self.stats.val.loss = val_loss.avg
 
@@ -85,12 +96,11 @@ class ClassificationManager(SimpleTrainer):
             # Save logger
             if epoch is not None:
                 # add scores to log
-                self.logger_stats.write('----------------- Epoch scores summary -------------------------\n')
+                self.logger_stats.write('Classification validation scores:\n')
                 self.logger_stats.write(
                     '[epoch %d], [val loss %.5f], [acc %.2f], [precision %.2f], [recall %.2f], [f1score %.2f]\n' % (
                         epoch, self.stats.val.loss, 100 * self.stats.val.acc, 100 * self.stats.val.precision,
                         100 * self.stats.val.recall, 100 * self.stats.val.f1score))
-                self.logger_stats.write('---------------------------------------------------------------- \n')
 
                 # add scores to tensorboard
                 self.writer.add_scalar('losses/epoch', self.stats.val.loss, epoch)
