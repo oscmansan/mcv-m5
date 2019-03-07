@@ -12,7 +12,7 @@ load_weight_only            : True  # Recomended true, loads only weights and pa
 
 ### Save options
 save_weight_only            : True  # Recomended true, stores only weights and parameters
-model_name                  : 'VGG16'  # Name of the model to store
+model_name                  : 'oscarnet'  # Name of the model to store
 output_model_path           : null  # Path to store the model using model_name [None uses the default experiment path]
 basic_models_path           : null
 
@@ -65,16 +65,16 @@ shuffle                     : True
 void_class                  : 255 #void id or value on the image
 
 # Training
-epochs                      : 25 #Max number of epochs
+epochs                      : 50 #Max number of epochs
 initial_epoch               : 1 #Defines the starting epoch number
 valid_samples_epoch         : -1 # Number of validation images used to validate an epoch
 is_training                 : True
     ### Optimizer ###
 optimizer                   : 'SGD'
-momentum1                   : 0.99
-momentum2                   : 0.99
-learning_rate               : 1.0e-5
-learning_rate_bias          : 1.0e-5
+momentum1                   : 0.9
+momentum2                   : 0.9
+learning_rate               : 1.0e-3
+learning_rate_bias          : 1.0e-3
 weight_decay                : 5.0e-4
     ### Scheduler
 scheduler                   : 'MultiStep' #['ReduceLROnPlateau','Step','MultiStep','Exponential', None]
