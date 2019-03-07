@@ -61,7 +61,7 @@ test_gt_txt                 : null
 labels                      : null
 map_labels                  : null
 
-num_classes                 : 62
+num_classes                 : 8
 shuffle                     : True
 void_class                  : 255 #void id or value on the image
 
