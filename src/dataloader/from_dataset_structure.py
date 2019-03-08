@@ -61,7 +61,7 @@ class FromDatasetStructure(DataLoader):
             img = self.preprocess(img)
         gt = torch.from_numpy(np.array(gt, dtype=np.int32)).long()
         if self.predict:
-            return img, gt, img_path.split("/")[-1]
+            return img, img_path.split("/")[-1], img.shape
         else:
             return img, gt
 
