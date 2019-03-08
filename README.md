@@ -11,7 +11,9 @@ The goal of this project is to learn the basic concepts and techniques to build 
 
 ## Instructions
 
-TODO
+```bash
+
+```
 
 ## Directory structure
 
@@ -26,23 +28,23 @@ TODO
 ├── jobs                # jobs to schedule in the SLURM cluster
 ├── README.md
 ├── requirements.txt    # python dependencies
-├── src
-│   ├── config
-│   ├── dataloader
-│   ├── main.py
-│   ├── metrics
-│   ├── models
-│   ├── tasks
-│   └── utils
+└── src
+    ├── config
+    ├── dataloader
+    ├── main.py
+    ├── metrics
+    ├── models
+    ├── tasks
+    └── utils
 ```
 
-## Weekly goals
+## Gooals
 
-- [Week 2](./week2.md)
+- [Week 2](./docs/week2.md)
 
 ## Implementation & Results
 
-- [Week 2](./week2_implementation_results.md)
+- [Week 2](./docs/week2_implementation_results.md)
 
 ## Report
 
