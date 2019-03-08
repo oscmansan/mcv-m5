@@ -78,7 +78,7 @@ learning_rate_bias          : 1.0e-3
 weight_decay                : 5.0e-4
     ### Scheduler
 scheduler                   : 'MultiStep' #['ReduceLROnPlateau','Step','MultiStep','Exponential', None]
-decay                       : 0.1 #Learnng rate decay to apply (lr*decay)
+decay                       : 0.1 #Learning rate decay to apply (lr*decay)
 sched_patience              : 5 # ReduceLROnPlateau option: epoch patience without loss change until a lr decrement
 step_size                   : 20 #Step option: epoch counter to decrease lr
 milestone                   : !!python/tuple [10] #MultiStep option: define different milestones (epochs) to decrease lr

@@ -29,4 +29,4 @@ class OptimizerBuilder:
                      'lr': cf.learning_rate, 'weight_decay': cf.weight_decay}], 
                 momentum=cf.momentum1, dampening=0, nesterov=False)
         else:
-            sys.exit('Optmizer model not defined properly: ' + cf.optimizer)
+            sys.exit('Optimizer model not defined properly: ' + cf.optimizer)

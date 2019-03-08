@@ -71,6 +71,12 @@ class ClassificationManager(SimpleTrainer):
                 conf_mat_img = confm_metrics2image(self.stats.train.get_confm_norm(), self.cf.labels)
                 self.writer.add_image('metrics/conf_matrix', conf_mat_img, epoch, dataformats='HWC')
 
+                # Save learning rate
+                #self.logger_stats.write(str(self.model.scheduler.get_lr()))    # Step, MultiStep
+                for param_group in self.model.optimizer.param_groups:
+                    self.writer.add_scalar('lr/lr', param_group['lr'], epoch)   # ReduceLROnPlateau
+                    #self.logger_stats.write(str(param_group['lr']))
+
     class validation(SimpleTrainer.validation):
         def __init__(self, logger_stats, model, cf, stats, msg):
             super(ClassificationManager.validation, self).__init__(logger_stats, model, cf, stats, msg)
