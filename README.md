@@ -38,7 +38,7 @@ The goal of this project is to learn the basic concepts and techniques to build 
     └── utils
 ```
 
-## Gooals
+## Goals
 
 - [Week 2](./docs/week2.md)
 
