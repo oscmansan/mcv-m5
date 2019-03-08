@@ -13,6 +13,42 @@ The goal of this project is to learn the basic concepts and techniques to build 
 
 [Overleaf link](https://www.overleaf.com/read/mkqjyjnntnrg)
 
+## Slides
+
+[Slides link (TODO)]()
+
+## Instructions
+
+TODO
+
+## Directory structure
+
+```
+.
+├── config              # framework configurations
+├── devkit_kitti_txt
+├── docs                # summaries of nn systems
+│   ├── resnet.md
+│   └── vgg.md
+├── fonts
+├── jobs                # jobs to schedule in the SLURM cluster
+├── README.md
+├── requirements.txt    # python dependencies
+├── src
+│   ├── config
+│   ├── dataloader
+│   ├── main.py
+│   ├── metrics
+│   ├── models
+│   ├── tasks
+│   └── utils
+```
+
+## Per week results
+
+- [Week 2](./week2.md)
+
+
 ## Related publications
 
 ### VGG: 
