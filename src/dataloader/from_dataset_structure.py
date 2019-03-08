@@ -10,7 +10,8 @@ from .dataloader import DataLoader
 
 class FromDatasetStructure(DataLoader):
 
-    def __init__(self, cf: EasyDict, path: str, resize=None, preprocess=None, transform=None, valid=False):
+    def __init__(self, cf: EasyDict, path: str, resize=None, preprocess=None, transform=None, valid=False,
+                 predict=False):
         super().__init__()
         self.cf = cf
         self.resize = resize
@@ -20,6 +21,9 @@ class FromDatasetStructure(DataLoader):
         self.indexes = None
         self.image_names = []
         self.gt = []
+        self.predict = predict
+
+        print('Reading images from {}'.format(path))
 
         cf.labels = os.listdir(path)
         for label in cf.labels:
@@ -56,7 +60,10 @@ class FromDatasetStructure(DataLoader):
         if self.preprocess is not None:
             img = self.preprocess(img)
         gt = torch.from_numpy(np.array(gt, dtype=np.int32)).long()
-        return img, gt
+        if self.predict:
+            return img, gt, img_path.split("/")[-1]
+        else:
+            return img, gt
 
     def update_indexes(self, num_images=None, valid=False):
         if self.cf.shuffle and not valid:
