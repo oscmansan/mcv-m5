@@ -70,6 +70,7 @@ class ModelBuilder:
             self.box_coder = SSDBoxCoder(self.net)
         # elif self.cf.model_type.lower() == 'rpn':
         #     self.net = RPN(self.cf, 512)
+
         # Segmentation networks
         elif self.cf.model_type.lower() == 'densenetfcn':
             self.net = FCDenseNet(self.cf, nb_layers_per_block=self.cf.model_layers,
@@ -96,6 +97,7 @@ class ModelBuilder:
         else:
             raise ValueError('Unknown model')
 
+        # Initialize weights
         if self.cf.resume_experiment or (self.cf.pretrained_model.lower() == 'custom' and self.cf.load_weight_only):
             self.net.restore_weights(os.path.join(self.cf.input_model_path))
             if self.cf.resume_experiment:

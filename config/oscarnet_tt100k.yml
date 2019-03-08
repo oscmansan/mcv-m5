@@ -25,9 +25,9 @@ normalize_loss              : True
 train_samples               : -1
 valid_samples               : -1
 test_samples                : -1
-train_batch_size            : 40
-valid_batch_size            : 40
-test_batch_size             : 40
+train_batch_size            : 32
+valid_batch_size            : 32
+test_batch_size             : 32
 train                       : True
 validation                  : True
 test                        : True
@@ -36,9 +36,9 @@ predict_path_output         : null
 
 # Image properties
 size_image_test             : null
-resize_image_train          : !!python/tuple [224, 224]
-resize_image_valid          : !!python/tuple [224, 224]
-resize_image_test           : !!python/tuple [224, 224]
+resize_image_train          : !!python/tuple [128, 128]
+resize_image_valid          : !!python/tuple [128, 128]
+resize_image_test           : !!python/tuple [128, 128]
 crop_train                  : null
 grayscale                   : False
 
@@ -68,19 +68,19 @@ valid_samples_epoch         : -1
 is_training                 : True
 
 # Optimizer
-optimizer                   : 'SGD'
+optimizer                   : 'Adam'
 momentum1                   : 0.9
-momentum2                   : 0.9
-learning_rate               : 1.0e-2
-learning_rate_bias          : 1.0e-2
-weight_decay                : 5.0e-4
+momentum2                   : 0.999
+learning_rate               : 0.001
+learning_rate_bias          : 0.001
+weight_decay                : 0
 
 # Scheduler
-scheduler                   : 'MultiStep'
-decay                       : 0.1
-sched_patience              : 5
-step_size                   : 20
-milestone                   : !!python/tuple [10]
+scheduler                   : 'None'
+decay                       : 0
+sched_patience              : 0
+step_size                   : 0
+milestone                   : null
 
 # Save criteria
 save_condition              : 'f1_score'
@@ -92,8 +92,8 @@ patience                    : 5
 
 # Image preprocess
 rescale                     : 1.
-mean                        : !!python/tuple [127.5,127.5,127.5] #[104.00698793, 116.66876762, 122.67891434] #[103.939, 116.779, 123.68] #[0.28689553, 0.32513301, 0.28389176] #[0.37296272, 0.37296272, 0.37296272]
-std                         : !!python/tuple [1.,1.,1.] #[0.18696375, 0.19017339, 0.18720214]#[0.21090189, 0.21090189, 0.21090189]
+mean                        : !!python/tuple [127.5, 127.5, 127.5] #[104.00698793, 116.66876762, 122.67891434] #[103.939, 116.779, 123.68] #[0.28689553, 0.32513301, 0.28389176] #[0.37296272, 0.37296272, 0.37296272]
+std                         : !!python/tuple [1., 1., 1.] #[0.18696375, 0.19017339, 0.18720214]#[0.21090189, 0.21090189, 0.21090189]
 
 # Data augmentation
 hflips                      : False

@@ -28,12 +28,12 @@ class OscarNet(Net):
         self.net_name = net_name
 
         self.inplanes = 32
-        self.conv1 = Conv2dBN(3, self.inplanes, kernel_size=3)
+        self.init_conv = Conv2dBN(3, self.inplanes, kernel_size=3)
         self.maxpool = nn.MaxPool2d(kernel_size=2, stride=2)
         self.layer1 = self._make_layer(32, repetitions=2)
         self.layer2 = self._make_layer(64, repetitions=2)
         self.layer3 = self._make_layer(128, repetitions=3)
-        self.conv2 = Conv2dBN(128, num_classes, kernel_size=1, padding=1)
+        self.final_conv = Conv2dBN(128, num_classes, kernel_size=1, padding=1)
         self.avgpool = nn.AdaptiveAvgPool2d(output_size=(1, 1))
 
     def _make_layer(self, planes, repetitions):
@@ -46,7 +46,7 @@ class OscarNet(Net):
         return nn.Sequential(*layers)
 
     def forward(self, x):
-        x = self.conv1(x)
+        x = self.init_conv(x)
         x = self.maxpool(x)
 
         x = self.layer1(x)
@@ -54,11 +54,21 @@ class OscarNet(Net):
         x = self.layer3(x)
 
         x = F.dropout(x, p=0.5)
-        x = self.conv2(x)
+        x = self.final_conv(x)
         x = self.avgpool(x)
         x = x.view(x.size(0), self.num_classes)
 
         return x
 
-    def _initialize_weights(self):
-        pass
+    def initialize_weights(self):
+        for m in self.modules():
+            if isinstance(m, nn.Conv2d):
+                if m is self.final_conv:
+                    nn.init.normal_(m.weight, mean=0.0, std=0.01)
+                else:
+                    nn.init.kaiming_uniform_(m.weight)
+                if m.bias is not None:
+                    nn.init.constant_(m.bias, 0)
+            elif isinstance(m, nn.BatchNorm2d):
+                nn.init.constant_(m.weight, 1)
+                nn.init.constant_(m.bias, 0)
