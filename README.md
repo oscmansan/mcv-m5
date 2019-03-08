@@ -9,14 +9,6 @@ The goal of this project is to learn the basic concepts and techniques to build 
 * Oscar Mañas (oscmansan at gmail dot com)
 * Pablo Rodríguez (pablorodriper at gmail dot com)
 
-## Report
-
-[Overleaf link](https://www.overleaf.com/read/mkqjyjnntnrg)
-
-## Slides
-
-[Slides link (TODO)]()
-
 ## Instructions
 
 TODO
@@ -44,10 +36,25 @@ TODO
 │   └── utils
 ```
 
-## Per week results
+## Weekly goals
 
 - [Week 2](./week2.md)
 
+## Implementation & Results
+
+- [Week 2](./week2_implementation_results.md)
+
+## Report
+
+[Overleaf link](https://www.overleaf.com/read/mkqjyjnntnrg)
+
+## Slides
+
+[Slides link](https://docs.google.com/presentation/d/1e6U8LvV8q_5QeuToiP9Zytm0M13JhbPFJgBwRQDjbQw/edit?usp=sharing)
+
+## Model weights
+
+[Drive link] (TODO)
 
 ## Related publications
 
