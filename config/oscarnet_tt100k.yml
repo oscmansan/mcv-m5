@@ -62,7 +62,7 @@ shuffle                     : True
 void_class                  : 255
 
 # Training
-epochs                      : 25
+epochs                      : 100
 initial_epoch               : 1
 valid_samples_epoch         : -1
 is_training                 : True
@@ -76,17 +76,15 @@ learning_rate_bias          : 0.001
 weight_decay                : 0
 
 # Scheduler
-scheduler                   : 'None'
-decay                       : 0
-sched_patience              : 0
-step_size                   : 0
-milestone                   : null
+scheduler                   : 'ReduceLROnPlateau'
+decay                       : 0.1
+sched_patience              : 2
 
 # Save criteria
 save_condition              : 'f1_score'
 
 # Early Stopping
-early_stopping              : False
+early_stopping              : True
 stop_condition              : 'f1_score'
 patience                    : 5
 
