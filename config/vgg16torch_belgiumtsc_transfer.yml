@@ -7,7 +7,7 @@ model_type                  : 'VGG16Torch'
 # Load/store options
 resume_experiment           : False
 pretrained_model            : 'custom'
-input_model_path            : /home/grupo06/.oscar/work/experiments/vgg16torch_tt100k_28923/VGG16Torch.pth
+input_model_path            : /home/grupo06/work/experiments/vgg16torch_tt100k_28444/VGG16.pth
 load_weight_only            : True
 
 ### Save options

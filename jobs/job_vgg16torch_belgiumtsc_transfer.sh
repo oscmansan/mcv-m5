@@ -2,8 +2,8 @@
 #SBATCH --job-name vgg16torch_belgiumtsc_transfer
 #SBATCH --ntasks 4
 #SBATCH --mem 16G
-#SBATCH --priority mhigh
-#SBATCH --partition mhigh,mlow
+#SBATCH --partition mhigh
+#SBATCH --qos masterhigh
 #SBATCH --gres gpu:1
 #SBATCH --chdir /home/grupo06/.oscar/m5-project
 #SBATCH --output ../logs/%x_%u_%j.out
