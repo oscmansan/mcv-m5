@@ -156,18 +156,18 @@ class SimpleTrainer:
             self.stats.train.acc = np.nanmean(mean_accuracy)
             self.stats.train.loss = float(train_loss.avg.cpu().data)
 
-        def validate_epoch(self, valid_set, valid_loader, early_Stopping, epoch):
+        def validate_epoch(self, valid_set, valid_loader, early_stopping, epoch):
             if valid_set is not None and valid_loader is not None:
                 # Set model in validation mode
                 self.model.net.eval()
 
                 self.validator.start(valid_set, valid_loader, 'Epoch Validation', epoch)
+                print(self.stats)
 
                 # Early stopping checking
                 if self.cf.early_stopping:
-                    early_Stopping.check(self.stats.train.loss, self.stats.val.loss, self.stats.val.mIoU,
-                                         self.stats.val.acc)
-                    if early_Stopping.stop == True:
+                    if early_stopping.check(self.stats.train.loss, self.stats.val.loss, self.stats.val.mIoU,
+                                            self.stats.val.acc, self.stats.val.f1score):
                         self.stop = True
                 # Set model in training mode
                 self.model.net.train()

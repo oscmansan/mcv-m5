@@ -32,9 +32,8 @@ class ClassificationManager(SimpleTrainer):
 
                 # Early stopping checking
                 if self.cf.early_stopping:
-                    early_stopping.check(self.stats.train.loss, self.stats.val.loss, self.stats.val.mIoU,
-                                         self.stats.val.acc)
-                    if early_stopping.stop:
+                    if early_stopping.check(self.stats.train.loss, self.stats.val.loss, self.stats.val.mIoU,
+                                            self.stats.val.acc, self.stats.val.f1score):
                         self.stop = True
 
                 # Set model in training mode
