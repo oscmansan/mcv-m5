@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-#SBATCH --job-name oscarnet_tt100k
+#SBATCH --job-name oscarnet_kitti
 #SBATCH --ntasks 4
 #SBATCH --mem 16G
 #SBATCH --priority mhigh
