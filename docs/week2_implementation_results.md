@@ -4,6 +4,7 @@
 
 - Run the provided code:
 	- VGG16 with TT100K dataset.
+	- Transfer learning to BelgiumTSC dataset.
 - Implement Networks:
     - Using an existing PyTorch implementation:
 		- ResNet152
