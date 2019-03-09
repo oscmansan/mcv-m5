@@ -1,8 +1,9 @@
 import random
 
-import torchvision.transforms as transforms
+import numpy as np
 from PIL import Image
-from numpy import array
+import torchvision.transforms as transforms
+
 
 class RandomDistort:
     def __init__(self, cf):
@@ -52,4 +53,4 @@ class RandomDistort:
                 img = saturation(img, saturation_delta)
                 img = hue(img, hue_delta)
                 img = contrast(img, contrast_delta)
-        return array(img)
+        return np.array(img)
