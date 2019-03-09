@@ -78,103 +78,104 @@ class SimpleTrainer(object):
                 self.logger_stats.write_stat(self.stats.train, epoch,
                                              os.path.join(self.cf.train_json_path,
                                                           'train_epoch_' + str(epoch) + '.json'))
-                                                 
-                                                          # Validate epoch
-                                                          self.validate_epoch(valid_set, valid_loader, early_stopping, epoch)
-                                                          
-                                                          # Update scheduler
-                                                          if self.model.scheduler is not None:
-                                                              self.model.scheduler.step(self.stats.val.loss)
-                                                          
-                                                          # Saving model if score improvement
-                                                          new_best = self.model.save(self.stats)
-                                                              if new_best:
-                                                                  self.logger_stats.write_best_stats(self.stats, epoch, self.cf.best_json_file)
-                                                                      
-                                                                      if self.stop:
-                                                                          return
-                                                                      
-                                                                      # Save model without training
-                                                                      if self.cf.epochs == 0:
-                                                                          self.model.save_model()
-                                                                      
-                                                                      def training_loop(self, epoch, train_loader):
-                                                                          # Train epoch
-                                                                          for i, data in tqdm(enumerate(train_loader), desc="Training...", total=len(train_loader), file=sys.stdout):
-                                                                              # Read Data
-                                                                              inputs, labels = data
-                                                                                  
-                                                                                  n, c, w, h = inputs.size()
-                                                                                  inputs = Variable(inputs).cuda()
-                                                                                  self.inputs = inputs
-                                                                                      self.labels = Variable(labels).cuda()
-                                                                                      
-                                                                                      # Predict model
-                                                                                      self.model.optimizer.zero_grad()
-                                                                                      self.outputs = self.model.net(inputs)
-                                                                                      predictions = self.outputs.data.max(1)[1].cpu().numpy()
-                                                                                      
-                                                                                      # Compute gradients
-                                                                                      self.compute_gradients()
-                                                                                      
-                                                                                      # Compute batch stats
-                                                                                      self.train_loss.update(float(self.loss.cpu().item()), n)
-                                                                                      confm = compute_confusion_matrix(predictions, self.labels.cpu().data.numpy(), self.cf.num_classes,
-                                                                                                                       self.cf.void_class)
-                                                                                                                       self.confm_list = self.confm_list + confm
-                                                                                                                           
-                                                                                                                           if self.cf.normalize_loss:
-                                                                                                                               self.stats.train.loss = self.train_loss.avg
-                                                                                                                                   else:
-                                                                                                                                       self.stats.train.loss = self.train_loss.avg
-                                                                                                                                           
-                                                                                                                                           if not self.cf.debug:
-                                                                                                                                               # Save stats
-                                                                                                                                               self.save_stats_batch((epoch - 1) * self.train_num_batches + i)
-                                                                                                                                                   
-                                                                                                                                                   def save_stats_epoch(self, epoch):
-                                                                                                                                                       # Save logger
-                                                                                                                                                       if epoch is not None:
-                                                                                                                                                           # Epoch loss tensorboard
-                                                                                                                                                           self.writer.add_scalar('losses/epoch', self.stats.train.loss, epoch)
-                                                                                                                                                           self.writer.add_scalar('metrics/accuracy', 100. * self.stats.train.acc, epoch)
-                                                                                                                                                               
-                                                                                                                                                               def save_stats_batch(self, batch):
-                                                                                                                                                                   # Save logger
-                                                                                                                                                                   if batch is not None:
-                                                                                                                                                                       self.writer.add_scalar('losses/batch', self.stats.train.loss, batch)
-                                                                                                                                                                           
-                                                                                                                                                                           def compute_gradients(self):
-                                                                                                                                                                               self.loss = self.model.loss(self.outputs, self.labels)
-                                                                                                                                                                               self.loss.backward()
-                                                                                                                                                                               self.model.optimizer.step()
-                                                                                                                                                                                   
-                                                                                                                                                                                   def compute_stats(self, confm_list, train_loss):
-                                                                                                                                                                                       TP_list, TN_list, FP_list, FN_list = extract_stats_from_confm(confm_list)
-                                                                                                                                                                                       mean_accuracy = compute_accuracy(TP_list, TN_list, FP_list, FN_list)
-                                                                                                                                                                                       self.stats.train.acc = np.nanmean(mean_accuracy)
-                                                                                                                                                                                       self.stats.train.loss = float(train_loss.avg.cpu().data)
-                                                                                                                                                                                           
-                                                                                                                                                                                           def validate_epoch(self, valid_set, valid_loader, early_Stopping, epoch):
-                                                                                                                                                                                               if valid_set is not None and valid_loader is not None:
-                                                                                                                                                                                                   # Set model in validation mode
-                                                                                                                                                                                                   self.model.net.eval()
-                                                                                                                                                                                                   
-                                                                                                                                                                                                   self.validator.start(valid_set, valid_loader, 'Epoch Validation', epoch)
-                                                                                                                                                                                                   
-                                                                                                                                                                                                   # Early stopping checking
-                                                                                                                                                                                                   if self.cf.early_stopping:
-                                                                                                                                                                                                       early_Stopping.check(self.stats.train.loss, self.stats.val.loss, self.stats.val.mIoU,
-                                                                                                                                                                                                                            self.stats.val.acc)
-                                                                                                                                                                                                                            if early_Stopping.stop == True:
-                                                                                                                                                                                                                                self.stop = True
-                                                                                                                                                                                                                                    # Set model in training mode
-                                                                                                                                                                                                                                    self.model.net.train()
 
-class validation(object):
-    def __init__(self, logger_stats, model, cf, stats, msg):
-        # Initialize validation variables
-        self.logger_stats = logger_stats
+                # Validate epoch
+                self.validate_epoch(valid_set, valid_loader, early_stopping, epoch)
+
+                # Update scheduler
+                if self.model.scheduler is not None:
+                    self.model.scheduler.step(self.stats.val.loss)
+
+                # Saving model if score improvement
+                new_best = self.model.save(self.stats)
+                if new_best:
+                    self.logger_stats.write_best_stats(self.stats, epoch, self.cf.best_json_file)
+
+                if self.stop:
+                    return
+
+                    # Save model without training
+            if self.cf.epochs == 0:
+                self.model.save_model()
+
+            def training_loop(self, epoch, train_loader):
+                # Train epoch
+                for i, data in tqdm(enumerate(train_loader), desc="Training...", total=len(train_loader),
+                                    file=sys.stdout):
+                    # Read Data
+                    inputs, labels = data
+
+                    n, c, w, h = inputs.size()
+                    inputs = Variable(inputs).cuda()
+                    self.inputs = inputs
+                    self.labels = Variable(labels).cuda()
+
+                    # Predict model
+                    self.model.optimizer.zero_grad()
+                    self.outputs = self.model.net(inputs)
+                    predictions = self.outputs.data.max(1)[1].cpu().numpy()
+
+                    # Compute gradients
+                    self.compute_gradients()
+
+                    # Compute batch stats
+                    self.train_loss.update(float(self.loss.cpu().item()), n)
+                    confm = compute_confusion_matrix(predictions, self.labels.cpu().data.numpy(), self.cf.num_classes,
+                                                     self.cf.void_class)
+                    self.confm_list = self.confm_list + confm
+
+                    if self.cf.normalize_loss:
+                        self.stats.train.loss = self.train_loss.avg
+                    else:
+                        self.stats.train.loss = self.train_loss.avg
+
+                    if not self.cf.debug:
+                        # Save stats
+                        self.save_stats_batch((epoch - 1) * self.train_num_batches + i)
+
+            def save_stats_epoch(self, epoch):
+                # Save logger
+                if epoch is not None:
+                    # Epoch loss tensorboard
+                    self.writer.add_scalar('losses/epoch', self.stats.train.loss, epoch)
+                    self.writer.add_scalar('metrics/accuracy', 100. * self.stats.train.acc, epoch)
+
+            def save_stats_batch(self, batch):
+                # Save logger
+                if batch is not None:
+                    self.writer.add_scalar('losses/batch', self.stats.train.loss, batch)
+
+            def compute_gradients(self):
+                self.loss = self.model.loss(self.outputs, self.labels)
+                self.loss.backward()
+                self.model.optimizer.step()
+
+            def compute_stats(self, confm_list, train_loss):
+                TP_list, TN_list, FP_list, FN_list = extract_stats_from_confm(confm_list)
+                mean_accuracy = compute_accuracy(TP_list, TN_list, FP_list, FN_list)
+                self.stats.train.acc = np.nanmean(mean_accuracy)
+                self.stats.train.loss = float(train_loss.avg.cpu().data)
+
+            def validate_epoch(self, valid_set, valid_loader, early_Stopping, epoch):
+                if valid_set is not None and valid_loader is not None:
+                    # Set model in validation mode
+                    self.model.net.eval()
+
+                    self.validator.start(valid_set, valid_loader, 'Epoch Validation', epoch)
+
+                    # Early stopping checking
+                    if self.cf.early_stopping:
+                        early_Stopping.check(self.stats.train.loss, self.stats.val.loss, self.stats.val.mIoU,
+                                             self.stats.val.acc)
+                        if early_Stopping.stop == True:
+                            self.stop = True
+                    # Set model in training mode
+                    self.model.net.train()
+
+    class validation(object):
+        def __init__(self, logger_stats, model, cf, stats, msg):
+            # Initialize validation variables
+            self.logger_stats = logger_stats
             self.model = model
             self.cf = cf
             self.stats = stats
@@ -201,16 +202,16 @@ class validation(object):
                 self.logger_stats.write_stat(self.stats.train, epoch,
                                              os.path.join(self.cf.train_json_path,
                                                           'valid_epoch_' + str(epoch) + '.json'))
-    elif mode == 'Validation':
-        self.logger_stats.write_stat(self.stats.val, epoch, self.cf.val_json_file)
+            elif mode == 'Validation':
+                self.logger_stats.write_stat(self.stats.val, epoch, self.cf.val_json_file)
             elif mode == 'Test':
                 self.logger_stats.write_stat(self.stats.val, epoch, self.cf.test_json_file)
 
-    def validation_loop(self, epoch, valid_loader, valid_set, confm_list):
-        for vi, data in tqdm(enumerate(valid_loader), desc="Validating...", total=len(valid_loader),
-                             file=sys.stdout):
-            # Read data
-            inputs, gts = data
+        def validation_loop(self, epoch, valid_loader, valid_set, confm_list):
+            for vi, data in tqdm(enumerate(valid_loader), desc="Validating...", total=len(valid_loader),
+                                 file=sys.stdout):
+                # Read data
+                inputs, gts = data
                 n_images, w, h, c = inputs.size()
                 inputs = Variable(inputs).cuda()
                 gts = Variable(gts).cuda()
@@ -230,8 +231,8 @@ class validation(object):
                 self.stats.val.conf_m = confm_list
                 if not self.cf.normalize_loss:
                     self.stats.val.loss = self.val_loss.avg
-            else:
-                self.stats.val.loss = self.val_loss.avg
+                else:
+                    self.stats.val.loss = self.val_loss.avg
                 
                 # Save predictions and generate overlaping
                 self.update_tensorboard(inputs.cpu(), gts.cpu(),
@@ -240,8 +241,8 @@ class validation(object):
                                                                   np.shape(predictions)[0]),
                                         valid_set.num_images)
 
-def update_tensorboard(self, inputs, gts, predictions, epoch, indexes, val_len):
-    pass
+        def update_tensorboard(self, inputs, gts, predictions, epoch, indexes, val_len):
+            pass
         
         def compute_stats(self, confm_list, val_loss):
             TP_list, TN_list, FP_list, FN_list = extract_stats_from_confm(confm_list)
@@ -254,20 +255,20 @@ def update_tensorboard(self, inputs, gts, predictions, epoch, indexes, val_len):
             if epoch is not None:
                 self.logger_stats.write('----------------- Epoch scores summary ------------------------- \n')
                 self.logger_stats.write('[epoch %d], [val loss %.5f], [acc %.2f] \n' % (
-                                                                                        epoch, self.stats.val.loss, 100 * self.stats.val.acc))
+                    epoch, self.stats.val.loss, 100 * self.stats.val.acc))
                 self.logger_stats.write('---------------------------------------------------------------- \n')
             else:
                 self.logger_stats.write('----------------- Scores summary -------------------- \n')
                 self.logger_stats.write('[val loss %.5f], [acc %.2f] \n' % (
-                                                                            self.stats.val.loss, 100 * self.stats.val.acc))
+                    self.stats.val.loss, 100 * self.stats.val.acc))
                 self.logger_stats.write('---------------------------------------------------------------- \n')
 
-class predict(object):
-    def __init__(self, logger_stats, model, cf):
-        self.logger_stats = logger_stats
+    class predict(object):
+        def __init__(self, logger_stats, model, cf):
+            self.logger_stats = logger_stats
             self.model = model
             self.cf = cf
-    
+
         def start(self, dataloader):
             self.model.net.eval()
             
@@ -281,5 +282,5 @@ class predict(object):
                     
                     self.write_results(predictions, img_name, img_shape)
 
-def write_results(self, predictions, img_name, img_shape):
-    pass
+        def write_results(self, predictions, img_name, img_shape):
+            pass
