@@ -10,8 +10,7 @@ from .dataloader import DataLoader
 
 class FromDatasetStructure(DataLoader):
 
-    def __init__(self, cf: EasyDict, path: str, resize=None, preprocess=None, transform=None, valid=False,
-                 predict=False):
+    def __init__(self, cf: EasyDict, path: str, resize=None, preprocess=None, transform=None, valid=False, predict=False):
         super().__init__()
         self.cf = cf
         self.resize = resize
@@ -26,12 +25,14 @@ class FromDatasetStructure(DataLoader):
         print('Reading images from {}'.format(path))
 
         cf.labels = os.listdir(path)
+        cf.num_classes = len(cf.labels)
+
         for label in cf.labels:
             for f in os.listdir(os.path.join(path, label)):
                 self.image_names.append(os.path.abspath(os.path.join(path, label, f)))
                 self.gt.append(label)
 
-        self.num_images = len(self.gt)
+        self.num_images = len(self.image_names)
 
         le = LabelEncoder()
         le.fit(cf.labels)
@@ -41,7 +42,7 @@ class FromDatasetStructure(DataLoader):
         if len(self.gt) != len(self.image_names):
             raise ValueError('number of images != number of labels')
 
-        print('Found {} images belonging to {} classes'.format(len(self.image_names), len(cf.labels)))
+        print('Found {} images belonging to {} classes'.format(self.num_images, cf.num_classes))
 
         if len(self.image_names) < self.num_images or self.num_images == -1:
             self.num_images = len(self.image_names)
