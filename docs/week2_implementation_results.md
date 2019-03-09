@@ -17,5 +17,6 @@
 	- TT100K
 - Boost the performance of the networks:
 	- Tune meta-parameters
+	- Data augmentation
 	
 ## Results
