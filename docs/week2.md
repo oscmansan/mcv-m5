@@ -2,7 +2,7 @@
 
 # Abstract
 
-The goal of this week is to recognize the kind of object in a given picture, assigning a class to it. This is achieved using state-of-the-art convolutional neural networks for feature extraction and classification. The models, fine-tuned from ImageNet, are trained on a set of provided datasets: [TT100k](https://cg.cs.tsinghua.edu.cn/traffic-sign/), [BelgiumTSC](https://btsd.ethz.ch/shareddata/) and [KITTI](http://www.cvlibs.net/datasets/kitti/). These datasets can be used to train a pedestrian, traffic sign or vehicle classifier among others. In addition, the performance of the models has been boosted by tuning the hyperparameters and performing data augmentation. Moreover, a new architecture for image classification has been developed, implemented and evaluated.
+The goal of this week is to recognize the kind of object in a given picture, assigning a class to it. This is achieved using state-of-the-art convolutional neural networks for feature extraction and classification. The models, fine-tuned from ImageNet, have been trained on a set of provided datasets: [TT100k](https://cg.cs.tsinghua.edu.cn/traffic-sign/), [BelgiumTSC](https://btsd.ethz.ch/shareddata/) and [KITTI](http://www.cvlibs.net/datasets/kitti/). These datasets can be used to train a pedestrian, traffic sign or vehicle classifier among others. In addition, the performance of the models has been boosted by tuning the hyperparameters and performing data augmentation. Moreover, a new architecture for image classification, OscarNet, has been implemented and evaluated.
 
 ## Completed tasks
 
