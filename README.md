@@ -12,7 +12,7 @@ The goal of this project is to learn the basic concepts and techniques to build 
 ## Instructions
 
 ```bash
-
+python main.py [--config_file CONFIG_FILE]
 ```
 
 ## Directory structure
