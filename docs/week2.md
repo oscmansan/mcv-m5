@@ -4,17 +4,17 @@
 
 The goal is to recognize the kind of object in a given window, by assigning a class to it. This is achieved using state of the art pretrained networks, with ImageNet dataset, for image classification. Performance of fine-tuned pretrained networks is evaluated for a set of provided datasets, which can be used to train a pedestrian, traffic sign or vehicle classifier among others. The performance of those networks has been boosted by tuning the meta-parameters and performing data augmentation.
 
-Moreover, a new architecture has been developed and implemented for image classification.
+Moreover, a new architecture for image classification has been developed and implemented.
 
-## Goals
+## Completed tasks
 
-- [x] Run the provided code 
-- [x] Train a network for other dataset
-- [x] Implement a new Network
+- [x] (a) Run the provided code & transfer learning
+- [x] (b) Train a network on another dataset
+- [x] (c) Implement a new Network
     - [x] Using an existing PyTorch implementation.
     - [x] Writing our own implementation.
-- [x] Boost the performance of your networks 
-- [x] Report+slides showing the achieved results
+- [x] (d) Boost the performance of our networks 
+- [x] (e) Report showing the achieved results
     - [x] README
     - [x] Slides
     - [x] Report
