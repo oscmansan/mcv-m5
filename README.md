@@ -38,13 +38,9 @@ The goal of this project is to learn the basic concepts and techniques to build 
     └── utils
 ```
 
-## Goals
+## Goals & Implementation & Results
 
 - [Week 2](./docs/week2.md)
-
-## Implementation & Results
-
-- [Week 2](./docs/week2_implementation_results.md)
 
 ## Report
 
