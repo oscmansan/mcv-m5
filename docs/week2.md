@@ -7,11 +7,11 @@
 - [x] Implement a new Network
     - [x] Using an existing PyTorch implementation.
     - [x] Writing our own implementation.
-- [ ] Boost the performance of your networks 
-- [ ] Report+slides showing the achieved results
-    - [ ] Readme
-    - [ ] Report
-    - [ ] Slides
+- [x] Boost the performance of your networks 
+- [x] Report+slides showing the achieved results
+    - [x] Readme
+    - [x] Report
+    - [x] Slides
 
 ## Implementation
 
