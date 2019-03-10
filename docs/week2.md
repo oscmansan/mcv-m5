@@ -54,11 +54,11 @@
 | Datasets | Networks |    | train | val   | test  |
 |----------|----------|----|-------|-------|-------|
 | Belgium  | VGG-16   | DA | 99,08 | 97,94 | -     |
-| Belgium  | ResNet   | DA | 99,96 | 99,21 | -     |
+|   | ResNet   | DA | 99,96 | 99,21 | -     |
 | tt100k   | VGG-16   | DA | 98,49 | 91,35 | 97,36 |
-| tt100k   | ResNet   | DA | 99,84 | 95,81 | 98,28 |
+|    | ResNet   | DA | 99,84 | 95,81 | 98,28 |
 | KITTI    | ResNet   | DA | 99,99 | 99,31 | -     |
 | Belgium  | VGG-16   | LR | 99,98 | 97,26 | -     |
-| Belgium  | ResNet   | LR | 100   | 98,93 | -     |
+|   | ResNet   | LR | 100,00   | 98,93 | -     |
 | tt100k   | VGG-16   | LR | 99,71 | 92,84 | 97,66 |
-| tt100k   | ResNet   | LR | 99,95 | 95,68 | 98,35 |
+|    | ResNet   | LR | 99,95 | 95,68 | 98,35 |
