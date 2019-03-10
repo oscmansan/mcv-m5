@@ -9,7 +9,7 @@ The goal of this project is to learn the basic concepts and techniques to build 
 * Oscar Mañas (oscmansan at gmail dot com)
 * Pablo Rodríguez (pablorodriper at gmail dot com)
 
-## Instructions
+## Running instructions
 
 ```
 python src/main.py --config_file CONFIG_FILE
@@ -38,7 +38,7 @@ python src/main.py --config_file CONFIG_FILE
     └── utils
 ```
 
-## Goals & Implementation & Results
+## Goals, implementation, and results
 
 - [Week 2](./docs/week2.md)
 
@@ -52,7 +52,7 @@ python src/main.py --config_file CONFIG_FILE
 
 ## Model weights
 
-### OscarNET and BeligumTSC
+### OscarNet on BeligumTSC
 
 [Drive link](https://drive.google.com/uc?export=download&id=1KiY8Lqg4y3A9inW8OYOn1Z-lndlB3yIJ)
 
