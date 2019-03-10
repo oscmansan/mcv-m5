@@ -39,17 +39,14 @@ python3 src/main.py --config_file CONFIG_FILE
     └── utils
 ```
 
-## Implementation and results
+## Weekly Work
 
-- [Week 2 - Object Recognition](./docs/week2.md)
+- Week 2 - Object Recognition: [Implementation & Results](./docs/week2.md) - [Slides](https://docs.google.com/presentation/d/1e6U8LvV8q_5QeuToiP9Zytm0M13JhbPFJgBwRQDjbQw/edit?usp=sharing)
 
 ## Report
 
 [Overleaf link](https://www.overleaf.com/read/mkqjyjnntnrg)
 
-## Slides
-
-[Slides link](https://docs.google.com/presentation/d/1e6U8LvV8q_5QeuToiP9Zytm0M13JhbPFJgBwRQDjbQw/edit?usp=sharing)
 
 ## Model weights
 
