@@ -6,7 +6,7 @@ model_type                  : 'OscarNet'
 
 ### load/store options
 resume_experiment           : False
-pretrained_model            : 'None'
+pretrained_model            : 'basic'
 input_model_path            : null
 load_weight_only            : True
 
@@ -28,7 +28,7 @@ test_samples                : -1
 train_batch_size            : 32
 valid_batch_size            : 32
 test_batch_size             : 32
-train                       : True
+train                       : False
 validation                  : True
 test                        : True
 predict_test                : True

@@ -1,6 +1,5 @@
 import os
 import sys
-import time
 import math
 
 import numpy as np
@@ -16,7 +15,7 @@ from metrics.metrics import compute_accuracy, compute_confusion_matrix, extract_
 from tensorboardX import SummaryWriter
 
 
-class SimpleTrainer(object):
+class SimpleTrainer:
     def __init__(self, cf, model):
         self.cf = cf
         self.model = model
@@ -27,7 +26,7 @@ class SimpleTrainer(object):
         self.trainer = self.train(self.logger_stats, self.model, cf, self.validator, self.stats, self.msg)
         self.predictor = self.predict(self.logger_stats, self.model, cf)
 
-    class train(object):
+    class train:
         def __init__(self, logger_stats, model, cf, validator, stats, msg):
             # Initialize training variables
             self.logger_stats = logger_stats
@@ -47,7 +46,8 @@ class SimpleTrainer(object):
 
         def start(self, train_loader, train_set, valid_set=None, valid_loader=None):
             self.train_num_batches = math.ceil(train_set.num_images / float(self.cf.train_batch_size))
-            self.val_num_batches = 0 if valid_set is None else math.ceil(valid_set.num_images / float(self.cf.valid_batch_size))
+            self.val_num_batches = 0 if valid_set is None else math.ceil(
+                valid_set.num_images / float(self.cf.valid_batch_size))
 
             # Define early stopping control
             if self.cf.early_stopping:
@@ -94,13 +94,14 @@ class SimpleTrainer(object):
                 if self.stop:
                     return
 
-            # Save model without training
+                    # Save model without training
             if self.cf.epochs == 0:
                 self.model.save_model()
 
         def training_loop(self, epoch, train_loader):
             # Train epoch
-            for i, data in tqdm(enumerate(train_loader), desc="Training...", total=len(train_loader), file=sys.stdout):
+            for i, data in tqdm(enumerate(train_loader), desc="Training...", total=len(train_loader),
+                                file=sys.stdout):
                 # Read Data
                 inputs, labels = data
 
@@ -155,23 +156,23 @@ class SimpleTrainer(object):
             self.stats.train.acc = np.nanmean(mean_accuracy)
             self.stats.train.loss = float(train_loss.avg.cpu().data)
 
-        def validate_epoch(self, valid_set, valid_loader, early_Stopping, epoch):
+        def validate_epoch(self, valid_set, valid_loader, early_stopping, epoch):
             if valid_set is not None and valid_loader is not None:
                 # Set model in validation mode
                 self.model.net.eval()
 
                 self.validator.start(valid_set, valid_loader, 'Epoch Validation', epoch)
+                print(self.stats)
 
                 # Early stopping checking
                 if self.cf.early_stopping:
-                    early_Stopping.check(self.stats.train.loss, self.stats.val.loss, self.stats.val.mIoU,
-                                         self.stats.val.acc)
-                    if early_Stopping.stop == True:
+                    if early_stopping.check(self.stats.train.loss, self.stats.val.loss, self.stats.val.mIoU,
+                                            self.stats.val.acc, self.stats.val.f1score):
                         self.stop = True
                 # Set model in training mode
                 self.model.net.train()
 
-    class validation(object):
+    class validation:
         def __init__(self, logger_stats, model, cf, stats, msg):
             # Initialize validation variables
             self.logger_stats = logger_stats
@@ -196,7 +197,7 @@ class SimpleTrainer(object):
             self.compute_stats(np.asarray(self.stats.val.conf_m), self.val_loss)
 
             # Save stats
-            self.save_stats(epoch)
+            self.save_stats(epoch, mode)
             if mode == 'Epoch Validation':
                 self.logger_stats.write_stat(self.stats.train, epoch,
                                              os.path.join(self.cf.train_json_path,
@@ -249,7 +250,7 @@ class SimpleTrainer(object):
             self.stats.val.acc = np.nanmean(mean_accuracy)
             self.stats.val.loss = val_loss.avg
 
-        def save_stats(self, epoch):
+        def save_stats(self, epoch, mode):
             # Save logger
             if epoch is not None:
                 self.logger_stats.write('----------------- Epoch scores summary ------------------------- \n')
@@ -262,7 +263,7 @@ class SimpleTrainer(object):
                     self.stats.val.loss, 100 * self.stats.val.acc))
                 self.logger_stats.write('---------------------------------------------------------------- \n')
 
-    class predict(object):
+    class predict:
         def __init__(self, logger_stats, model, cf):
             self.logger_stats = logger_stats
             self.model = model

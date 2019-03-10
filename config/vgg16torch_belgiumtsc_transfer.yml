@@ -2,17 +2,17 @@
 problem_type                : 'classification'
 
 # Model
-model_type                  : 'OscarNet'
+model_type                  : 'VGG16Torch'
 
-### load/store options
+# Load/store options
 resume_experiment           : False
-pretrained_model            : 'None'
-input_model_path            : null
+pretrained_model            : 'custom'
+input_model_path            : /home/grupo06/work/experiments/vgg16torch_tt100k_28444/VGG16.pth
 load_weight_only            : True
 
 ### Save options
 save_weight_only            : True
-model_name                  : 'OscarNet'
+model_name                  : 'VGG16Torch'
 output_model_path           : null
 basic_models_path           : null
 
@@ -21,13 +21,12 @@ loss_type                   : 'cross_entropy_classification'
 normalize_loss              : True
 
 # General parameters
-
 train_samples               : -1
 valid_samples               : -1
 test_samples                : -1
-train_batch_size            : 32
-valid_batch_size            : 32
-test_batch_size             : 32
+train_batch_size            : 40
+valid_batch_size            : 40
+test_batch_size             : 40
 train                       : True
 validation                  : True
 test                        : True
@@ -36,17 +35,16 @@ predict_path_output         : null
 
 # Image properties
 size_image_test             : null
-resize_image_train          : !!python/tuple [128, 128]
-resize_image_valid          : !!python/tuple [128, 128]
-resize_image_test           : !!python/tuple [128, 128]
+resize_image_train          : !!python/tuple [224, 224]
+resize_image_valid          : !!python/tuple [224, 224]
+resize_image_test           : !!python/tuple [224, 224]
 crop_train                  : null
 grayscale                   : False
 
 # Dataset properties
-
-train_dataset_path          : '/home/mcv/datasets/M5/classification/TT100K_trafficSigns/train'
-valid_dataset_path          : '/home/mcv/datasets/M5/classification/TT100K_trafficSigns/valid'
-test_dataset_path           : '/home/mcv/datasets/M5/classification/TT100K_trafficSigns/test'
+train_dataset_path          : '/home/mcv/datasets/M5/classification/BelgiumTSC/train'
+valid_dataset_path          : '/home/mcv/datasets/M5/classification/BelgiumTSC/valid'
+test_dataset_path           : '/home/mcv/datasets/M5/classification/BelgiumTSC/test'
 train_images_txt            : null
 train_gt_txt                : null
 valid_images_txt            : null
@@ -57,7 +55,7 @@ test_gt_txt                 : null
 labels                      : null
 map_labels                  : null
 
-num_classes                 : 221
+num_classes                 : 62
 shuffle                     : True
 void_class                  : 255
 
@@ -68,9 +66,9 @@ valid_samples_epoch         : -1
 is_training                 : True
 
 # Optimizer
-optimizer                   : 'Adam'
+optimizer                   : 'SGD'
 momentum1                   : 0.9
-momentum2                   : 0.999
+momentum2                   : 0.9
 learning_rate               : 0.001
 learning_rate_bias          : 0.001
 weight_decay                : 0

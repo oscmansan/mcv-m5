@@ -20,9 +20,10 @@ class Conv2dBN(nn.Module):
 
 class OscarNet(Net):
 
-    def __init__(self, cf, num_classes=45, pretrained=False, net_name='oscarnet'):
+    def __init__(self, cf, num_classes=1000, pretrained=False, net_name='oscarnet'):
         super(OscarNet, self).__init__(cf)
 
+        self.url = 'https://drive.google.com/uc?export=download&id=1KiY8Lqg4y3A9inW8OYOn1Z-lndlB3yIJ'
         self.num_classes = num_classes
         self.pretrained = pretrained
         self.net_name = net_name
@@ -61,14 +62,4 @@ class OscarNet(Net):
         return x
 
     def initialize_weights(self):
-        for m in self.modules():
-            if isinstance(m, nn.Conv2d):
-                if m is self.final_conv:
-                    nn.init.normal_(m.weight, mean=0.0, std=0.01)
-                else:
-                    nn.init.kaiming_uniform_(m.weight)
-                if m.bias is not None:
-                    nn.init.constant_(m.bias, 0)
-            elif isinstance(m, nn.BatchNorm2d):
-                nn.init.constant_(m.weight, 1)
-                nn.init.constant_(m.bias, 0)
+        pass

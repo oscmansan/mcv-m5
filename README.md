@@ -11,8 +11,9 @@ The goal of this project is to learn the basic concepts and techniques to build 
 
 ## Instructions
 
-```bash
-python main.py [--config_file CONFIG_FILE]
+<<<<<<< HEAD
+```
+python src/main.py --config_file CONFIG_FILE
 ```
 
 ## Directory structure
@@ -38,13 +39,9 @@ python main.py [--config_file CONFIG_FILE]
     └── utils
 ```
 
-## Goals
+## Goals & Implementation & Results
 
 - [Week 2](./docs/week2.md)
-
-## Implementation & Results
-
-- [Week 2](./docs/week2_implementation_results.md)
 
 ## Report
 
@@ -56,7 +53,15 @@ python main.py [--config_file CONFIG_FILE]
 
 ## Model weights
 
-[Drive link] (TODO)
+### OscarNET and BeligumTSC
+
+[Drive link](https://drive.google.com/uc?export=download&id=1KiY8Lqg4y3A9inW8OYOn1Z-lndlB3yIJ)
+
+To run the framework with the weights above, execute:
+
+```
+python src/main.py --config_file config/oscarnet_tt100k_pretrained.yml
+```
 
 ## Related publications
 

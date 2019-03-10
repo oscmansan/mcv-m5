@@ -44,9 +44,9 @@ grayscale                   : False
 
 # Dataset properties
 
-train_dataset_path          : '/home/mcv/datasets/M5/classification/TT100K_trafficSigns/train'
-valid_dataset_path          : '/home/mcv/datasets/M5/classification/TT100K_trafficSigns/valid'
-test_dataset_path           : '/home/mcv/datasets/M5/classification/TT100K_trafficSigns/test'
+train_dataset_path          : '/home/mcv/datasets/M5/classification/KITTI/train'
+valid_dataset_path          : '/home/mcv/datasets/M5/classification/KITTI/valid'
+test_dataset_path           : '/home/mcv/datasets/M5/classification/KITTI/test'
 train_images_txt            : null
 train_gt_txt                : null
 valid_images_txt            : null
@@ -57,7 +57,7 @@ test_gt_txt                 : null
 labels                      : null
 map_labels                  : null
 
-num_classes                 : 221
+num_classes                 : 8
 shuffle                     : True
 void_class                  : 255
 

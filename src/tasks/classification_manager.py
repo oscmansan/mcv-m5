@@ -3,8 +3,7 @@ import os
 import numpy as np
 
 from .simple_trainer_manager import SimpleTrainer
-from metrics.metrics import compute_precision, compute_recall, compute_f1score, compute_accuracy, \
-    extract_stats_from_confm
+from metrics.metrics import compute_precision, compute_recall, compute_f1score, compute_accuracy, extract_stats_from_confm
 from utils.tools import confm_metrics2image
 
 
@@ -33,9 +32,8 @@ class ClassificationManager(SimpleTrainer):
 
                 # Early stopping checking
                 if self.cf.early_stopping:
-                    early_stopping.check(self.stats.train.loss, self.stats.val.loss, self.stats.val.mIoU,
-                                         self.stats.val.acc)
-                    if early_stopping.stop:
+                    if early_stopping.check(self.stats.train.loss, self.stats.val.loss, self.stats.val.mIoU,
+                                            self.stats.val.acc, self.stats.val.f1score):
                         self.stop = True
 
                 # Set model in training mode
@@ -72,10 +70,10 @@ class ClassificationManager(SimpleTrainer):
                 self.writer.add_image('metrics/conf_matrix', conf_mat_img, epoch, dataformats='HWC')
 
                 # Save learning rate
-                #self.logger_stats.write(str(self.model.scheduler.get_lr()))    # Step, MultiStep
+                # self.logger_stats.write(str(self.model.scheduler.get_lr()))    # Step, MultiStep
                 for param_group in self.model.optimizer.param_groups:
-                    self.writer.add_scalar('lr/lr', param_group['lr'], epoch)   # ReduceLROnPlateau
-                    #self.logger_stats.write(str(param_group['lr']))
+                    self.writer.add_scalar('lr/lr', param_group['lr'], epoch)  # ReduceLROnPlateau
+                # self.logger_stats.write(str(param_group['lr']))
 
     class validation(SimpleTrainer.validation):
         def __init__(self, logger_stats, model, cf, stats, msg):
@@ -98,7 +96,7 @@ class ClassificationManager(SimpleTrainer):
             if val_loss is not None:
                 self.stats.val.loss = val_loss.avg
 
-        def save_stats(self, epoch):
+        def save_stats(self, epoch, mode):
             # Save logger
             if epoch is not None:
                 # add scores to log
@@ -119,8 +117,8 @@ class ClassificationManager(SimpleTrainer):
             else:
                 self.logger_stats.write('----------------- Scores summary --------------------\n')
                 self.logger_stats.write(
-                    '[val loss %.5f], [acc %.2f], [precision %.2f], [recall %.2f], [f1score %.2f]\n' % (
-                        self.stats.val.loss, 100 * self.stats.val.acc, 100 * self.stats.val.precision,
+                    '[%s loss %.5f], [acc %.2f], [precision %.2f], [recall %.2f], [f1score %.2f]\n' % (
+                        mode, self.stats.val.loss, 100 * self.stats.val.acc, 100 * self.stats.val.precision,
                         100 * self.stats.val.recall, 100 * self.stats.val.f1score))
                 self.logger_stats.write('---------------------------------------------------------------- \n')
 

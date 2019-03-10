@@ -73,35 +73,41 @@ class EarlyStopping:
         self.best_metric = 0
         self.counter = 0
         self.patience = self.cf.patience
-        self.stop = False
 
-    def check(self, save_condition, train_mLoss, valid_mLoss=None, mIoU_valid=None, mAcc_valid=None):
+    def check(self, train_loss, valid_loss=None, valid_mIoU=None, valid_acc=None, valid_f1score=None):
         if self.cf.stop_condition == 'train_loss':
-            if train_mLoss < self.best_loss_metric:
-                self.best_loss_metric = train_mLoss
+            if train_loss < self.best_loss_metric:
+                self.best_loss_metric = train_loss
                 self.counter = 0
             else:
                 self.counter += 1
         elif self.cf.stop_condition == 'valid_loss':
-            if valid_mLoss < self.best_loss_metric:
-                self.best_loss_metric = valid_mLoss
+            if valid_loss < self.best_loss_metric:
+                self.best_loss_metric = valid_loss
                 self.counter = 0
             else:
                 self.counter += 1
         elif self.cf.stop_condition == 'valid_mIoU':
-            if mIoU_valid > self.best_metric:
-                self.best_metric = mIoU_valid
+            if valid_mIoU > self.best_metric:
+                self.best_metric = valid_mIoU
                 self.counter = 0
             else:
                 self.counter += 1
         elif self.cf.stop_condition == 'valid_mAcc':
-            if mAcc_valid > self.best_metric:
-                self.best_metric = mAcc_valid
+            if valid_acc > self.best_metric:
+                self.best_metric = valid_acc
                 self.counter = 0
             else:
                 self.counter += 1
+        elif self.cf.stop_condition == 'f1_score':
+            if valid_f1score > self.best_metric:
+                self.best_metric = valid_f1score
+                self.counter = 0
+            else:
+                self.counter += 1
+
         if self.counter == self.patience:
-            print(' Early Stopping Interruption\n')
+            print('\nEarly stopping interruption\n')
             return True
         else:
             return False
