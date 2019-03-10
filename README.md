@@ -52,7 +52,7 @@ python src/main.py --config_file CONFIG_FILE
 
 ## Model weights
 
-#### OscarNet on BeligumTSC
+#### OscarNet on BelgiumTSC
 
 [Drive link](https://drive.google.com/uc?export=download&id=1KiY8Lqg4y3A9inW8OYOn1Z-lndlB3yIJ)
 
