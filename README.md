@@ -41,7 +41,7 @@ python3 src/main.py --config_file CONFIG_FILE
 
 ## Implementation and results
 
-- [Week 2](./docs/week2.md)
+- [Week 2 - Object Recognition](./docs/week2.md)
 
 ## Report
 
