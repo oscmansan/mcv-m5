@@ -52,7 +52,15 @@ python src/main.py --config_file CONFIG_FILE
 
 ## Model weights
 
-[Drive link] (TODO)
+### OscarNET and BeligumTSC
+
+[Drive link](https://drive.google.com/uc?export=download&id=1KiY8Lqg4y3A9inW8OYOn1Z-lndlB3yIJ)
+
+To run the framework with the weights above, execute:
+
+```
+python src/main.py --config_file config/oscarnet_tt100k_pretrained.yml
+```
 
 ## Related publications
 
