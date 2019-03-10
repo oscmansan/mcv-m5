@@ -42,9 +42,9 @@ python3 src/main.py --config_file CONFIG_FILE
 ## Weekly Deliverables
 
 ### Week 2 - Object Recognition
-- [Implementation & Results](./docs/week2.md) 
+- [Summary](./docs/week2.md) 
 - [Slides](https://docs.google.com/presentation/d/1e6U8LvV8q_5QeuToiP9Zytm0M13JhbPFJgBwRQDjbQw/edit?usp=sharing)
-- [OscarNet on BelgiumTSC](https://drive.google.com/uc?export=download&id=1KiY8Lqg4y3A9inW8OYOn1Z-lndlB3yIJ)
+- Model weights [OscarNet on BelgiumTSC](https://drive.google.com/uc?export=download&id=1KiY8Lqg4y3A9inW8OYOn1Z-lndlB3yIJ)
 
 To run the framework with the weights above, execute:
 ```
