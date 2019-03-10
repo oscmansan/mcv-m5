@@ -38,7 +38,7 @@ python src/main.py --config_file CONFIG_FILE
     └── utils
 ```
 
-## Goals, implementation, and results
+## Implementation and results
 
 - [Week 2](./docs/week2.md)
 
