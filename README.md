@@ -12,7 +12,8 @@ The goal of this project is to learn the basic concepts and techniques to build 
 ## Running instructions
 
 ```
-python src/main.py --config_file CONFIG_FILE
+pip3 install -r requirements.txt
+python3 src/main.py --config_file CONFIG_FILE
 ```
 
 ## Directory structure
