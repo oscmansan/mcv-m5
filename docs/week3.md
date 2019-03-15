@@ -33,7 +33,7 @@ The goal of this week is to segment each object of the scene giving its associat
 - Train each network with the following datasets:
 	- Cityscapes
 	- Pascal2012
-  - Synthia_rand_cityscapes
+  	- Synthia_rand_cityscapes
 	- KITTY
 - Boost the performance of the networks:
 	- Tune meta-parameters
