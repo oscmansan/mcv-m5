@@ -52,6 +52,11 @@ To run the framework with the weights above, execute:
 python3 src/main.py --config_file config/oscarnet_tt100k_pretrained.yml
 ```
 
+### Week 3 - Image Semantic Segmentation
+- [Summary](./docs/week3.md) 
+- [Slides](https://docs.google.com/presentation/d/1Tw2_rM0kb7KlDa2SXAh9ICdI2R2cIrZHyfTIjgGYIwc/edit?usp=sharing)
+- Model weights:
+
 ## Report
 
 [Overleaf link](https://www.overleaf.com/read/mkqjyjnntnrg)
