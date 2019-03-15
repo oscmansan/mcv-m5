@@ -112,20 +112,6 @@ class SemanticSegmentationManager(SimpleTrainer):
                     self.stats.val.loss, 100 * self.stats.val.acc, 100 * self.stats.val.mIoU))
                 self.logger_stats.write('---------------------------------------------------------------- \n')
 
-        def update_msg(self, bar, global_bar):
-
-            self.compute_stats(np.asarray(self.stats.val.conf_m), None)
-            bar.set_msg(', mIoU: %.02f' % (100. * np.nanmean(self.stats.val.mIoU)))
-
-            if global_bar == None:
-                # Update progress bar
-                bar.update()
-            else:
-                self.msg.eval_str = '\n' + bar.get_message(step=True)
-                global_bar.set_msg(
-                    self.msg.accum_str + self.msg.last_str + self.msg.msg_stats_last + self.msg.msg_stats_best + self.msg.eval_str)
-                global_bar.update()
-
         def update_tensorboard(self, inputs, gts, predictions, epoch, indexes, val_len):
             if epoch is not None and self.cf.color_map is not None:
                 save_img(self.writer, inputs, gts, predictions, epoch, indexes, self.cf.predict_to_save, val_len,
