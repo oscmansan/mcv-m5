@@ -7,6 +7,7 @@ import torch.nn.functional as F
 from torch import nn
 from torch.autograd import Variable
 import sys
+from sklearn.metrics import confusion_matrix
 
 
 def _fast_hist(label_pred, label_true, num_classes):
@@ -101,17 +102,4 @@ def compute_confusion_matrix(inputs, targets, nLabels, invalid_label):
 
     mask = (targets_list != invalid_label)
 
-    conf_m = np.bincount(
-        nLabels * targets_list[mask].astype(int) +
-        inputs_list[mask], minlength=nLabels ** 2).reshape(nLabels, nLabels)
-
-    # conf_m = np.zeros((nLabels,nLabels))
-    #
-    # for i in range(nLabels): # gt
-    #     for j in range(nLabels): # predictions
-    #         if np.sum(targets_list == i) == 0:
-    #             conf_m[i, j] = 0
-    #         else:
-    #             conf_m[i,j] = float(np.sum(np.logical_and((targets_list == i),(inputs_list == j))))/np.sum(targets_list == i)
-
-    return conf_m
+    return confusion_matrix(targets_list[mask], inputs_list[mask], list(range(nLabels)))
