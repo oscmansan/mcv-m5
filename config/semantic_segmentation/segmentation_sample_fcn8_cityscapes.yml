@@ -61,6 +61,9 @@ grayscale                   : False
 
 # Dataset properties
 
+train_dataset_path          : null
+valid_dataset_path          : null
+test_dataset_path           : null
 train_images_txt: '/datatmp/Datasets/segmentation/cityscapes/train_images.txt'
 train_gt_txt: '/datatmp/Datasets/segmentation/cityscapes/train_labels.txt'
 valid_images_txt: '/datatmp/Datasets/segmentation/cityscapes/val_images.txt'
