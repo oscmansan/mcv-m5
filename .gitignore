@@ -3,7 +3,7 @@
 config/tmp_* 
 .idea
 .cache
-datasets
+local_datasets
 venv
 pretrained_model
 *_local.yml
