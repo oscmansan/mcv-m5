@@ -6,30 +6,30 @@ def segmentation(args):
     # Train
     with open(os.path.join(args.output, 'train_images.txt'), 'w') as f:
         for mask_name in os.listdir(os.path.join(args.input, 'train', 'images')):
-            f.write(mask_name + '\n')
+            f.write(os.path.realpath(os.path.join(args.input, 'train', 'images', mask_name)) + '\n')
 
     with open(os.path.join(args.output, 'train_labels.txt'), 'w') as f:
         for mask_name in os.listdir(os.path.join(args.input, 'train', 'masks')):
-            f.write(mask_name + '\n')
+            f.write(os.path.realpath(os.path.join(args.input, 'train', 'masks', mask_name)) + '\n')
 
     # Validation
     with open(os.path.join(args.output, 'val_images.txt'), 'w') as f:
         for mask_name in os.listdir(os.path.join(args.input, 'valid', 'images')):
-            f.write(mask_name + '\n')
+            f.write(os.path.realpath(os.path.join(args.input, 'valid', 'images', mask_name)) + '\n')
 
     with open(os.path.join(args.output, 'val_labels.txt'), 'w') as f:
         for mask_name in os.listdir(os.path.join(args.input, 'valid', 'masks')):
-            f.write(mask_name + '\n')
+            f.write(os.path.realpath(os.path.join(args.input, 'valid', 'masks', mask_name)) + '\n')
 
     # Test
     if os.path.exists(os.path.join(args.input, 'test')):
         with open(os.path.join(args.output, 'test_images.txt'), 'w') as f:
             for mask_name in os.listdir(os.path.join(args.input, 'test', 'images')):
-                f.write(mask_name + '\n')
+                f.write(os.path.realpath(os.path.join(args.input, 'test', 'images', mask_name)) + '\n')
 
         with open(os.path.join(args.output, 'test_labels.txt'), 'w') as f:
             for mask_name in os.listdir(os.path.join(args.input, 'test', 'masks')):
-                f.write(mask_name + '\n')
+                f.write(os.path.realpath(os.path.join(args.input, 'test', 'masks', mask_name)) + '\n')
 
 
 def main():
