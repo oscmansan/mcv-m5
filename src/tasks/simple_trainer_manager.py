@@ -259,7 +259,7 @@ class SimpleTrainer:
                 self.logger_stats.write('---------------------------------------------------------------- \n')
             else:
                 self.logger_stats.write('----------------- Scores summary -------------------- \n')
-                self.logger_stats.write('[val loss %.5f], [acc %.2f] \n' % (
+                self.logger_stats.write('[%s loss %.5f], [acc %.2f] \n' % (mode,
                     self.stats.val.loss, 100 * self.stats.val.acc))
                 self.logger_stats.write('---------------------------------------------------------------- \n')
 

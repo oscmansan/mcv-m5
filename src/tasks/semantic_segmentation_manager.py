@@ -23,13 +23,13 @@ class SemanticSegmentationManager(SimpleTrainer):
                     self.cf.save_condition, self.model.best_stats.epoch, 100 * self.model.best_stats.val.mIoU,
                     100 * self.model.best_stats.val.acc, self.model.best_stats.val.loss)
 
-        def validate_epoch(self, valid_set, valid_loader, early_Stopping, epoch, global_bar):
+        def validate_epoch(self, valid_set, valid_loader, early_Stopping, epoch):
 
             if valid_set is not None and valid_loader is not None:
                 # Set model in validation mode
                 self.model.net.eval()
 
-                self.validator.start(valid_set, valid_loader, 'Epoch Validation', epoch, global_bar=global_bar)
+                self.validator.start(valid_set, valid_loader, 'Epoch Validation', epoch)
 
                 # Early stopping checking
                 if self.cf.early_stopping:
@@ -91,7 +91,7 @@ class SemanticSegmentationManager(SimpleTrainer):
             if val_loss is not None:
                 self.stats.val.loss = val_loss.avg
 
-        def save_stats(self, epoch):
+        def save_stats(self, epoch, mode):
             # Save logger
             if epoch is not None:
                 # add log
@@ -108,7 +108,7 @@ class SemanticSegmentationManager(SimpleTrainer):
                 self.writer.add_image('metrics/conf_matrix', conf_mat_img, epoch, dataformats='HWC')
             else:
                 self.logger_stats.write('----------------- Scores summary -------------------- \n')
-                self.logger_stats.write('[val loss %.5f], [acc %.2f], [mean_IoU %.2f]\n' % (
+                self.logger_stats.write('[%s loss %.5f], [acc %.2f], [mean_IoU %.2f]\n' % (mode,
                     self.stats.val.loss, 100 * self.stats.val.acc, 100 * self.stats.val.mIoU))
                 self.logger_stats.write('---------------------------------------------------------------- \n')
 
