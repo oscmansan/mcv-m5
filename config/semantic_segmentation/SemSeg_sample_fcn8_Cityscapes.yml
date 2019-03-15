@@ -6,12 +6,12 @@ model_type                  : 'fcn8atonce'      # Options: ['fcn8atonce']
 
 ### load/store options
 resume_experiment           : False
-pretrained_model            : 'basic' # 'None': from scratch, 'basic': pretraned from imagenet, 'custom': personal model
-input_model_path            : null  # Path and pretrained file to load [None uses experiment path and model name by default]
-load_weight_only            : True  # Recomended true, loads only weights and parameters
+pretrained_model            : 'basic'       # 'None': from scratch, 'basic': pretrained from imagenet, 'custom': personal model
+input_model_path            : null          # Path and pretrained file to load [None uses experiment path and model name by default]
+load_weight_only            : True          # Recommended true, loads only weights and parameters
 
 ### Save options
-save_weight_only            : True          # Recomended true, stores only weights and parameters
+save_weight_only            : True          # Recommended true, stores only weights and parameters
 model_name                  : 'fcn8atonce'  # Name of the model to store
 output_model_path           : null          # Path to store the model using model_name [None uses the default experiment path]
 basic_models_path           : './pretrained_model/'
@@ -41,26 +41,26 @@ resize_image_train          : null    #!!python/tuple [512, 1024]
 resize_image_valid          : null    #!!python/tuple [512, 1024]
 resize_image_test           : null    #!!python/tuple [512, 1024]
 crop_train                  : null    #!!python/tuple [720,720] #!!python/tuple [320, 320]
-grayscale                   : False   #Use this option to convert to rgb a grascale dataset
+grayscale                   : False   #Use this option to convert to rgb a grayscale dataset
 
 # Dataset properties
 
 train_dataset_path          : null
 valid_dataset_path          : null
 test_dataset_path           : null
-train_images_txt            : '/home/mcv/datasets/M5/segmentation/camvid/train_images.txt'
-train_gt_txt                : '/home/mcv/datasets/M5/segmentation/camvid/train_labels.txt'
-valid_images_txt            : '/home/mcv/datasets/M5/segmentation/camvid/val_images.txt'
-valid_gt_txt                : '/home/mcv/datasets/M5/segmentation/camvid/val_labels.txt'
-test_images_txt             : '/home/mcv/datasets/M5/segmentation/camvid/test_images.txt'
-test_gt_txt                 : '/home/mcv/datasets/M5/segmentation/camvid/test_labels.txt'
+train_images_txt            : '/home/grupo06/m5-project/datasets/cityscapes/train_images.txt'
+train_gt_txt                : '/home/grupo06/m5-project/datasets/cityscapes/train_labels.txt'
+valid_images_txt            : '/home/grupo06/m5-project/datasets/cityscapes/val_images.txt'
+valid_gt_txt                : '/home/grupo06/m5-project/datasets/cityscapes/val_labels.txt'
+test_images_txt             : '/home/grupo06/m5-project/datasets/cityscapes/test_images.txt'
+test_gt_txt                 : '/home/grupo06/m5-project/datasets/cityscapes/test_labels.txt'
 
-labels                      : !!python/tuple ['sky', 'building', 'column_pole', 'road', 'sidewalk', 'tree', 'sign', 'fence', 'car', 'pedestrian', 'byciclist']
+labels                      : !!python/tuple ['road','sidewalk','building','wall','fence','pole','traffic light','traffic, sign', 'vegetation', 'terrain','sky','person','rider','car','truck','bus','train', 'motorcycle','bicycle']
 map_labels                  : null
 
-num_classes                 : 11
+num_classes                 : 19
 shuffle                     : True
-void_class                  : 11    #void id or value on the image
+void_class                  : 255    #void id or value on the image
 
 # Training
 epochs                      : 50    #Max number of epochs
