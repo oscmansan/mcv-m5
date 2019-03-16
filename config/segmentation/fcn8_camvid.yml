@@ -25,9 +25,9 @@ normalize_loss              : True
 train_samples               : -1  # -1 uses all the data available inside the dataset files
 valid_samples               : -1  # -1 uses all the data available inside the dataset files
 test_samples                : -1  # -1 uses all the data available inside the dataset files
-train_batch_size            : 1
-valid_batch_size            : 1
-test_batch_size             : 1
+train_batch_size            : 8
+valid_batch_size            : 8
+test_batch_size             : 8
 train                       : True
 validation                  : True
 test                        : False  # Calculate metrics on test giving the gt
