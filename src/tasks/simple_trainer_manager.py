@@ -56,7 +56,7 @@ class SimpleTrainer:
                 early_stopping = None
 
             # Train process
-            for epoch in tqdm(range(self.curr_epoch, self.cf.epochs + 1), desc='Epochs...', file=sys.stdout):
+            for epoch in tqdm(range(self.curr_epoch, self.cf.epochs + 1), desc='Training', file=sys.stdout):
                 # Shuffle train data
                 train_set.update_indexes()
 
@@ -100,8 +100,8 @@ class SimpleTrainer:
 
         def training_loop(self, epoch, train_loader):
             # Train epoch
-            for i, data in tqdm(enumerate(train_loader), desc="Training...", total=len(train_loader),
-                                file=sys.stdout):
+            for i, data in tqdm(enumerate(train_loader), desc="Epoch {}/{}".format(epoch, self.cf.epochs),
+                                total=len(train_loader), file=sys.stdout):
                 # Read Data
                 inputs, labels = data
 
