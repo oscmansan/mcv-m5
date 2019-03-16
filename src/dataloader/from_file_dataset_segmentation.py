@@ -42,17 +42,21 @@ class FromFileDatasetSegmentation(DataLoader):
     def __getitem__(self, idx):
         img_path = self.image_names[self.indexes[idx]]
         gt_path = self.gt_names[self.indexes[idx]]
+
         img, _ = self.load_img(img_path, self.resize, self.cf.grayscale, order=1)
+
         if self.cf.map_labels is not None:
             gt, _ = self.cf.map_labels[self.load_img(gt_path, self.resize, grayscale=True, order=0)]
         else:
             gt, _ = self.load_img(gt_path, self.resize, grayscale=True, order=0)
+
         if self.transform is not None:
             img, gt = self.transform(img, gt)
-        # img = Image.fromarray(img.astype(np.uint8))
         if self.preprocess is not None:
             img = self.preprocess(img)
+
         gt = torch.from_numpy(np.array(gt, dtype=np.int32)).long()
+
         return img, gt
 
     def update_indexes(self, num_images=None, valid=False):

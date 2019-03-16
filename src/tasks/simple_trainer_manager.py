@@ -208,7 +208,7 @@ class SimpleTrainer:
                 self.logger_stats.write_stat(self.stats.val, epoch, self.cf.test_json_file)
 
         def validation_loop(self, epoch, valid_loader, valid_set, confm_list):
-            for vi, data in tqdm(enumerate(valid_loader), desc="Validating...", total=len(valid_loader),
+            for vi, data in tqdm(enumerate(valid_loader), desc="Validation", total=len(valid_loader),
                                  file=sys.stdout):
                 # Read data
                 inputs, gts = data
@@ -272,7 +272,7 @@ class SimpleTrainer:
         def start(self, dataloader):
             self.model.net.eval()
 
-            for vi, data in tqdm(enumerate(dataloader), desc='Predicting...', total=len(dataloader), file=sys.stdout):
+            for vi, data in tqdm(enumerate(dataloader), desc='Prediction', total=len(dataloader), file=sys.stdout):
                 inputs, img_name, img_shape = data
 
                 inputs = Variable(inputs).cuda()
