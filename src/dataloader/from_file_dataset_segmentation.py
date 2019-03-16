@@ -9,23 +9,28 @@ class FromFileDatasetSegmentation(DataLoader):
     def __init__(self, cf, image_txt, gt_txt, num_images, resize=None,
                  preprocess=None, transform=None, valid=False):
         super(FromFileDatasetSegmentation, self).__init__()
+
         self.cf = cf
         self.resize = resize
         self.transform = transform
         self.preprocess = preprocess
         self.num_images = num_images
-        print("\t Images from: " + image_txt)
+
+        print("Reading images from: {}".format(image_txt))
         with open(image_txt) as f:
             image_names = f.readlines()
-        # remove whitespace characters like `\n` at the end of each line
         self.image_names = [x.strip() for x in image_names]
-        print("\t Gt from: " + gt_txt)
+
+        print("Reading annotations from: {}".format(gt_txt))
         with open(gt_txt) as f:
             gt_names = f.readlines()
         self.gt_names = [x.strip() for x in gt_names]
+
         if len(self.gt_names) != len(self.image_names):
-            raise ValueError('number of images != number GT images')
-        print("\t Images found: " + str(len(self.image_names)))
+            raise ValueError('number of images != number of annotation masks')
+
+        print("Found {} images".format(len(self.image_names)))
+
         if len(self.image_names) < self.num_images or self.num_images == -1:
             self.num_images = len(self.image_names)
         self.img_indexes = np.arange(len(self.image_names))
