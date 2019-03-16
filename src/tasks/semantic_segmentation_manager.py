@@ -1,5 +1,4 @@
 import os
-import time
 
 import numpy as np
 import cv2 as cv
@@ -23,7 +22,7 @@ class SemanticSegmentationManager(SimpleTrainer):
                     self.cf.save_condition, self.model.best_stats.epoch, 100 * self.model.best_stats.val.mIoU,
                     100 * self.model.best_stats.val.acc, self.model.best_stats.val.loss)
 
-        def validate_epoch(self, valid_set, valid_loader, early_Stopping, epoch):
+        def validate_epoch(self, valid_set, valid_loader, early_stopping, epoch):
 
             if valid_set is not None and valid_loader is not None:
                 # Set model in validation mode
@@ -33,34 +32,19 @@ class SemanticSegmentationManager(SimpleTrainer):
 
                 # Early stopping checking
                 if self.cf.early_stopping:
-                    early_Stopping.check(self.stats.train.loss, self.stats.val.loss, self.stats.val.mIoU,
-                                         self.stats.val.acc)
-                    if early_Stopping.stop == True:
+                    if early_stopping.check(self.stats.train.loss, self.stats.val.loss, self.stats.val.mIoU,
+                                            self.stats.val.acc):
                         self.stop = True
 
                 # Set model in training mode
                 self.model.net.train()
 
-        def update_messages(self, epoch, epoch_time, new_best):
-            # Update logger
-            epoch_time = time.time() - epoch_time
-            self.logger_stats.write('\t Epoch step finished: %ds \n' % (epoch_time))
-
-            # Compute best stats
-            self.msg.msg_stats_last = '\nLast epoch: mIoU = %.2f, acc= %.2f, loss = %.5f\n' % (
-                100 * self.stats.val.mIoU, 100 * self.stats.val.acc, self.stats.val.loss)
-            if new_best:
-                self.msg.msg_stats_best = 'Best case [%s]: epoch = %d, mIoU = %.2f, acc= %.2f, loss = %.5f\n' % (
-                    self.cf.save_condition, epoch, 100 * self.stats.val.mIoU,
-                    100 * self.stats.val.acc, self.stats.val.loss)
-                msg_confm = self.stats.val.get_confm_str()
-                self.logger_stats.write(msg_confm)
-                self.msg.msg_stats_best = self.msg.msg_stats_best + '\nConfusion matrix:\n' + msg_confm
-
         def compute_stats(self, confm_list, train_loss):
             TP_list, TN_list, FP_list, FN_list = extract_stats_from_confm(confm_list)
+
             mean_IoU = compute_mIoU(TP_list, FP_list, FN_list)
             mean_accuracy = compute_accuracy_segmentation(TP_list, FN_list)
+
             self.stats.train.acc = np.nanmean(mean_accuracy)
             self.stats.train.mIoU_perclass = mean_IoU
             self.stats.train.mIoU = np.nanmean(mean_IoU)
@@ -85,8 +69,10 @@ class SemanticSegmentationManager(SimpleTrainer):
 
         def compute_stats(self, confm_list, val_loss):
             TP_list, TN_list, FP_list, FN_list = extract_stats_from_confm(confm_list)
+
             mean_IoU = compute_mIoU(TP_list, FP_list, FN_list)
             mean_accuracy = compute_accuracy_segmentation(TP_list, FN_list)
+
             self.stats.val.acc = np.nanmean(mean_accuracy)
             self.stats.val.mIoU_perclass = mean_IoU
             self.stats.val.mIoU = np.nanmean(mean_IoU)
