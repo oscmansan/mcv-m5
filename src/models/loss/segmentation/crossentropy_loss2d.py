@@ -19,8 +19,8 @@ class CrossEntropyLoss2d(SemanticLoss):
         # # log_p = self.my_softmax(inputs).log()
         # log_p = F.log_softmax(inputs[0],dim=1)
         #
-        # log_p = log_p.transpose(0, 2).transpose(2, 3).contiguous()                      # I dont understand this part...
-        # log_p = log_p[targets.view(n, h, w, 1).repeat(1, 1, 1, c) != self.ignore_index] # rm invalid index
+        # log_p = log_p.transpose(0, 2).transpose(2, 3).contiguous()  # I dont understand this part...
+        # log_p = log_p[targets.view(n, h, w, 1).repeat(1, 1, 1, c) != self.ignore_index]  # rm invalid index
         # log_p = log_p.view(-1, c)
         #
         # mask = (targets != self.ignore_index)
@@ -32,11 +32,10 @@ class CrossEntropyLoss2d(SemanticLoss):
         #
         # if self.cf.normalize_loss:
         #    loss /= mask.data.sum()
-        loss_fn_ = torch.nn.NLLLoss2d(weight=None, size_average=True,
-                                      ignore_index=self.ignore_index)
 
-        loss = loss_fn_(F.log_softmax(inputs), targets)
-        return loss#.mean()
+        loss_fn_ = torch.nn.NLLLoss(weight=None, reduction='mean', ignore_index=self.ignore_index)
+        loss = loss_fn_(F.log_softmax(inputs, dim=1), targets)
+        return loss
 
     def my_softmax(self, inputs):
         d, n, c, w, h = inputs.size()
