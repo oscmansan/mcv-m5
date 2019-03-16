@@ -61,28 +61,23 @@ grayscale                   : False
 
 # Dataset properties
 
-train_dataset_path          : null
-valid_dataset_path          : null
-test_dataset_path           : null
-train_images_txt: '/home/mcv/datasets/M5/segmentation/cityscapes/train_images.txt'
-train_gt_txt: '/home/mcv/datasets/M5/segmentation/cityscapes/train_labels.txt'
-valid_images_txt: '/home/mcv/datasets/M5/segmentation/cityscapes/val_images.txt'
-valid_gt_txt: '/home/mcv/datasets/M5/segmentation/cityscapes/val_labels.txt'
-test_images_txt: '/home/mcv/datasets/M5/segmentation/cityscapes/val_images.txt'
-test_gt_txt: '/home/mcv/datasets/M5/segmentation/cityscapes/val_labels.txt'
+train_images_txt: '/home/mcv/datasets/M5/segmentation/camvid/train_images.txt'
+train_gt_txt: '/home/mcv/datasets/M5/segmentation/camvid/train_labels.txt'
+valid_images_txt: '/home/mcv/datasets/M5/segmentation/camvid/val_images.txt'
+valid_gt_txt: '/home/mcv/datasets/M5/segmentation/camvid/val_labels.txt'
+test_images_txt: '/home/mcv/datasets/M5/segmentation/camvid/test_images.txt'
+test_gt_txt: '/home/mcv/datasets/M5/segmentation/camvid/test_labels.txt'
 
-labels                      : !!python/tuple ['road','sidewalk','building','wall','fence','pole','traffic light','traffic, sign',
-                                'vegetation','terrain','sky','person','rider','car','truck','bus','train',
-                                'motorcycle','bicycle']
+labels                      : !!python/tuple ['sky', 'building', 'column_pole', 'road', 'sidewalk', 'tree', 'sign', 'fence', 'car', 'pedestrian', 'byciclist']
 map_labels                  : null
 
-num_classes                 : 19
+num_classes                 : 11
 shuffle                     : True
-void_class                  : 255
+void_class                  : 11
 #void id or value on the image
 
 # Training
-epochs                      : 80
+epochs                      : 50
 #Max number of epochs
 initial_epoch: 1
 #Defines the starting epoch number
