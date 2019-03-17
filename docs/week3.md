@@ -22,10 +22,10 @@ The goal of this week is to segment all the different objects (e.g., person, veh
 - Run the provided code:
 	- FCN8 on CamVid
 - Implement a new network:
-      	- SegNet
-      	- DeepLab
-      	- ResNetFCN
-      	- PSPNet
+	- SegNet
+	- DeepLab
+	- ResNetFCN
+	- PSPNet
 - Train each network with the following datasets:
 	- CamVid
 	- Cityscapes
@@ -38,13 +38,5 @@ The goal of this week is to segment all the different objects (e.g., person, veh
 	
 ## Results
 
-### Standard
-
-| Datasets | Networks | train  | val   | test  |
-|----------|----------|--------|-------|-------|
-
-
-### With Data Augmentation and ReduceLROnPlateau
-
-| Datasets | Networks |    | train | val   | test  |
-|----------|----------|----|-------|-------|-------|
+| dataset | network | train   | val     | test    |
+|---------|---------|---------|---------|---------|
