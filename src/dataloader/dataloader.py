@@ -40,7 +40,7 @@ class DataLoader(Dataset):
                     file_names.append(fname)
         return file_paths, file_names
 
-    # Load image using PIL
+    # Load image using Pillow
     def load_image(self, image_path, resize=None, grayscale=False):
         img = Image.open(image_path)
         # Resize
@@ -53,7 +53,7 @@ class DataLoader(Dataset):
             img = img.convert('LA')
         return img
 
-    # Load image using Skimage
+    # Load image using OpenCV
     def load_img_cv(self, path, resize=None, grayscale=False):
         # Load image
         img = cv.imread(path)[...,::-1]
@@ -74,8 +74,8 @@ class DataLoader(Dataset):
         img = io.imread(path)
         shape = img.shape
         if resize is not None:
-            img = skimage.transform.resize(img, resize, order=order,
-                                           preserve_range=True, mode='reflect')
+            img = skimage.transform.resize(img, resize, order=order, preserve_range=True, mode='reflect',
+                                           anti_aliasing=True)
 
         # Color conversion
         if len(img.shape) == 2 and not grayscale:
