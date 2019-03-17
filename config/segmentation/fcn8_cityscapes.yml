@@ -1,50 +1,47 @@
 # Problem type
-problem_type                : 'segmentation'    # Option: ['segmentation','classification']
+problem_type                : 'segmentation'  # Option: ['segmentation','classification']
 
 # Model
-model_type                  : 'fcn8atonce'      # Options: ['fcn8atonce']
+model_type                  : 'fcn8atonce'  # Options: ['fcn8atonce']
 
-### load/store options
+# Load/store options
 resume_experiment           : False
-pretrained_model            : 'basic'       # 'None': from scratch, 'basic': pretrained from imagenet, 'custom': personal model
-input_model_path            : null          # Path and pretrained file to load [None uses experiment path and model name by default]
-load_weight_only            : True          # Recommended true, loads only weights and parameters
+pretrained_model            : 'basic'  # 'None': from scratch, 'basic': pretrained from ImageNet, 'custom': personal model
+input_model_path            : null  # Path and pretrained file to load [None uses experiment path and model name by default]
+load_weight_only            : True  # Recommended true, loads only weights and parameters
 
-### Save options
-save_weight_only            : True          # Recommended true, stores only weights and parameters
+# Save options
+save_weight_only            : True  # Recommended true, stores only weights and parameters
 model_name                  : 'fcn8atonce'  # Name of the model to store
-output_model_path           : null          # Path to store the model using model_name [None uses the default experiment path]
-basic_models_path           : './pretrained_model/'
-
+output_model_path           : null  # Path to store the model using model_name [None uses the default experiment path]
+basic_models_path           : null
 
 # Loss type
 loss_type                   : 'cross_entropy_segmentation'  # options: ['cross_entropy_segmentation','focal_segmentation']
 normalize_loss              : True
 
 # General parameters
-
-train_samples               : -1  #-1 uses all the data available inside the dataset files
-valid_samples               : -1  #-1 uses all the data available inside the dataset files
-test_samples                : -1  #-1 uses all the data available inside the dataset files
-train_batch_size            : 1
-valid_batch_size            : 1
-test_batch_size             : 1
+train_samples               : -1  # -1 uses all the data available inside the dataset files
+valid_samples               : -1  # -1 uses all the data available inside the dataset files
+test_samples                : -1  # -1 uses all the data available inside the dataset files
+train_batch_size            : 8
+valid_batch_size            : 8
+test_batch_size             : 8
 train                       : True
 validation                  : True
-test                        : False   # Calculate metrics on test giving the gt
-predict_test                : True    # True when you want to generate predictions from test, doesn't need gt
-predict_path_output         :         # None uses the default output in the experiment folder /predictions
+test                        : False  # Calculate metrics on test giving the gt
+predict_test                : True  # True when you want to generate predictions from test, doesn't need gt
+predict_path_output         : null  # None uses the default output in the experiment folder /predictions
 
 # Image properties
 size_image_test             : null
-resize_image_train          : null    #!!python/tuple [512, 1024]
-resize_image_valid          : null    #!!python/tuple [512, 1024]
-resize_image_test           : null    #!!python/tuple [512, 1024]
-crop_train                  : null    #!!python/tuple [720,720] #!!python/tuple [320, 320]
-grayscale                   : False   #Use this option to convert to rgb a grayscale dataset
+resize_image_train          : !!python/tuple [512, 512]
+resize_image_valid          : !!python/tuple [512, 512]
+resize_image_test           : !!python/tuple [512, 512]
+crop_train                  : null  #!!python/tuple [720,720] #!!python/tuple [320, 320]
+grayscale                   : False  #Use this option to convert to rgb a grayscale dataset
 
 # Dataset properties
-
 train_dataset_path          : null
 valid_dataset_path          : null
 test_dataset_path           : null
@@ -60,35 +57,35 @@ map_labels                  : null
 
 num_classes                 : 19
 shuffle                     : True
-void_class                  : 255    #void id or value on the image
+void_class                  : 255  # void id or value on the image
 
 # Training
-epochs                      : 50    #Max number of epochs
-initial_epoch               : 1     #Defines the starting epoch number
-valid_samples_epoch         : -1    # Number of validation images used to validate an epoch
+epochs                      : 50  # Max number of epochs
+initial_epoch               : 1  # Defines the starting epoch number
+valid_samples_epoch         : -1 # Number of validation images used to validate an epoch
 is_training                 : True
 
-### Optimizer ###
+# Optimizer
 optimizer                   : 'SGD'
 momentum1                   : 0.9
 momentum2                   : 0.99
-learning_rate               : 1.0e-3
-learning_rate_bias          : 1.0e-3
+learning_rate               : 1.0e-2
+learning_rate_bias          : 1.0e-2
 weight_decay                : 5.0e-5
 
-### Scheduler
-scheduler                   : None    # ['ReduceLROnPlateau','Step','MultiStep','Exponential', None]
-decay                       : 0.1     # Learning rate decay to apply (lr*decay)
-sched_patience              : 5       # ReduceLROnPlateau option: epoch patience without loss change until a lr decrement
-step_size                   : 20      # Step option: epoch counter to decrease lr
-milestone                   : [10]    # MultiStep option: define different milestones (epochs) to decrease lr
+# Scheduler
+scheduler                   : None  # ['ReduceLROnPlateau','Step','MultiStep','Exponential', None]
+decay                       : 0.1  # Learning rate decay to apply (lr*decay)
+sched_patience              : 5  # ReduceLROnPlateau option: epoch patience without loss change until a lr decrement
+step_size                   : 20 # Step option: epoch counter to decrease lr
+milestone                   : [10]  # MultiStep option: define different milestones (epochs) to decrease lr
 
-### Save criteria
-save_condition              : 'valid_mIoU'      # ['always','(x)_loss','(x)_mAcc','(x)_mIoU'] x : valid or train_loss
+# Save criteria
+save_condition              : 'valid_mIoU'  # ['always','(x)_loss','(x)_mAcc','(x)_mIoU'] x : valid or train_loss
 
-### Early Stopping
+# Early Stopping
 early_stopping              : False
-stop_condition              : 'valid_mIoU'      # [(x)_loss','(x)_mAcc','(x)_mIoU'] x : valid or train_loss
+stop_condition              : 'valid_mIoU'  # [(x)_loss','(x)_mAcc','(x)_mIoU'] x : valid or train_loss
 patience                    : 5
 
 # Image preprocess
