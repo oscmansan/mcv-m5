@@ -1,5 +1,6 @@
 import os
 import argparse
+import shutil
 from importlib.machinery import SourceFileLoader
 # import yaml
 
@@ -53,7 +54,7 @@ class Configuration:
         cf.best_json_file = os.path.join(cf.exp_folder, "json_stats/best_model_stats.json")
         cf.temp_folder = os.path.join(cf.exp_folder, "temp")
         # Copy config file TODO: create a file saver for parse config
-        # shutil.copyfile(cf.config_file, os.path.join(cf.exp_folder, "config.py"))
+        shutil.copyfile(cf.config_path, os.path.join(cf.exp_folder, 'config.yml'))
 
         if cf.predict_path_output is None or cf.predict_path_output is None:
             cf.predict_path_output = os.path.join(cf.exp_folder, 'predictions/')
