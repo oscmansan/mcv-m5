@@ -10,7 +10,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 from models.networks.network import Net
-from models.networks.segmentation.resnet import resnet50
+from models.networks.segmentation.resnet import resnet50, resnet101
 
 
 class PSP_head(nn.Module):
@@ -84,7 +84,7 @@ class PSP_Resnet50_8s(Net):
         self.pretrained = pretrained
         self.net_name = net_name
 
-        # Load the pretrained weights, remove avg pool layer and get the output stride of 16
+        # Load the pretrained weights, remove avg pool layer and get the output stride of 8
         resnet50_8s = resnet50(fully_conv=True,
                                pretrained=pretrained,
                                output_stride=8,
@@ -113,6 +113,54 @@ class PSP_Resnet50_8s(Net):
         x = self.psp_head(x)
 
         x = self.resnet50_8s.fc(x)
+
+        x = F.interpolate(input=x, size=input_spatial_dim, mode='bilinear', align_corners=True)
+
+        return x
+
+    def initialize_weights(self):
+        pass
+
+    def load_basic_weights(self):
+        pass
+
+
+class PSP_Resnet101_8s(Net):
+
+    def __init__(self, cf, num_classes=1000, pretrained=False, net_name='PSPNet'):
+        super(PSP_Resnet101_8s, self).__init__(cf)
+        self.pretrained = pretrained
+        self.net_name = net_name
+
+        # Load the pretrained weights, remove avg pool layer and get the output stride of 8
+        resnet101_8s = resnet101(fully_conv=True,
+                                 pretrained=pretrained,
+                                 output_stride=8,
+                                 remove_avg_pool_layer=True)
+
+        self.psp_head = PSP_head(resnet101_8s.inplanes)
+
+        # Randomly initialize the 1x1 Conv scoring layer
+        resnet101_8s.fc = nn.Conv2d(resnet101_8s.inplanes // 4, num_classes, 1)
+
+        self.resnet101_8s = resnet101_8s
+
+    def forward(self, x):
+        input_spatial_dim = x.size()[2:]
+
+        x = self.resnet101_8s.conv1(x)
+        x = self.resnet101_8s.bn1(x)
+        x = self.resnet101_8s.relu(x)
+        x = self.resnet101_8s.maxpool(x)
+
+        x = self.resnet101_8s.layer1(x)
+        x = self.resnet101_8s.layer2(x)
+        x = self.resnet101_8s.layer3(x)
+        x = self.resnet101_8s.layer4(x)
+
+        x = self.psp_head(x)
+
+        x = self.resnet101_8s.fc(x)
 
         x = F.interpolate(input=x, size=input_spatial_dim, mode='bilinear', align_corners=True)
 

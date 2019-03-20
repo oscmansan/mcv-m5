@@ -2,7 +2,7 @@
 problem_type                : 'segmentation'
 
 # Model
-model_type                  : 'PSPNet'
+model_type                  : 'pspnet50'
 
 # Load/store options
 resume_experiment           : False
@@ -12,7 +12,7 @@ load_weight_only            : True
 
 # Save options
 save_weight_only            : True
-model_name                  : 'PSPNet'
+model_name                  : 'pspnet50'
 output_model_path           : null
 basic_models_path           : null
 
@@ -30,7 +30,7 @@ valid_batch_size            : 8
 test_batch_size             : 8
 train                       : True
 validation                  : True
-test                        : False
+test                        : True
 predict_test                : True
 predict_path_output         : null
 
@@ -67,15 +67,15 @@ valid_samples_epoch         : -1
 is_training                 : True
 
 # Optimizer
-optimizer                   : 'Adam'
+optimizer                   : 'SGD'
 momentum1                   : 0.9
 momentum2                   : 0.99
-learning_rate               : 1.0e-3
-learning_rate_bias          : 1.0e-3
-weight_decay                : 5.0e-4
+learning_rate               : 1.0e-2
+learning_rate_bias          : 1.0e-2
+weight_decay                : 0
 
 # Scheduler
-scheduler                   : None
+scheduler                   : 'ReduceLROnPlateau'
 decay                       : 0.1
 sched_patience              : 5
 step_size                   : 20
@@ -85,7 +85,7 @@ milestone                   : [10]
 save_condition              : 'valid_mIoU'
 
 # Early Stopping
-early_stopping              : False
+early_stopping              : True
 stop_condition              : 'valid_mIoU'
 patience                    : 5
 
@@ -95,7 +95,7 @@ mean                        : !!python/tuple [127.5, 127.5, 127.5]  #[104.006987
 std                         : !!python/tuple [1.,1.,1.]             #[0.18696375, 0.19017339, 0.18720214]#[0.21090189, 0.21090189, 0.21090189]
 
 # Data augmentation
-hflips                      : False
+hflips                      : True
 random_dist                 : False
 
 color_map                   : null

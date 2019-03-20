@@ -3,10 +3,10 @@ Reference:
 https://github.com/warmspringwinds/vision/blob/fully_conv_resnet/torchvision/models/resnet.py
 """
 
-import torch.nn as nn
 import math
-import torch.utils.model_zoo as model_zoo
 import numpy as np
+import torch.nn as nn
+import torch.utils.model_zoo as model_zoo
 
 __all__ = ['ResNet', 'resnet18', 'resnet34', 'resnet50', 'resnet101',
            'resnet152']
@@ -25,15 +25,14 @@ def conv3x3(in_planes, out_planes, stride=1, dilation=1):
 
     kernel_size = np.asarray((3, 3))
 
-    # Compute the size of the upsampled filter with
-    # a specified dilation rate.
+    # Compute the size of the upsampled filter with a specified dilation rate.
     upsampled_kernel_size = (kernel_size - 1) * (dilation - 1) + kernel_size
 
-    # Determine the padding that is necessary for full padding,
-    # meaning the output spatial size is equal to input spatial size
+    # Determine the padding that is necessary for full padding, meaning the output spatial size is equal to input
+    # spatial size
     full_padding = (upsampled_kernel_size - 1) // 2
 
-    # Conv2d doesn't accept numpy arrays as arguments
+    # Conv2d does not accept numpy arrays as arguments
     full_padding, kernel_size = tuple(full_padding), tuple(kernel_size)
 
     return nn.Conv2d(in_planes, out_planes, kernel_size=kernel_size, stride=stride,
@@ -129,8 +128,7 @@ class ResNet(nn.Module):
         self.inplanes = 64
         self.fully_conv = fully_conv
         super(ResNet, self).__init__()
-        self.conv1 = nn.Conv2d(3, 64, kernel_size=7, stride=2, padding=3,
-                               bias=False)
+        self.conv1 = nn.Conv2d(3, 64, kernel_size=7, stride=2, padding=3, bias=False)
         self.bn1 = nn.BatchNorm2d(64)
         self.relu = nn.ReLU(inplace=True)
         self.maxpool = nn.MaxPool2d(kernel_size=3, stride=2, padding=1)
@@ -183,7 +181,7 @@ class ResNet(nn.Module):
                 # If not, perform subsampling and update current new output stride.
                 self.current_stride = self.current_stride * stride
 
-            # We don't dilate 1x1 convolution.
+            # We do not dilate 1x1 convolution.
             downsample = nn.Sequential(
                 nn.Conv2d(self.inplanes, planes * block.expansion,
                           kernel_size=1, stride=stride, bias=False),

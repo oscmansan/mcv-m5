@@ -13,7 +13,7 @@ from models.networks.segmentation.FCN8AtOnce import FCN8AtOnce
 from models.networks.segmentation.FCdenseNetTorch import FCDenseNet
 from models.networks.segmentation.deeplabv2_resnet import MS_Deeplab
 from models.networks.segmentation.deeplabv3plus_xception import DeepLabv3_xception
-from models.networks.segmentation.psp import PSP_Resnet50_8s
+from models.networks.segmentation.psp import PSP_Resnet50_8s, PSP_Resnet101_8s
 # from models.networks.detection.rpn import RPN
 
 from models.loss.loss_builder import LossBuilder
@@ -95,9 +95,12 @@ class ModelBuilder:
         elif self.cf.model_type.lower() == 'deeplabv2':
             self.net = MS_Deeplab(self.cf, n_classes=self.cf.num_classes,
                                   pretrained=self.cf.basic_pretrained_model).cuda()
-        elif self.cf.model_type.lower() == 'pspnet':
+        elif self.cf.model_type.lower() == 'pspnet50':
             self.net = PSP_Resnet50_8s(self.cf, num_classes=self.cf.num_classes,
                                        pretrained=self.cf.basic_pretrained_model).cuda()
+        elif self.cf.model_type.lower() == 'pspnet101':
+            self.net = PSP_Resnet101_8s(self.cf, num_classes=self.cf.num_classes,
+                                        pretrained=self.cf.basic_pretrained_model).cuda()
         else:
             raise ValueError('Unknown model')
 
