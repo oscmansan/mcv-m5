@@ -61,7 +61,7 @@ shuffle                     : True
 void_class                  : 11
 
 # Training
-epochs                      : 50
+epochs                      : 300
 initial_epoch               : 1
 valid_samples_epoch         : -1
 is_training                 : True
@@ -72,7 +72,7 @@ momentum1                   : 0.9
 momentum2                   : 0.99
 learning_rate               : 1.0e-3
 learning_rate_bias          : 1.0e-3
-weight_decay                : 0
+weight_decay                : 5.0e-5
 
 # Scheduler
 scheduler                   : 'ReduceLROnPlateau'
@@ -87,7 +87,7 @@ save_condition              : 'valid_mIoU'
 # Early Stopping
 early_stopping              : True
 stop_condition              : 'valid_mIoU'
-patience                    : 5
+patience                    : 10
 
 # Image preprocess
 rescale                     : 1. #0.003921569
@@ -96,7 +96,7 @@ std                         : !!python/tuple [1.,1.,1.]             #[0.18696375
 
 # Data augmentation
 hflips                      : True
-random_dist                 : False
+random_dist                 : True
 
 color_map                   : null
 num_images                  : null
