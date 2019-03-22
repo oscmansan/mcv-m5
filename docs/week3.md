@@ -8,9 +8,9 @@ The goal of this week is to segment all the different objects (e.g., person, veh
 ## Completed tasks
 
 - [x] (a) Run the provided code
-- [ ] (b) Read 2 papers about semantic segmentation networks
+- [x] (b) Read 2 papers about semantic segmentation networks
 - [x] (c) Implement a new network
-- [ ] (d) Train the network(s) on a different dataset
+- [x] (d) Train the network(s) on a different dataset
 - [ ] (e) Boost the performance of the network(s)
 - [ ] (f) Report showing the achieved results
     - [ ] README
@@ -22,15 +22,10 @@ The goal of this week is to segment all the different objects (e.g., person, veh
 - Run the provided code:
 	- FCN8 on CamVid
 - Implement a new network:
-	- SegNet
-	- DeepLab
-	- ResNetFCN
 	- PSPNet
 - Train each network with the following datasets:
 	- CamVid
 	- Cityscapes
-	- Pascal2012
-  	- Synthia
 	- KITTI
 - Boost the performance of the networks:
 	- Hyperparameters tuning
