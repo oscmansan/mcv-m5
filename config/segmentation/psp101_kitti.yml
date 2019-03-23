@@ -2,7 +2,7 @@
 problem_type                : 'segmentation'
 
 # Model
-model_type                  : 'pspnet50'
+model_type                  : 'pspnet101'
 
 # Load/store options
 resume_experiment           : False
@@ -12,7 +12,7 @@ load_weight_only            : True
 
 # Save options
 save_weight_only            : True
-model_name                  : 'pspnet50'
+model_name                  : 'pspnet101'
 output_model_path           : null
 basic_models_path           : null
 
@@ -25,9 +25,9 @@ normalize_loss              : True
 train_samples               : -1
 valid_samples               : -1
 test_samples                : -1
-train_batch_size            : 4
-valid_batch_size            : 4
-test_batch_size             : 4
+train_batch_size            : 2
+valid_batch_size            : 2
+test_batch_size             : 2
 train                       : True
 validation                  : True
 test                        : False
