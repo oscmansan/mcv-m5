@@ -66,20 +66,20 @@ python3 src/main.py --config_file config/oscarnet_tt100k_pretrained.yml
 
 ### Object Recognition
 
-#### VGG: 
+#### VGG (CVPR 2014): 
 * [Original paper](https://arxiv.org/abs/1409.1556)
 * [Summary](docs/vgg.md)
 
-#### ResNet
+#### ResNet (2015):
 * [Original paper](https://arxiv.org/abs/1512.03385)
 * [Summary](docs/resnet.md)
 
 ### Image Semantic Segmentation
 
-#### FCN
+#### FCN (CVPR 2015):
 * [Original paper](https://arxiv.org/abs/1411.4038)
 * [Summary](docs/fcn.md)
 
-#### PSPNet
+#### PSPNet (CVPR 2017):
 * [Original paper](https://arxiv.org/abs/1612.01105v2)
 * [Summary](docs/pspnet.md)
