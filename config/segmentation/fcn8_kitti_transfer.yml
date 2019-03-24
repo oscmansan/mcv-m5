@@ -30,8 +30,8 @@ valid_batch_size            : 6
 test_batch_size             : 6
 train                       : True
 validation                  : True
-test                        : True
-predict_test                : True
+test                        : False
+predict_test                : False
 predict_path_output         : null
 
 # Image properties
@@ -50,8 +50,8 @@ train_images_txt            : '/home/grupo06/m5-project/datasets/kitti/train_ima
 train_gt_txt                : '/home/grupo06/m5-project/datasets/kitti/train_labels.txt'
 valid_images_txt            : '/home/grupo06/m5-project/datasets/kitti/val_images.txt'
 valid_gt_txt                : '/home/grupo06/m5-project/datasets/kitti/val_labels.txt'
-test_images_txt             : '/home/grupo06/m5-project/datasets/kitti/test_images.txt'
-test_gt_txt                 : '/home/grupo06/m5-project/datasets/kitti/test_labels.txt'
+test_images_txt             : null
+test_gt_txt                 : null
 
 labels                      : !!python/tuple ['sky', 'building', 'column_pole', 'road', 'sidewalk', 'tree', 'sign', 'fence', 'car', 'pedestrian', 'byciclist']
 map_labels                  : null
@@ -61,7 +61,7 @@ shuffle                     : True
 void_class                  : 255
 
 # Training
-epochs                      : 50
+epochs                      : 300
 initial_epoch               : 1
 valid_samples_epoch         : -1
 is_training                 : True
@@ -72,10 +72,10 @@ momentum1                   : 0.9
 momentum2                   : 0.99
 learning_rate               : 1.0e-3
 learning_rate_bias          : 1.0e-3
-weight_decay                : 0
+weight_decay                : 5.0e-5
 
 # Scheduler
-scheduler                   : 'ReduceLROnPlateau'
+scheduler                   : None
 decay                       : 0.1
 sched_patience              : 5
 step_size                   : 20
@@ -87,7 +87,7 @@ save_condition              : 'valid_mIoU'
 # Early Stopping
 early_stopping              : True
 stop_condition              : 'valid_mIoU'
-patience                    : 5
+patience                    : 10
 
 # Image preprocess
 rescale                     : 1. #0.003921569
