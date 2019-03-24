@@ -76,7 +76,7 @@ def draw_legend(w, color_map, classes, n_lines=3, txt_color=(255, 255, 255), fon
         text = classes[i]
 
         # Compute current row and col
-        row = i//n_classes_per_line
+        row = i // n_classes_per_line
         col = i % n_classes_per_line
 
         # Draw box
