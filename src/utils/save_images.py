@@ -115,7 +115,7 @@ def save_img(writer, image_batch, mask_batch, output, epoch, indexes, num_images
              void_label, mean, std, n_legend_rows=1):
     valid_values = [(indx, i) for indx, i in enumerate(indexes) if i in range(0, valid_len, int(valid_len / (num_images-1)))]
     for idx, value in valid_values:
-        img = (image_batch[idx].numpy().transpose((1, 2, 0)) * std + mean).astype(np.uint8)
+        img = (image_batch[idx].numpy().transpose((1, 2, 0))[:, :, ::-1] * std + mean).astype(np.uint8)
 
         label_out = my_label2rgb(output[idx], bglabel=void_label, colors=color_map)
         #label_mask = my_label2rgboverlay(mask_batch[idx], colors=color_map, image=img, bglabel=void_label, alpha=0.3)
