@@ -11,11 +11,11 @@ The goal of this week is to segment all the different objects (e.g., person, veh
 - [x] (b) Read 2 papers about semantic segmentation networks
 - [x] (c) Implement a new network
 - [x] (d) Train the network(s) on a different dataset
-- [ ] (e) Boost the performance of the network(s)
-- [ ] (f) Report showing the achieved results
-    - [ ] README
-    - [ ] Slides
-    - [ ] Report
+- [x] (e) Boost the performance of the network(s)
+- [x] (f) Report showing the achieved results
+    - [x] README
+    - [x] Slides
+    - [x] Report
 
 ## Implementation
 
@@ -33,5 +33,21 @@ The goal of this week is to segment all the different objects (e.g., person, veh
 	
 ## Results
 
-| dataset | network | train   | val     | test    |
-|---------|---------|---------|---------|---------|
+Training results:
+
+| dataset    | network   | train   | val     | test    |
+|------------|-----------|---------|---------|---------|
+| KITTI      | FCN8      | 0.721   | 0.465   | -       |
+|            | PSPNet50  | 0.697   | 0.470   | -       |
+|            | PSPNet101 | 0.708   | 0.486   | -       |
+| CamVid     | FCN8      | 0.706   | 0.654   | 0.552   |
+|            | PSPNet50  | 0.552   | 0.705   | 0.462   |
+|            | PSPNet101 | 0.709   | 0.679   | 0.595   |
+| Cityscapes | FCN8      | 0.584   | 0.557   | -       |
+
+Transfer learning results:
+
+| dataset        | network   | train   | val     | test    |
+|----------------|-----------|---------|---------|---------|
+| CamVid → KITTI | FCN8      | 0.537   | 0.436   | -       |
+| VOC → KITTI    | FCN8      | 0.721   | 0.465   | -       |
