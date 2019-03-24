@@ -87,7 +87,8 @@ class PSP_Resnet50_8s(Net):
 
     def __init__(self, cf, num_classes=1000, pretrained=False, net_name='PSPNet'):
         super(PSP_Resnet50_8s, self).__init__(cf)
-        self.pretrained = pretrained
+
+        self.url = 'https://drive.google.com/uc?export=download&id=1RhUOsQdC6zoomOSCUpkY-gMRaX814M4v'
         self.net_name = net_name
 
         # Load the pretrained weights, remove avg pool layer and get the output stride of 8
@@ -129,15 +130,13 @@ class PSP_Resnet50_8s(Net):
     def initialize_weights(self):
         pass
 
-    def load_basic_weights(self):
-        pass
-
 
 class PSP_Resnet101_8s(Net):
 
     def __init__(self, cf, num_classes=1000, pretrained=False, net_name='PSPNet'):
         super(PSP_Resnet101_8s, self).__init__(cf)
-        self.pretrained = pretrained
+
+        self.url = 'https://drive.google.com/uc?export=download&id=1NsFPgiJlvNe4JElNZtAZ8ZjVYgztT3p4'
         self.net_name = net_name
 
         # Load the pretrained weights, remove avg pool layer and get the output stride of 8
@@ -177,7 +176,4 @@ class PSP_Resnet101_8s(Net):
         return x
 
     def initialize_weights(self):
-        pass
-
-    def load_basic_weights(self):
         pass
