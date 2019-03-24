@@ -13,6 +13,12 @@ from models.networks.network import Net
 from models.networks.segmentation.resnet import resnet50, resnet101
 
 
+def set_parameter_requires_grad(model, feature_extracting):
+    if feature_extracting:
+        for param in model.parameters():
+            param.requires_grad = False
+
+
 class PSP_head(nn.Module):
 
     def __init__(self, in_channels):
@@ -90,6 +96,8 @@ class PSP_Resnet50_8s(Net):
                                output_stride=8,
                                remove_avg_pool_layer=True)
 
+        #set_parameter_requires_grad(resnet50_8s, pretrained)  # freeze weights
+
         self.psp_head = PSP_head(resnet50_8s.inplanes)
 
         # Randomly initialize the 1x1 Conv scoring layer
@@ -137,6 +145,8 @@ class PSP_Resnet101_8s(Net):
                                  pretrained=pretrained,
                                  output_stride=8,
                                  remove_avg_pool_layer=True)
+
+        #set_parameter_requires_grad(resnet101_8s, pretrained)  # freeze weights
 
         self.psp_head = PSP_head(resnet101_8s.inplanes)
 
