@@ -57,6 +57,7 @@ python3 src/main.py --config_file config/oscarnet_tt100k_pretrained.yml
 - [Slides](https://docs.google.com/presentation/d/1Tw2_rM0kb7KlDa2SXAh9ICdI2R2cIrZHyfTIjgGYIwc/edit?usp=sharing)
 - Model weights:
     - [PSPNet50 on CamVid](https://drive.google.com/uc?export=download&id=1RhUOsQdC6zoomOSCUpkY-gMRaX814M4v)
+    - [PSPNet101 on CamVid](https://drive.google.com/uc?export=download&id=1NsFPgiJlvNe4JElNZtAZ8ZjVYgztT3p4)
 
 ## Report
 
