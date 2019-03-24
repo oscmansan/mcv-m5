@@ -1,13 +1,14 @@
-# Imports
-from skimage.color import rgb2gray, gray2rgb
-from skimage import img_as_float
+import os
+import math
+
 import numpy as np
 import scipy.misc
-import os
+from skimage import img_as_float
+from skimage.color import rgb2gray, gray2rgb
 from PIL import Image
 from PIL import ImageFont
 from PIL import ImageDraw
-import math
+
 
 # Normalizes image to 0-1 range
 def norm_01(img, y, void_label):
@@ -56,9 +57,7 @@ def find_font_size(max_width, classes, font_file, max_font_size=100):
 
 
 # Draw class legend in an image
-def draw_legend(w, color_map, classes, n_lines=3, txt_color=(255, 255, 255),
-                font_file="fonts/Cicle_Gordita.ttf"):
-
+def draw_legend(w, color_map, classes, n_lines=3, txt_color=(255, 255, 255), font_file="fonts/Cicle_Gordita.ttf"):
     # Compute legend sizes
     n_classes = len(color_map)
     n_classes_per_line = int(math.ceil(float(n_classes) / n_lines))
@@ -77,13 +76,12 @@ def draw_legend(w, color_map, classes, n_lines=3, txt_color=(255, 255, 255),
         text = classes[i]
 
         # Compute current row and col
-        row = i/n_classes_per_line
+        row = i//n_classes_per_line
         col = i % n_classes_per_line
 
         # Draw box
-        box_pos = [class_width*col, class_height*row,
-                   class_width*(col+1), class_height*(row+1)]
-        draw.rectangle(box_pos, fill=color, outline=None)
+        box_pos = [class_width*col, class_height*row, class_width*(col+1), class_height*(row+1)]
+        draw.rectangle(box_pos, fill=tuple(color), outline=None)
 
         # Draw text
         txt_size = draw.textsize(text, font=font)[0]
@@ -105,42 +103,35 @@ def my_label2rgb(labels, colors, bglabel=None, bg_color=(0., 0., 0.)):
 
 
 # Converts a label mask to RGB to be shown and overlaps over an image
-def my_label2rgboverlay(labels, colors, image, bglabel=None,
-                        bg_color=(0., 0., 0.), alpha=0.2):
+def my_label2rgboverlay(labels, colors, image, bglabel=None, bg_color=(0., 0., 0.), alpha=0.2):
     image_float = gray2rgb(img_as_float(rgb2gray(image)))
-    label_image = my_label2rgb(labels, colors, bglabel=bglabel,
-                               bg_color=bg_color)
+    label_image = my_label2rgb(labels, colors, bglabel=bglabel, bg_color=bg_color)
     output = image_float * alpha + label_image * (1 - alpha)
     return output
 
 
 # Save 3 images (Image, mask and result)
-def save_img(writer, image_batch, mask_batch, output, epoch, indexes, num_images, valid_len,
-             color_map, classes, void_label, n_legend_rows=1):
+def save_img(writer, image_batch, mask_batch, output, epoch, indexes, num_images, valid_len, color_map, classes,
+             void_label, mean, std, n_legend_rows=1):
+    valid_values = [(indx, i) for indx, i in enumerate(indexes) if i in range(0, valid_len, int(valid_len / (num_images-1)))]
+    for idx, value in valid_values:
+        img = (image_batch[idx].numpy().transpose((1, 2, 0)) * std + mean).astype(np.uint8)
 
-    valid_values = [(indx,i) for indx,i in enumerate(indexes) if i in range(0,valid_len,int(valid_len/(num_images-1)))]
+        label_out = my_label2rgb(output[idx], bglabel=void_label, colors=color_map)
+        #label_mask = my_label2rgboverlay(mask_batch[idx], colors=color_map, image=img, bglabel=void_label, alpha=0.3)
+        #label_overlay = my_label2rgboverlay(output[idx], colors=color_map, image=img, bglabel=void_label, alpha=0.3)
 
-    for indx, value in valid_values:
+        #combined_image = np.concatenate((img, label_mask, label_out, label_overlay), axis=1)
 
-        label_out = my_label2rgb(output[indx], bglabel=void_label,
-                                 colors=color_map)
-        '''label_mask = my_label2rgboverlay(mask_batch[j], colors=color_map,
-                                         image=img, bglabel=void_label,
-                                         alpha=0.3)
-        label_overlay = my_label2rgboverlay(output[j], colors=color_map,
-                                            image=img, bglabel=void_label,
-                                            alpha=0.3)'''
-
-        #combined_image = np.concatenate((img, label_mask, label_out,label_overlay), axis=1)
-
-        legend = draw_legend(label_out.shape[1], color_map, classes,
-                             n_lines=n_legend_rows)
+        legend = draw_legend(label_out.shape[1], color_map, classes, n_lines=n_legend_rows)
         label_out = np.concatenate((label_out, legend))
         #label_mask = np.concatenate((label_mask, legend))
         #label_overlay = np.concatenate((label_overlay, legend))
-        #writer.add_image('Predictions/image', img, epoch)
-        #writer.add_image('Predictions/mask', label_mask, epoch)
-        writer.add_image('Predictions/prediction/'+str(value), label_out, epoch)
-        #writer.add_image('Predictions/overlay', label_overlay, epoch)
+
+        writer.add_image('predictions/image', img, epoch, dataformats='HWC')
+        writer.add_image('predictions/'+str(value), label_out, epoch, dataformats='HWC')
+        #writer.add_image('predictions/mask', label_mask, epoch, dataformats='HWC')
+        #writer.add_image('predictions/overlay', label_overlay, epoch, dataformats='HWC')
+
         #out_name = os.path.join(out_images_folder, tag + '_epoch' + str(epoch) + '_img' + str(j) + '.png')
         #scipy.misc.toimage(combined_image).save(out_name)

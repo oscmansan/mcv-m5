@@ -103,7 +103,8 @@ class SemanticSegmentationManager(SimpleTrainer):
         def update_tensorboard(self, inputs, gts, predictions, epoch, indexes, val_len):
             if epoch is not None and self.cf.color_map is not None:
                 save_img(self.writer, inputs, gts, predictions, epoch, indexes, self.cf.predict_to_save, val_len,
-                         self.cf.color_map, self.cf.labels, self.cf.void_class, n_legend_rows=3)
+                         self.cf.color_map, self.cf.labels, self.cf.void_class, self.cf.mean, self.cf.std,
+                         n_legend_rows=3)
 
     class predict(SimpleTrainer.predict):
         def __init__(self, logger_stats, model, cf):
