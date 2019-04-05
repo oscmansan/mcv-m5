@@ -59,6 +59,12 @@ python3 src/main.py --config_file config/oscarnet_tt100k_pretrained.yml
     - [PSPNet50 on CamVid](https://drive.google.com/uc?export=download&id=1RhUOsQdC6zoomOSCUpkY-gMRaX814M4v)
     - [PSPNet101 on CamVid](https://drive.google.com/uc?export=download&id=1NsFPgiJlvNe4JElNZtAZ8ZjVYgztT3p4)
 
+### Week 4 - Object Detection Segmentation
+- [Repository](https://github.com/oscmansan/maskrcnn-benchmark)
+- [Summary](./docs/week4.md) 
+- [Slides](https://docs.google.com/presentation/d/1Tw2_rM0kb7KlDa2SXAh9ICdI2R2cIrZHyfTIjgGYIwc/edit?usp=sharing)
+- Model weights:
+
 ## Report
 
 [Overleaf link](https://www.overleaf.com/read/mkqjyjnntnrg)
@@ -85,3 +91,5 @@ python3 src/main.py --config_file config/oscarnet_tt100k_pretrained.yml
 #### PSPNet (CVPR 2017):
 * [Original paper](https://arxiv.org/abs/1612.01105v2)
 * [Summary](docs/pspnet.md)
+
+### Object detection
