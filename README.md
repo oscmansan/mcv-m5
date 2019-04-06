@@ -93,3 +93,11 @@ python3 src/main.py --config_file config/oscarnet_tt100k_pretrained.yml
 * [Summary](docs/pspnet.md)
 
 ### Object detection
+#### Faster R-CNN:
+* [Original paper](https://arxiv.org/abs/1506.01497)
+* [Summary](docs/fasterRCNN.md)
+
+#### RetinaNet
+#### Faster R-CNN:
+* [Original paper](https://arxiv.org/abs/1708.02002)
+* Summary
