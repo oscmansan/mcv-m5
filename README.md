@@ -61,7 +61,7 @@ python3 src/main.py --config_file config/oscarnet_tt100k_pretrained.yml
 
 ### Weeks 5,6 - Object Detection Segmentation
 - [Repository](https://github.com/oscmansan/maskrcnn-benchmark)
-- [Summary](./docs/week4.md) 
+- [Summary](./docs/week5.md) 
 - [Slides](https://docs.google.com/presentation/d/1Tw2_rM0kb7KlDa2SXAh9ICdI2R2cIrZHyfTIjgGYIwc/edit?usp=sharing)
 - Model weights:
 
