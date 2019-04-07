@@ -63,6 +63,8 @@ python3 src/main.py --config_file config/oscarnet_tt100k_pretrained.yml
 - [Repository](https://github.com/oscmansan/maskrcnn-benchmark)
 - [Summary](./docs/week5.md) 
 - [Slides](https://docs.google.com/presentation/d/1rSKkwpA3lUG5QKRCXHqQDit7M6jYonH-cRXTqPqd-IE/edit#slide=id.g5270bddbcf_0_436)
+- Model weights:
+    - [RetinaNet on TT100K](https://drive.google.com/uc?export=download&id=1YWeoFuvHeB6E4Jmt8i7fOuBrDw5d2Q9j)
 
 ## Report
 
