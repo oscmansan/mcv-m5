@@ -52,14 +52,14 @@ To run the framework with the weights above, execute:
 python3 src/main.py --config_file config/oscarnet_tt100k_pretrained.yml
 ```
 
-### Week 3 - Image Semantic Segmentation
+### Weeks 3,4 - Image Semantic Segmentation
 - [Summary](./docs/week3.md) 
 - [Slides](https://docs.google.com/presentation/d/1Tw2_rM0kb7KlDa2SXAh9ICdI2R2cIrZHyfTIjgGYIwc/edit?usp=sharing)
 - Model weights:
     - [PSPNet50 on CamVid](https://drive.google.com/uc?export=download&id=1RhUOsQdC6zoomOSCUpkY-gMRaX814M4v)
     - [PSPNet101 on CamVid](https://drive.google.com/uc?export=download&id=1NsFPgiJlvNe4JElNZtAZ8ZjVYgztT3p4)
 
-### Week 4 - Object Detection Segmentation
+### Weeks 5,6 - Object Detection Segmentation
 - [Repository](https://github.com/oscmansan/maskrcnn-benchmark)
 - [Summary](./docs/week4.md) 
 - [Slides](https://docs.google.com/presentation/d/1Tw2_rM0kb7KlDa2SXAh9ICdI2R2cIrZHyfTIjgGYIwc/edit?usp=sharing)
@@ -93,6 +93,7 @@ python3 src/main.py --config_file config/oscarnet_tt100k_pretrained.yml
 * [Summary](docs/pspnet.md)
 
 ### Object detection
+
 #### Faster R-CNN (NIPS 2015):
 * [Original paper](https://arxiv.org/abs/1506.01497)
 * [Summary](docs/fasterRCNN.md)
