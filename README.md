@@ -6,7 +6,7 @@ The goal of this project is to learn the basic concepts and techniques to build 
 
 * Alba Herrera (albaherrerapalacio at gmail dot com)
 * Jorge López (jorgelopezfueyo at gmail dot com)
-* Oscar Mañas (oscmansan at gmail dot com)
+* Oscar Mañas
 * Pablo Rodríguez (pablorodriper at gmail dot com)
 
 ## Running instructions
